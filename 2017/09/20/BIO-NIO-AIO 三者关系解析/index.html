@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="BIO/NIO/AIO 三者关系解析"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/09/20/BIO-NIO-AIO 三者关系解析/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> BIO/NIO/AIO 三者关系解析 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          BIO/NIO/AIO 三者关系解析
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-09-20
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#同步与异步"><span class="toc-text">同步与异步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#阻塞与非阻塞"><span class="toc-text">阻塞与非阻塞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#同步-异步与阻塞-非阻塞的区别"><span class="toc-text">同步/异步与阻塞/非阻塞的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BIO"><span class="toc-text">BIO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NIO"><span class="toc-text">NIO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AIO"><span class="toc-text">AIO</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>在 Java 的 I/O 体系架构中，存在三种截然不同的 I/O 模型，分别为 BIO（Block I/O，阻塞型 I/O）、NIO（New I/O，非阻塞型 I/O）以及 AIO（Asynchronous I/O，异步 I/O）。</p>
+<p>下面分析将从基本的术语开始讲解，最后归整讲述不同 I/O 模型的区别。</p>
+<hr>
+<h4 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h4><p>同步与异步关注的是<strong>消息通信机制</strong>。</p>
+<ul>
+<li><strong>同步</strong>是指发送方发出一个 I/O 请求时，在没有得到结果之前，该请求不返回结果。但是一旦请求返回时，就得到了相应的返回值。</li>
+<li><strong>异步</strong>是指发送方发出一个 I/O 请求之后，这个请求便立即返回，该请求没有返回结果。直至请求接收方（即被调用者）通过回调的方式来通知发送方，或者发送方主动询问接收方请求结果。</li>
+</ul>
+<p>举个例子：</p>
+<p>晚上我们需要去饭店预定位置，我们会优先打个电话给酒店来预定位置，当我们被告知饭店位置爆满时需要等待时。在同步的通信机制情况下，我们（发送方）只能默默地够保持通话的方式等待饭店（接收方）来通知我们空余位置的结果，不能够做别的事情。</p>
+<p>而在异步的通信机制情况下，饭店（接收方）提供了特殊的服务，让我们（发送方）预留手机号码（回调方式），等有位置了可以主动通知你，我们就能够单方面切断通信，等待饭店通过我们预留的手机号码来通知我们，或者我们来主动询问饭店位置的空余情况。</p>
+<hr>
+<h4 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h4><p>阻塞与非阻塞关注的是<strong>程序在等待调用结果时的状态</strong>。</p>
+<ul>
+<li><strong>阻塞</strong>是指请求结果返回之前，当前线程会被挂起。请求线程只有在得到结果之后才会返回。此时的线程处于阻塞状态，相当于卡住不动了。</li>
+<li><strong>非阻塞</strong>是指请求结果返回之前，当前线程不会被阻塞，可以处理别的任务。</li>
+</ul>
+<p>同举以上的例子：</p>
+<p>当我们打电话给饭店，被告知饭店位置爆满时需要等待时。在阻塞线程的请求方式下，我们（发送方）只能够保持通讯（阻塞），直至饭店（接收方）通知我们空余位置的结果。</p>
+<p>而在非阻塞线程的请求方式下，我们（发送方）可以单方面挂掉电话，继续去逛街（非阻塞），直至饭店（接收方）通知我们，亦或者我们主动打电话去询问。</p>
+<hr>
+<h4 id="同步-异步与阻塞-非阻塞的区别"><a href="#同步-异步与阻塞-非阻塞的区别" class="headerlink" title="同步/异步与阻塞/非阻塞的区别"></a>同步/异步与阻塞/非阻塞的区别</h4><p>在以上的解释当中，同步/异步与阻塞/非阻塞两者之间的关系十分相似，但是它们却存在本质上的区别。</p>
+<ul>
+<li>同步/异步注重的是<strong>消息的通信机制</strong>，重点在于<strong>消息</strong>本身。</li>
+<li>阻塞/非阻塞注重的是<strong>程序在等待调用结果时的状态</strong>，重点在于<strong>程序</strong>本身。</li>
+</ul>
+<hr>
+<h4 id="BIO"><a href="#BIO" class="headerlink" title="BIO"></a>BIO</h4><p>BIO（Block I/O）为同步阻塞型 I/O。在服务器端中实现模式为<strong>一个连接一个线程</strong>，即客户端有连接请求时，服务器端就会按需启动一个线程来处理。</p>
+<p><img src="http://on83riher.bkt.clouddn.com/BIO.png" alt="BIO"></p>
+<p>如果这个连接不做任何事情时，就造成不必要的线程开销，此时可以通过线程池机制来对于空线程进行回收，但是对于线程的创建与销毁等操作，系统所消耗的资源依然很大。</p>
+<hr>
+<h4 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h4><p>NIO（New I/O）为同步非阻塞型 I/O。在服务器端中实现模式为<strong>一个请求一个线程</strong>，即客户端发送的连接请求都会注册到多路复用器上（Selector），多路复用器轮询到连接有 I/O 请求（Channel）才启动一个线程（Handler）来处理。用户进程也需要时不时地询问 I/O 操作是否就绪。</p>
+<p><img src="http://on83riher.bkt.clouddn.com/NIO.png" alt="NIO"></p>
+<p>在 NIO 的 I/O 模型上，可以仅通过单线程的方式来处理高并发问题。</p>
+<hr>
+<h4 id="AIO"><a href="#AIO" class="headerlink" title="AIO"></a>AIO</h4><p>AIO（Asynchronous I/O）为异步非阻塞型 I/O。在此种模式下，用户进程只需要发起一个IO操作然后便立即返回，待 I/O 操作真正的完成以后，应用程序会得到I/O操作完成的通知，此时用户进程只需要对数据进行处理就好了，不需要进行实际的 I/O 读写操作，因为真正的 I/O 读取或者写入操作已经由内核完成了。    </p>
+<hr>
+<p>参考资料：</p>
+<p><a href="https://www.zhihu.com/question/19732473" target="_blank" rel="external">怎样理解阻塞非阻塞与同步异步的区别？</a></p>
+<p><a href="http://loveshisong.cn/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/2016-06-25-%E5%8D%81%E5%88%86%E9%92%9F%E4%BA%86%E8%A7%A3BIO-NIO-AIO.html" target="_blank" rel="external">十分钟了解BIO、NIO、AIO</a></p>
+<p><a href="http://qindongliang.iteye.com/blog/2018539" target="_blank" rel="external">JAVA 中BIO,NIO,AIO的理解</a></p>
+<p><a href="http://blog.csdn.net/liuhaiabc/article/details/64905654" target="_blank" rel="external">对Java BIO、NIO、AIO 学习</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/10/12/《别让我思考》读书笔记/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">《别让我思考》读书笔记</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/09/07/Android 源码分析资料归纳/">
+        <span class="next-text nav-default">Android 源码分析资料归纳</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

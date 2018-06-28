@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="数据库连接查询"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/04/14/数据库连接查询/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 数据库连接查询 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          数据库连接查询
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-04-14
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        <p>操作数据库当中，常常涉及多表查询。而在进行多表查询操作时，SQL提供了不同的表与表之间的连接方式，来获取用户所需的数据。</p>
+<p>以下我们将主要围绕以下两个表进行数据库的多表查询操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&gt; -- 雇员表</div><div class="line">&gt; select * from employee;</div><div class="line">+----+------+---------------+</div><div class="line">| id | name | department_id |</div><div class="line">+----+------+---------------+</div><div class="line">|  1 | 张三 |             1 |</div><div class="line">|  2 | 李四 |             1 |</div><div class="line">|  3 | 王五 |             2 |</div><div class="line">|  4 | 赵六 |             2 |</div><div class="line">|  5 | 郑七 |             3 |</div><div class="line">+----+------+---------------+</div><div class="line"></div><div class="line">&gt; -- 部门表</div><div class="line">&gt; select * from department;</div><div class="line">+----+--------+</div><div class="line">| id | name   |</div><div class="line">+----+--------+</div><div class="line">|  1 | 技术部 |</div><div class="line">|  2 | 技术部 |</div><div class="line">|  3 | 工程部 |</div><div class="line">+----+--------+</div></pre></td></tr></table></figure>
+<hr>
+<ul>
+<li>内连接（INNER JOIN）</li>
+</ul>
+<p>内连接使用比较运算符根据每个表共有的列的值匹配两个表中的行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&gt; -- 由于雇员表中郑七没有与部门表中任何一行匹配，即在返回的数据不会显示</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; INNER JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
+<ul>
+<li>左外连接（LEFT JOIN）</li>
+</ul>
+<p>左向外连接的结果集包括LEFT OUTER子句中指定的左表的所有行，而不仅仅是连接列所匹配的行。如果左表的某行在右表中没有匹配行，则在相关联的结果集行中右表的所有选择列表列均为空值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt; -- 左外连接会根据左表中的所有内容与右表进行匹配，即使右表不匹配也会显示所有数据</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; LEFT JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">|        5 | 郑七     | NULL     |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
+<ul>
+<li>右外连接（RIGHT JOIN）</li>
+</ul>
+<p>右向外连接是左向外连接的反向连接。将返回右表的所有行。如果右表的某行在左表中没有匹配行，则将为左表返回空值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt; -- 与左外连接完全相反</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; RIGHT JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">|     NULL | NULL     | 工程部   |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
+<ul>
+<li>全外连接（FULL JOIN）</li>
+</ul>
+<p>完整外部连接返回左表和右表中的所有行。当某行在另一个表中没有匹配行时，则另一个表的选择列表列包含空值。如果表之间有匹配行，则整个结果集行包含基表的数据值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&gt; -- MYSQL不支持全外连接，这个例子为手写例子</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; FULL JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">|        5 | 郑七     | NULL     |</div><div class="line">|     NULL | NULL     | 工程部   |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="http://www.cnblogs.com/devilmsg/archive/2009/03/24/1420543.html" target="_blank" rel="external">http://www.cnblogs.com/devilmsg/archive/2009/03/24/1420543.html</a></p>
+<p>[2] <a href="http://www.cnblogs.com/youzhangjin/archive/2009/05/22/1486982.html" target="_blank" rel="external">http://www.cnblogs.com/youzhangjin/archive/2009/05/22/1486982.html</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/04/19/JSON笔记/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">JSON笔记</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/04/14/使用Thymeleaf遇到的问题及解决/">
+        <span class="next-text nav-default">使用Thymeleaf遇到的问题及解决</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

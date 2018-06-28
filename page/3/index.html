@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="沉迷学习无法自拔"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/page/3/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts">
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/06/HTTPS 机制原理分析/">HTTPS 机制原理分析</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-06
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>超文本传输安全协议（Hypertext Transfer Protocol Secure，HTTPS） 是一种通过计算机网络进行安全通信的传输协议。HTTPS 经由 HTTP 进行通信，但利用 SSL/TLS 来加密数据包。HTTPS 开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。这个协议由网景公司在1994年首次提出，随后扩展至互联网上。</p>
+<p>HTTPS 顺应时代被发展出来的很大原因在于 HTTP 协议本身的不安全性，即 HTTP 协议传输的内容是不加密的，直接由明文的方式传输，在复杂的网络通信容易被黑客截取，比如<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB" target="_blank" rel="external">中间人攻击</a>等手段。所以在发展 HTTP为前提下，网景公司加入了 SSL（Secure Socket Layer，安全套接字层） ，并在随后的发展过程中，扩展了 TSL（Transport Layer Security，传输层安全），如下所示：</p>
+<div align="center"><br><img src="http://on83riher.bkt.clouddn.com/HTTPS%20%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E5%9B%BE.png" alt=""><br></div>
+
+<h2 id="相关术语"><a href="#相关术语" class="headerlink" title="相关术语"></a>相关术语</h2><p>在了解 HTTPS 如何在信息传输过程中保证数据的安全性前，需要了解下述的一些术语解释：</p>
+<ul>
+<li>对称加密</li>
+</ul>
+<p><strong>对称加密是指对数据进行加密和解密时使用相同的密钥，或是使用两个可以简单地相互推算的密钥。</strong>对称加密优点在于算法公开，计算量小，加解密效率高，但是其明显的缺点在于若密钥在网络传输过程中被黑客截取，那么黑客就能够正确地解析数据，那么这样就无法保证数据的安全了。</p>
+<ul>
+<li>非对称加密</li>
+</ul>
+<p><strong>非对称加密，与对称加密正好相反，该算法需要两个密钥：公开密钥（public key）和私有密钥（private key）。</strong>公开密钥与私有密钥是一对，如果用公开密钥对数据进行加密，只有用对应的私有密钥才能解密；如果用私有密钥对数据进行加密，那么只有用对应的公开密钥才能解密。因为加密和解密使用的是两个不同的密钥，所以这种算法叫作非对称加密算法。其最大的优点在于安全性大大提高，原因在于数据接收方的私钥一般处于不公开的状态，黑客在获取数据的时候，无法通过私钥正确解析数据。那么其缺点，相对于对称加密，在于计算量大，加解密时效率较低。</p>
+<ul>
+<li>哈希算法</li>
+</ul>
+<p>哈希算法是一种单向密码体制，即它是一个从明文到密文的不可逆的映射，只有加密过程，没有解密过程。同时,哈希函数可以将任意长度的输入经过变化以后得到固定长度的输出。哈希算法在 HTTPS 的应用当中起了数据校验和的作用。</p>
+<ul>
+<li>数字证书</li>
+</ul>
+<p>数字证书是一个经证书授权中心数字签名的包含公开密钥拥有者信息以及公开密钥的文件。它是一种权威性的电子文档，具有极高的安全性和可依赖性。</p>
+<ul>
+<li>数字签名</li>
+</ul>
+<p>数字签名就是在 HTTPS 验证过程中，用指定的哈希算法将信息进行哈希华后，将所得的值附加在信息后面，用于在数据传输后，方便信息接收端对数据进行校验，确保信息没有被恶意篡改。</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/HTTPS%20%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B.png" alt=""><br></div>
+
+<blockquote>
+<p>图源来自于<a href="https://www.cnblogs.com/zery/p/5164795.html" target="_blank" rel="external">HTTPS 原理解析</a> ，这张画的实在太棒了！</p>
+</blockquote>
+<ol>
+<li><p>客户端首先从发送一个 HTTPS 请求，将自己所支持的加密算法，通知服务器端。</p>
+</li>
+<li><p>服务器端从客户端发来的加密算法列表中，选出一种加密算法和 HASH 算法，并将其自身的数字证书附加选出的算法一并发回给客户端。而证书中一般包含了网站的地址，公钥，证书失效日期以及证书的颁发机构等等。</p>
+</li>
+<li><p>客户端在收到服务器端的响应之后，会做一下几件事：</p>
+<p>1）验证证书的合法性。一般通过证书的颁发机构是否是合法的、证书是否超过失效日期、证书中所包含的网站地址是否与你正在所访问的相同等方面进行验证。若证书合法，则通过验证，否则将提示用户该证书存在风险。</p>
+<p>2）生成随机密码。在证书通过验证，或用户主动信任该证书后，客户端会随机生成一串序列号，并使用服务器端传来的公钥进行加密，并生成握手消息。</p>
+<p>3）HASH 算法加密信息。利用服务器端所回传的 HASH 算法将客户端生成的握手信息进行加密，并将加密后的 HASH 值附加上握手消息中，用于数据校验。</p>
+</li>
+<li><p>服务器端接收到客户端的请求后，同样也会做下面几件事：</p>
+<p>1）使用自己的私钥来解密客户端所传来的握手消息，得到客户端生成的随机序列号。在这一部分过程中就运用了非对称加密的技术。</p>
+<p>2）使用随机序列号，对握手消息进行 HASH 算法加密，并将获得的 HASH 值与从客户单一并传来的 HASH 值进行对比，查看是否一致。</p>
+<p>3）最后，使用该随机序列号，再用公钥加密一段握手消息，并附加上该握手消息的 HASH 值，发回给客户端。</p>
+</li>
+<li><p>客户端接收到服务器端的请求后，用生成的随机序列号对握手消息进行解密，并对比传来的 HASH 值是否一致。倘若 HASH 值一直，则握手过程正式结束，之后的所有通信将由客户端所生成的随机序列号并利用加密算法对消息进行加密处理。</p>
+</li>
+</ol>
+<hr>
+<p>参考资料</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE" target="_blank" rel="external">超文本传输安全协议</a></p>
+<p><a href="http://blog.csdn.net/zhongzh86/article/details/69389967" target="_blank" rel="external">深度解析HTTPS原理</a></p>
+<p><a href="http://www.jianshu.com/p/650ad90bf563" target="_blank" rel="external">简单粗暴系列之HTTPS原理</a></p>
+<p><a href="http://www.cnblogs.com/zery/p/5164795.html" target="_blank" rel="external">HTTPS 原理解析</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/05/《深入理解Java虚拟机》读书笔记 - 类加载机制/">《深入理解Java虚拟机》读书笔记 - 类加载机制</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-05
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <blockquote>
+<p>此篇为《深入理解Java虚拟机》第七章7.2、7.3、7.4部分的读书笔记</p>
+</blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>虚拟机把描述类的数据从 Class 文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的 Java 类型，这就是虚拟机的类加载机制。</p>
+<h2 id="类加载时机"><a href="#类加载时机" class="headerlink" title="类加载时机"></a>类加载时机</h2><p><strong>类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载（Loading）、验证（Loading）、准备（Loading）、解析（Loading）、初始化（Loading）、使用（Loading）、卸载（Loading）7个阶段。</strong>其中验证、准备、解析3个部分统称为连接（Linking），这7个阶段的发生顺序如下所示。</p>
+<div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt=""><br></div>
+
+<p>注意两点：</p>
+<ul>
+<li>加载、验证、准备、初始化和卸载这5个阶段的顺序是确定的，类加载过程必须按照这个顺序进行，而解析阶段因为需要支持 Java语言的运行时绑定，可以在初始化阶段之后开始。</li>
+<li>类加载时，这7个阶段虽然必须是要按顺序开始，但是并不要求7个阶段按顺序结束，它们通常以交叉混合式进行的。</li>
+</ul>
+<h2 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h2><h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><p>“加载”是“类加载”（Class Loading）过程的一个阶段。在加载阶段，虚拟机需要完成以下3件事情：</p>
+<ul>
+<li><strong>通过一个类的全限定名来获取定义此类的二进制字节流。</strong></li>
+<li><strong>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</strong></li>
+<li><strong>在内存中生成一个代表这个类的 java.lang.Class 对象，作为方法区这个类的各种数据的访问入口。</strong></li>
+</ul>
+<p>注意这里不一定非要从 Class 文件中获取，在这个阶段中，既可以从以下几个不同地方获取：</p>
+<ul>
+<li>从ZIP 包中读取（JAR、EAR、WAR 格式的包也可以）。</li>
+<li>从网络中获取。一般应用场景为RMI。</li>
+<li>运行时计算生成。一般应用场景为动态代理。</li>
+<li>由其他文件生成。一般应用场景为 JSP 应用。</li>
+<li>从数据库中读取。</li>
+<li>…</li>
+</ul>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p><strong>验证是连接阶段的第一步，这一阶段的目的是为了确保 Class 文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。</strong></p>
+<p>验证阶段是非常重要的，这个阶段是否严谨，直接决定了 Java 虚拟机是否能承受恶意代码的攻击，从执行性能的角度上讲，验证阶段的工作量是在虚拟机的类加载子系统中又占了相当大的一部分。</p>
+<p>在验证阶段中，大致会完成下面4个阶段的校验工作：</p>
+<ul>
+<li>文件格式验证</li>
+<li>元数据验证</li>
+<li>字节码验证</li>
+<li>符号引用验证</li>
+</ul>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p><strong>准备阶段是正式为类变量分配内存并设置类变量初始化值的阶段，这些变量所使用的内存都将在方法区中进行分配。</strong>这个阶段需要注意以下两点：</p>
+<ul>
+<li><strong>准备阶段进行内存分配的仅包括类变量（被 static 修饰的变量），而不包括实例变量，实例变量将会在对象实例化时随着对象一起分配在 Java 堆中。</strong></li>
+<li><strong>这个阶段的初始化值，在通常情况下，是数据类型的所对应的零值</strong>，假设一个类变量的定义为：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> value = <span class="number">123</span>;</div></pre></td></tr></table></figure>
+<p>那变量 value 在准备阶段过后的初始值为0而不是123，真正的赋值操作将延迟到初始化阶段进行。但若上述的类变量 value 的定义变为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> finla value = <span class="number">123</span>;</div></pre></td></tr></table></figure>
+<p>那么，在编译时虚拟机将会为 value 生成 ConstantValue 属性，在准备阶段虚拟机就会根据 ConstantValue 的设置将 value 赋值为123。</p>
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p>解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程，符号引用通常以 CONSTANT_Class_info、CONSTANT_Fieldref_info、CONSTANT_Methodref_info 等类型的常量出现。下面将解释符号引用和直接引用的关系：</p>
+<ul>
+<li><strong>符号引用（Symbolic References）</strong>：符号引用以一组符号来描述所引用的目标，符号可以是任何形式的字面量，只要使用能无歧义地定位到目标即可。符号引用与虚拟机实现的内存布局无关，引用的目标不一定已经加载到内存中。各个虚拟机实现的内存布局可以各不相同，但是它们能接受的符号引用必须都是一致的，因为符号引用的字面量形式明确定义在 Java 虚拟机规范的 Class 文件格式中。</li>
+<li><strong>直接引用（Direct References）</strong>：直接引用可以是直接指向目标的指针、相对偏移量或一个能间接定位到目标的句柄。直接引用是和虚拟机实现的内存布局相关的，同一个符号引用在不同虚拟机实例上翻译出来的直接引用一般不会相同。如果有了直接引用，那引用的目标必定已经存在于内存中。</li>
+</ul>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p><strong>类初始化阶段是类加载过程的最后一步，前面的类加载过程之中，除了在加载阶段用户应用程序可以通过自定义类加载器参与之外，其他动作完全由虚拟机主导和控制。到了初始化阶段，才真正开始执行类中定义的 Java 程序代码。</strong></p>
+<p><strong>初始化阶段是执行类加载器<code>&lt;clinit&gt;()</code>方法的过程。</strong></p>
+<ul>
+<li><code>&lt;clinit&gt;()</code>方法是由编译器自动收集类中的所有类变量的赋值动作和静态语句块（static{}块）中的语句合并产生的，编译器收集的顺序是由语句在源文件中出现的顺序所决定的，静态语句块中只能访问到定义在静态语句块之前的变量，定义在它之后的变量，在前面的静态语句块中可以赋值，但是不能访问。</li>
+</ul>
+<blockquote>
+<p>为什么能够赋值，但不能访问呢？个人认为在运行期间的准备阶段时，类变量已经经过了零值的初始化了，所以赋值操作是正常进行的，但是在编译期间，编译器认为这种操作是错误的（非法向前引用）。</p>
+</blockquote>
+<ul>
+<li><code>&lt;clinit&gt;()</code>方式与类的构造函数（或者说是实例构造器<code>&lt;init&gt;()</code>方法）不同，它不需要显式地调用父类构造器，虚拟机会保证在子类的<code>&lt;clinit&gt;()</code>方法执行之前，父类的<code>&lt;clinit&gt;()</code>方法已经执行完毕。因此在虚拟机中第一个被执行的<code>&lt;clinit&gt;()</code>方法的类肯定是 java.lang.Object。</li>
+<li>由于父类的<code>&lt;clinit&gt;()</code>方法优先执行，那么父类中的静态语句块也优先于子类执行。</li>
+<li><code>&lt;clinit&gt;()</code>方法对于类和接口并不是必需的，如果一个类中没有静态语句块，也没有对类变量的赋值操作，那么编译器可以不为这个类生成<code>&lt;clinit&gt;()</code>方法。</li>
+<li>接口中不能使用静态语句块，但仍然有变量初始化的赋值操作，因此接口与类一样都会生成<code>&lt;clinit&gt;()</code>方法。但接口和类不同的是，执行接口的<code>&lt;clinit&gt;()</code>方法不需要先执行父接口的<code>&lt;clinit&gt;()</code>方法。只有当父接口中定义的变量使用时，父接口才会初始化。另外，接口的实现类在初始化阶段也一样不会执行接口的<code>&lt;clinit&gt;()</code>方法。</li>
+<li>虚拟机会保证一个类的<code>&lt;clinit&gt;()</code>方法在多线程环境中被正确地加锁，同步，如果多线程同时去初始化一个类，那么只有一个线程去执行这个类的<code>&lt;clinit&gt;()</code>方法，其他线程都需要阻塞等待，直到活动线程执行<code>&lt;clinit&gt;()</code>方法完毕。</li>
+</ul>
+<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>虚拟机设计团队把类加载阶段中的加载动作放到 Java 虚拟机外部去实现，以便让应用程序自己决定如何去获取所需要的类。实现这个动作的代码模块称为”类加载器“。</p>
+<h3 id="类与类加载器"><a href="#类与类加载器" class="headerlink" title="类与类加载器"></a>类与类加载器</h3><p>对于任意一个类，都需要由加载它的类加载器和这个类本身一同确立在其 Java 虚拟机中的唯一性，每一个类加载器，都拥有一个独立类名称空间。</p>
+<h3 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h3><p>从 Java 虚拟机的角度来讲，只存在两种不同的类加载器：一种是启动类加载器（Bootstrap ClassLoader），这个类加载器使用 C++语言实现，是虚拟机自身的一部分；另一种就是所有其他的类加载器，这些类加载器都由 Java 语言实现的，独立于虚拟机外部，并且全部继承自抽象类 java.lang.ClassLoader。</p>
+<p>从 Java 开发人员的角度来看，绝大部分 Java 程序都会使用以下3种系统提供的类加载器：</p>
+<ul>
+<li><strong>启动类加载器（Bootstrap ClassLoader）</strong>：这个类加载器负责将存放在<code>&lt;JAVA_HOME&gt;\lib</code>目录中的，或者被<code>-Xbootclasspath</code>参数所指定的路径中的，并且是虚拟机识别的（仅按照文件名识别，如 rt.jar，名字不符合的类库即使存放在 lib目录中也不会被加载）类库加载到虚拟机内存中。启动类加载器无法被 Java 程序直接饮用，用户在编写自定义类加载器时，如果需要把加载请求委派给启动类加载器，那直接使用 null 代替即可。</li>
+<li><strong>扩展类加载器（Extension ClassLoader）</strong>：这个类加载器有<code>sun.misc.Launcher$ExtClassLoader</code>实现，它负责加载<code>&lt;JAVA_HOME&gt;\lib\ext</code>，目录中的，或者被<code>java.ext.dirs</code>系统变量所指定的路径中的所有类库。开发者可以直接使用扩展类加载器。</li>
+<li><strong>应用程序类加载器（Application ClassLoader）</strong>：这个类加载器由<code>sun.misc.Launcher$AppClassLoader</code>实现，它负责加载用户类路径（ClassPath）上所指定的类库。开发者可以直接使用应用程序类加载器。</li>
+</ul>
+<p>如下图所示，<strong>以上的类加载器之间的层次关系，称之为类加载器的双亲委派模型（Parents Delegation Model）。双亲委派模型要求除了顶层的启动类加载器外，其余类加载器都应当有自己的父类加载器。这里的类加载器之间的父子关系一般不会以继承的关系来实现，而都是通过组合关系来复用父类加载器的代码。</strong></p>
+<div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B.png" alt=""><br></div>
+
+<blockquote>
+<p>类加载的双亲委派模型不是虚拟机中强制性的约束模型，而是 Java 设计者推荐给开发者的一种类加载实现方式。</p>
+</blockquote>
+<p><strong>双亲委派模型的工作流程是：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试去加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到顶层的启动类加载器中，只有当父加载器反馈自己无法完成这个加载请求（即他的搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载。</strong></p>
+<p>采用双亲委派模型的好处在于，Java 类随着它的类加载器一起具备了一种带有优先级的层次关系。<strong>无论是哪一个类加载器要加载某个类，最终都是委派给处于模型最顶端的的启动类加载器进行加载，这样保证了 Java 类在程序的各种类加载器环境中都是同一个类。</strong></p>
+<p>下面为简单解释一下实现双亲委派模型的关键代码<code>loadClass()</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> Class&lt;?&gt; loadClass(String name, <span class="keyword">boolean</span> resolve)</div><div class="line">    <span class="keyword">throws</span> ClassNotFoundException &#123;</div><div class="line">    <span class="keyword">synchronized</span> (getClassLoadingLock(name)) &#123;</div><div class="line">        <span class="comment">// 首先，检查类是否已经被加载到内存中</span></div><div class="line">        Class&lt;?&gt; c = findLoadedClass(name);</div><div class="line">        <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">long</span> t0 = System.nanoTime();</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">              	<span class="comment">// 这一步中运用了双亲委派模型。</span></div><div class="line">                <span class="keyword">if</span> (parent != <span class="keyword">null</span>) &#123;</div><div class="line">                  </div><div class="line">              		<span class="comment">// 当该类加载器中存在父类加载器，那么就调用其父类加载器来响应加载类的请求</span></div><div class="line">                    c = parent.loadClass(name, <span class="keyword">false</span>);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                  	<span class="comment">// 如果没有父类加载器，那么说明该类加载器为启动类加载器</span></div><div class="line">                    c = findBootstrapClassOrNull(name);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</div><div class="line">                <span class="comment">// ClassNotFoundException thrown if class not found</span></div><div class="line">                <span class="comment">// from the non-null parent class loader</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="comment">// If still not found, then invoke findClass in order</span></div><div class="line">                <span class="comment">// to find the class.</span></div><div class="line">                <span class="keyword">long</span> t1 = System.nanoTime();</div><div class="line">                c = findClass(name);</div><div class="line">				<span class="comment">// ...其余代码</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (resolve) &#123;</div><div class="line">            resolveClass(c);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> c;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="破坏双亲委派模型"><a href="#破坏双亲委派模型" class="headerlink" title="破坏双亲委派模型"></a>破坏双亲委派模型</h3><blockquote>
+<p>具体操作实现在P231。</p>
+</blockquote>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/05/理解悲观锁与乐观锁/">理解悲观锁与乐观锁</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-05
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h2 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>维基百科这样解释：在关系数据库管理系统里，悲观并发控制（又名“悲观锁”，Pessimistic Concurrency Control，PCC）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作读某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。</p>
+<p>悲观并发控制主要用于数据争用激烈的环境，以及发生并发冲突时使用锁保护数据的成本要低于回滚事务的成本的环境中。</p>
+<p>从上述的解释可以知道，悲观锁是从一个悲观的角度看待用户操作，在用户想要操作数据时，悲观锁会“悲观”地认为其他用户也想要同时对同一数据进行操作，从而要求用户先获取锁，再进行操作，保证了用户操作的安全性。</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
+<ul>
+<li>通过“先取锁后访问”的保守策略，为数据处理的安全提供了保证。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>对数据加锁会让数据库系统产生额外的开销，还增加了死锁的机会。</li>
+<li>在只读型事务处理中由于不会产生冲突，使用悲观锁，只会增加系统负载，降低并行性。</li>
+</ul>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">select status from goods where id=1 for update; # for update 用于开启排它锁</div><div class="line">update goods set status=2;</div></pre></td></tr></table></figure>
+<h2 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h2><h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3><p>维基百科这样解释：在关系数据库管理系统中，乐观并发控制（又名“乐观锁”，Optimistic Concurrency Control，OCC）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自的那部分数据。在提交数据更新之前，每个事务都会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务更新的话，正在提交的事务会进行回滚。</p>
+<p>乐观并发控制多用于数据争用不大、冲突较少的环境下，这种环境中，偶尔回滚事务的成本会低于读取数据时锁定数据的成本，因为可以获得比其他并发控制方法更高。</p>
+<p>从上述的解释可以知道，相较于悲观锁，乐观锁决定从一个乐观的角度看待用户操作。在用户想要操作数据时，乐观锁会“乐观”地认为其他用户不会同时进行对同一数据进行操作的，而当用户对数据进行再次提交时，乐观锁才会对数据是否被修改进行检测，如果被修改过只能放弃当前操作。</p>
+<h3 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
+<ul>
+<li>乐观并发控制相信事务之间的数据竞争的概率比较小，所以在事务处理过程中不会出现任何锁，或产生死锁现象。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>在系统并发量大的情况下，事务发生冲突的概率会大大增加，系统可用性会降低，用户体验也会随着操作不断失败而降低。</li>
+</ul>
+<h3 id="应用-1"><a href="#应用-1" class="headerlink" title="应用"></a>应用</h3><p>在乐观锁中，一般会采用以下两种机制来记录数据的唯一性：</p>
+<ul>
+<li>数据版本（Version）。数据版本，即为数据增加一个版本标识，一般是通过为数据库增加一个数字类型的“version”字段来实现的。当读取数据时，将 version 字段的值一同读出，数据每更新一次，对此 version 的值加一。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的 version 值进行比对，如果数据库当前版本号与第一次取出来的 version 值相等，则予以更新，否则认为是过期数据。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">select status, version from goods where id=1;</div><div class="line">update goods set status=2, version=version+1 where id=1 and version=version;</div></pre></td></tr></table></figure>
+<ul>
+<li>时间戳（timestamp）。使用方式与数据版本相同，只是字段类型为时间戳而已。</li>
+</ul>
+<blockquote>
+<p>顺带一提，Java并发中的 CAS 机制也是乐观锁机制。</p>
+</blockquote>
+<hr>
+<p>参考资料</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E6%82%B2%E8%A7%82%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6" target="_blank" rel="external">悲观并发控制</a></p>
+<p><a href="https://zh.wikipedia.org/wiki/%E4%B9%90%E8%A7%82%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6" target="_blank" rel="external">乐观并发控制</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/04/《深入理解Java虚拟机》读书笔记 - Java内存模型与线程/">《深入理解Java虚拟机》读书笔记 - Java内存模型与线程</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-04
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <blockquote>
+<p>此篇为《深入理解Java虚拟机》第十二章12.3、12.4部分的读书笔记</p>
+</blockquote>
+<h2 id="Java-内存模型"><a href="#Java-内存模型" class="headerlink" title="Java 内存模型"></a>Java 内存模型</h2><p><strong>Java 虚拟机规范中试图定义一种 Java 内存模型（Java Memory Model，JMM）来屏蔽掉各种硬件和操作系统的内存访问差异，以实现让 Java 程序在各种平台上都能达到一致的内存访问效果。</strong></p>
+<p>定义 Java 内存模型并非一件容易的事情：这个模型必须定义得足够严谨，才能让 Java 的并发内存访问操作不会产生歧义；但是，也必须定义得足够宽松，使得虚拟机的实现有足够的自由空间去利用硬件的各种特性（寄存器，高速缓冲和指令集中某些特有的指令）来获得更好的执行速度。</p>
+<h3 id="主内存与工作内存"><a href="#主内存与工作内存" class="headerlink" title="主内存与工作内存"></a>主内存与工作内存</h3><p><strong>Java 内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。</strong>此处的变量（Variables）与 Java 编程所说的变量有所区别，它包括了实例字段、静态字段和构成数组对象的元素，但不包括局部变量与方法参数，因为后者是线程私有的，不会被共享，自然就不会存在竞争问题。为了获得较好的执行效率，Java 内存模型并没有限制执行引擎使用处理器的特定寄存器或缓存来和主内存进行交互，也没有限制即时编译器进行调整代码执行顺序这类优化措施。</p>
+<p><strong>Java 内存模型规定了所有的变量都存储在主内存中（Main Memory）中。每条线程还有自己的工作内存（Working Memory），线程的工作内存中保存了被线程使用到的变量的主内存副本拷贝，线程对变量的所有操作（读取、赋值等）都必须在工作内存中进行，而不能直接读写主内存的变量。不同的线程之间也无法直接访问对方工作内存中的变量，线程间变量值的传递均需要通过主内存来完成。</strong>线程、主内存、工作内存三者关系图如下所示。</p>
+<p><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E7%BA%BF%E7%A8%8B%E3%80%81%E4%B8%BB%E5%86%85%E5%AD%98%E3%80%81%E5%B7%A5%E4%BD%9C%E5%86%85%E5%AD%98%E4%B8%89%E8%80%85%E5%85%B3%E7%B3%BB%E5%9B%BE.png" alt=""><br></div><br>这部分中与前面笔记中所记录的 Java 内存区域并不是同一层次的内存划分，两者基本上没有什么关系。</p>
+<h3 id="内存间互相操作"><a href="#内存间互相操作" class="headerlink" title="内存间互相操作"></a>内存间互相操作</h3><p>这一部分中， Java 内存模型定义了8种操作来完成主内存与工作内存之间的具体变量交互工作：lock（锁定）、unlock（解锁）、 read（读取）、load（载入）、 use（使用）、assign（ 赋值）、 store（存储）、 write（ 写入），虚拟机实现时必须保证以上所有操作都是原子的、不可再分的。</p>
+<blockquote>
+<p>具体操作实现在P364。</p>
+</blockquote>
+<h3 id="对于-volatile-型变量的特殊规则"><a href="#对于-volatile-型变量的特殊规则" class="headerlink" title="对于 volatile 型变量的特殊规则"></a>对于 volatile 型变量的特殊规则</h3><p>关键字 volatile 是 Java 虚拟机所提供的轻量级同步机制。当一个变量定义为 volatile 之后，它将具备两种特性：</p>
+<ul>
+<li><p><strong>保证此变量对所有线程的可见性。</strong>这里的“可见性”是指当一条线程修改了这个变量的值，新值对于其他线程来说是可以立即得知的。而普通变量不能做到这一点，普通变量的值在线程间传递需要通过主内存来完成。例如：线程 A 修改一个普通变量的值，然后向主内存进行回写，另外一条线程 B 在线程 A 回写完成了之后再从主内存进行读取操作，新变量值才会对线程 B 可见。</p>
+<blockquote>
+<p>由于 volatile 变量只能保证可见性，而无法保证操作的原子性。在不符合以下两条规则的运算场景下，我们仍然需要加锁机制来保证操作原子性：</p>
+<ul>
+<li>运算结果并不依赖变量的当前值，或者能够确保只有单一的线程来修改变量的值</li>
+<li>变量不需要与其他的状态变量共同参与不变约束。</li>
+</ul>
+</blockquote>
+</li>
+<li><p><strong>禁止指令重排序优化。</strong>普通的变量仅仅会保证在该方法的执行中所有依赖赋值结果的地方都能获取到正确的结果，而不能保证变量赋值操作顺序与代码执行顺序一致。</p>
+</li>
+</ul>
+<p>在于 volatile 的性能提升方面，可得出：volatile 变量读操作的性能消耗与普通变量几乎没有什么差别，但是写操作则可能会慢一些，因为它需要在本地代码中插入许多内存屏蔽指令保证处理器不发生乱序执行。不过即使如此，大多数场景下 volatile 的总开销仍然要比锁低，我们在 volatile 与锁之间的选择依据只取决于 volatile 是否能够满足当前场景所需的并发要求。</p>
+<h3 id="先行发生原则"><a href="#先行发生原则" class="headerlink" title="先行发生原则"></a>先行发生原则</h3><p>如果 Java 内存模型中所有的有序性都仅仅依靠 volatile 和 synchronized 来完成，那么有一些操作将会变得很烦琐，但是在实际编程当中，Java 语言内部中存在一种“先行发生”（happens-before）的原则来保证代码在正常情况下的并发处理。</p>
+<p>先行发生是 Java 内存模型中定义的两项操作之间的偏序关系，如果说操作 A 先行于操作 B，其实就是说在发生操作 B 之前，操作 A 产生的影响能被操作 B 观察到，“影响”包括了修改了内存中共享变量的值、发送了消息、调用了方法等。</p>
+<p>下面是 Java 内存模型中一些“天然的”先行发生关系，这些先行发生关系无须任何同步器协助就已经存在，可以在编码中直接使用。如果两个操作之间的关系不在此列，并且无法从下列规则中推导出来，它们就没有顺序性保障，虚拟机可以对它们随意地进行重排序。</p>
+<ul>
+<li><strong>程序次序规则（Program Order Rule）</strong>：在一个线程内，按照程序代码顺序，书写在前面的操作先行于书写在后面的操作。准确地说，应该是控制流顺序而不是程序代码，因为需要考虑分支、循环等结构。</li>
+<li><strong>管程锁定规则（Monitor Lock Rule）</strong>： 一个 unlock 操作先行发生于后面（特指时间顺序）对同一个锁的 lock 操作。</li>
+<li><strong>volatile 变量规则（Volatile Variable Rule）</strong>： 对一个 volatile 变量的写操作先行发生于后面（特指时间顺序）对这个变量的读操作。</li>
+<li><strong>线程启动规则（Thread Start Rule）</strong>：Thread 对象的 start() 方法先行发生于此线程的每一个动作。</li>
+<li><strong>线程终止规则（Thread  Termination Rule）</strong>： 线程中的所有操作都先行发生于对此线程的终止检测。</li>
+<li><strong>线程中断规则（Thread   Interruption Rule）</strong>： 对线程 interrupt() 方法的调用先行发生于被中断线程的代码检测到中断事件的发生。</li>
+<li><strong>对象终结规则（Finalizer Rule）</strong>：  一个对象的初始化完成（构造函数的结束）先行发生于它的 finalize() 方法的开始。</li>
+<li><strong>传递性（ Transitivity）</strong>：  如果操作 A 先行发生于操作 B，而操作 B 先行发生于操作 C，那就可以推导出操作 A 先行发生于操作 C 的结论。</li>
+</ul>
+<h2 id="Java-与线程"><a href="#Java-与线程" class="headerlink" title="Java 与线程"></a>Java 与线程</h2><h3 id="线程创建-amp-线程调度"><a href="#线程创建-amp-线程调度" class="headerlink" title="线程创建&amp;线程调度"></a>线程创建&amp;线程调度</h3><blockquote>
+<p>P379，与操作系统创建线程相同，因为 Java 线程创建与线程调度的操作就是基于操作系统的。</p>
+</blockquote>
+<h3 id="状态转换"><a href="#状态转换" class="headerlink" title="状态转换"></a>状态转换</h3><ul>
+<li><p><strong>新建（New）</strong>：创建后尚未未启动的线程。</p>
+</li>
+<li><p><strong>运行（Runable）</strong>：线程有可能正在运行，或也有可能正在等待CPU为它分配执行时间。</p>
+</li>
+<li><p><strong>无限期等待（Waiting）</strong>：不会被分配CPU执行时间，要等待被其他线程显式唤醒，以下方法会让线程处于无限期的等待状态：</p>
+<ul>
+<li>没有设置 Timeout 参数的 Object.wait() 方法。</li>
+<li>没有设置 Timeout 参数的 Thread.join() 方法。</li>
+<li>LockSupport.park() 方法。</li>
+</ul>
+</li>
+<li><p><strong>限期等待（Timed Waiting）</strong>：不会被分配CPU执行时间，不需要等待被其他线程显式唤醒，在一定时间之后它们会由系统自动唤醒，以下方法会让线程处于限期的等待状态：</p>
+<ul>
+<li>Thread.sleep() 方法。</li>
+<li>设置了 Timeout 参数的Object.wait() 方法。</li>
+<li>设置了 Timeout 参数的Thread.join() 方法。</li>
+<li>LockSupport.parkNanos() 方法。</li>
+<li>LockSupport.parkUntil() 方法。</li>
+</ul>
+</li>
+<li><p><strong>阻塞（Blocked）</strong>：线程被阻塞了，在等待获取一个排它锁。例如线程A和B在执行同步方法C时，线程A先拿到排它锁，那么线程B的状态就是阻塞状态，等待线程B释放排它锁。</p>
+</li>
+<li><p><strong>结束（Terminated）</strong>：线程执行完毕。<br><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%85%B3%E7%B3%BB.png" alt=""><br></div><br>​</p>
+</li>
+</ul>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/03/《深入理解Java虚拟机》读书笔记 - 垃圾回收机制/">《深入理解Java虚拟机》读书笔记 - 垃圾回收机制</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-03
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <blockquote>
+<p>此篇为《深入理解Java虚拟机》第三章3.1、3.2、3.3部分的读书笔记</p>
+</blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><strong>在垃圾收集（Garbage Collection，GC）中，我们需要考虑以下三个问题：</strong></p>
+<ul>
+<li><strong>哪些内存需要回收？</strong></li>
+<li><strong>什么时候回收？</strong></li>
+<li><strong>如何回收？</strong></li>
+</ul>
+<p>经过半个多世纪的发展，目前内存的动态分配与内存回收技术已经相当成熟，一切看起来都进入“自动化”时代，那为什么我们还要去了解 GC 和内存分配呢？答案很简单：当需要排查各种内存溢出、内存泄漏问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，我们就需要对这些“自动化”的技术实施必要的监控和调节。</p>
+<h2 id="对象已死吗"><a href="#对象已死吗" class="headerlink" title="对象已死吗"></a>对象已死吗</h2><p>在堆里面存放着 Java 世界中几乎所有的对象实例，垃圾收集器在对堆进行垃圾回收前，第一件事情就是要确定这些对象之中哪些还“存活”着，哪些已经“死去”（即不可能再被任何途径使用的对象）。</p>
+<h3 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h3><p><strong>引用计数算法是指：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器为0的对象就是不可能再被使用的。</strong></p>
+<p>客观地说，引用计数算法（Reference Counting）的实现简单，判定效率也很高，在大部分情况下它都是一个不错的算法，但是，至少在主流的 Java 虚拟机里面没有选用引用计数拳算法来管理内存，其中主要的原因是<strong>它很难解决对象之间互相循环引用的问题</strong>。</p>
+<p>举个例子，若 Java 堆上同时存在 objA 和 objB 两个对象，两个对象中都有字段 instance，赋值令 objA.instance = objB 以及 objB.instance = objA，除此之外，这两个对象再无任何引用，实际上这两个对象已经不可能再被访问，但是它们因为互相引用着对方，导致它们的引用计数不为0，于是引用计数算法无法通知 GC 收集器来回收它们。</p>
+<h3 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h3><p><strong>可达性分析算法是指：通过一系列的称为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链（Reference Chain），当一个对象到 GC Roots 没有任何引用链相连（用图论的话来说，就是从 GC Roots 到这个对象不可达）时，则证明此对象是不可用的。</strong>如下图所示，对象 object5、object6、object7虽然互相有关联，但是它们到 GC Roots 是不可达的，所以它们将会被判定为是可回收对象。</p>
+<p><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95.png" alt=""><br></div><br>在 Java 语言中，可作为 GC Roots 的对象包括下面几种：</p>
+<ul>
+<li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中 JNI（即一般说的 Native 方法）引用的对象</li>
+</ul>
+<h3 id="再谈引用"><a href="#再谈引用" class="headerlink" title="再谈引用"></a>再谈引用</h3><p>无论是通过引用计数算法判断对象的引用数量，还是通过可达性分析算法判断对象的引用链是否可达，判定对象是都存活都与“引用”有关。<strong>对于对象“引用”的准确定义，希望通过这种方式来描述：当内存空间还足够时，则能保留在内存之中；如果内存空间在进行垃圾收集之后还是非常紧张，则可以抛弃这些对象。</strong>很多系统的缓存功能都符合这样的应用场景。</p>
+<p>在 JDK1.2之后，Java 对引用的概念进行了补充，将引用以下四类，并且这四种引用强度自上到下依次减弱。</p>
+<ul>
+<li><strong>强引用（Strong Reference）。</strong>强引用就是指在程序之中普遍存在的，类似“Object obj = new Object()”这类的引用，只要强引用还存在，垃圾收集器永远不会回收掉被引用的对象。</li>
+<li><strong>软引用（Soft Reference）。</strong>软引用是用来描述一些还有用但并非必需的对象。对于软引用关联的对象，在系统将要发生内存溢出异常之前，将会把这些对象列进回收范围之中进行第二次回收。如果这次回收还没有足够的内存，才会抛出内存溢出的异常。</li>
+<li><strong>弱引用（Weak Reference）。</strong>弱引用也是用来描述非必需对象的，但是它的强度比软引用更弱一些，被弱引用的对象只能生存到下一次垃圾收集发生之前。当垃圾收集器工作时，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。</li>
+<li><strong>虚引用（Phantom Reference）。</strong>虚引用也称为幽灵引用，它是最弱的一种引用关系。一个对象是否有虚引用的存在，完全不会对其生存时间构成影响，也无法通过虚引用来取得一个对象实例。为一个对象设置虚引用关联的唯一目的就是能在这个对象被收集器回收时收到一个系统通知。</li>
+</ul>
+<h3 id="生存还是死亡"><a href="#生存还是死亡" class="headerlink" title="生存还是死亡"></a>生存还是死亡</h3><p>即使在可达性分析算法中不可达的对象，也并非是“非死不可”的，这时候它们暂时处于“缓刑”阶段，<strong>要真正宣告一个对象死亡，至少要经历两次标记过程</strong>：如果对象在进行可达性分析之后，发现没有与 GC Roots 相连接的引用链，那么它将会被第一次标记并且进行一次筛选，筛选的条件是此对象是否有必要执行 finalize() 方法。当对象没有覆盖 finalize() 方法，或者 finalize() 方法已经被虚拟机调用过，虚拟机将这两次情况都视为“没有必要执行”。</p>
+<p>如果这个对象被判定为有必要执行 finalize() 方法，那么这个对象将会放置在一个叫做 F-Queue 的队列之中，并在稍后由一个由虚拟机自动建立的、低优先级的 Finalizer 线程去执行它。这个所谓的“执行”是指虚拟机会触发这个方法，但并不承诺会等待它运行结束，这样做的原因是，如果一个对象在 finalize() 方法中执行缓慢，或者发生了死循环，将很可能会导致 F-Queue 队列中的其他对象永久处于等待状态，甚至导致整个内存回收系统崩溃。</p>
+<p> finalize() 方法是对象逃脱死亡命运的最后一次机会，稍后 GC 会对 F-Queue 中的对象进行第二次小规模的标记，如果对象要在 finalize() 中成功拯救自己——只要重新与引用链上的任何一个对象建立关联即可，譬如把自己（this 关键字）赋值给某个类变量或者对象的成员变量，那在第二次标记时它将被移除出“即将回收”的集合；如果对象这时候还没有逃脱，那基本上它就真的就被回收了。</p>
+<blockquote>
+<p>任何一个对象的 finalize() 方法都只会被系统自动调用一次，如果面临第二次回收，那么它的 finalize()方法将不会被调用。</p>
+<p>对于 finalize() 方法，应该尽可能避免使用，因为这个 Java 在较早之前对于 C/C++程序员的妥协，最主要的原因是它的运行代价高昂，不确定性大，无法保证各个对象的调用顺序。所以了解它的概念，在实际使用上忽略它的存在即可。</p>
+</blockquote>
+<h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><h3 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><p><strong>最基础的收集算法是“标记-清除”（Mark-Sweep）算法，如同它的名字一样，算法分为“标记”和“清除“两个阶段：首先标记处所有需要回收的对象，在标记完成后，统一回收所有被标记的对象（标记过程参考上一小节）。</strong>之所以说它是最基础的收集算法，是因为后续的收集算法都是基于这种思路并对其不足进行改进而得到的。</p>
+<p>它的主要不足有两个：</p>
+<ul>
+<li>一个是效率问题，标记和清除两个过程的效率并不高</li>
+<li>一个是空间问题，标记清楚之后会产生大量不连续的内存碎片，空间碎片太多可能会导致以后在程序运行过程中需要分配较大的对象时，无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。<br><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95.png" alt=""><br></div><h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3></li>
+</ul>
+<p><strong>为了解决效率问题，一种称为”复制“（Copying）的收集算法出现了，他将可用内存按容量划分为大小相等的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次清理掉。这样使得每次都是对整个半区进行内存回收，内存分配时也就不用考虑内存碎片等复杂情况，只要移动堆顶指针，按顺序分配即可，实现简单，运行高效。</strong>只是这种算法的代价是将内存缩小为原来的一半，分配可能过高了。</p>
+<p><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95.png" alt=""><br></div><br>按照 IBM 的研究表明，新生代中的对象98%都是”朝生夕死“的。所以内存分配的常见做法是：将内存分为一块较大的 Eden 空间和两块较小的 Survivor 空间，每次使用 Eden 和其中一块 Survivor。当回收时，将 Eden 和 Survivor 中还存活着的对象一次性复制到另外一块 Survivor 空间上，最后清理掉 Eden 和刚才用过的 Survivor 空间。</p>
+<p> 在 HotSpot 虚拟机中，默认 Eden 和 Survivor 的大小比例为8：1，也就是每次新生代中可用内存空间为整个新生代容量的90%（80%+10%），只有10%的内存会被”浪费“。在 GC 回收过程中，若未使用的那块 Survivor 空间不够时，需要依赖其他内存（老年代）进行分配担保（Handle Promotion）（具体规则取决于垃圾收集器）。</p>
+<h3 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h3><p>复制收集算法在对象存活率较高时就要进行较多的复制操作，效率将会变低。更关键的是，如果不想浪费50%的空间，就需要额外的空间进行分配担保，以应对被使用的内存中所有对象都100%存活的极端情况，所以在老年代一般不能直接选用这种算法。</p>
+<p><strong>根据老年代的特点，顺应有了”标记-整理“算法，其过程与”标记-清除“算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</strong></p>
+<p><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E7%AE%97%E6%B3%95.png" alt=""><br></div></p>
+<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>当前商业虚拟机的垃圾收集都采用”分代收集“（Generational Collection）算法，<strong>这种算法是根据对象的存活周期的不同将内存划分为几块，一般是把 Java 堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。</strong></p>
+<ul>
+<li>在新生代中，每次垃圾收集时都发现有大批对象死去，只有少量存活，那就选用复制算法，只需要付出少量存活对象的复制成本</li>
+<li>在老年代中，因为对象存活率高，没有额外的空间对它进行分配担保，就必须使用”标记-清理“或”标记-整理“算法来进行回收</li>
+</ul>
+<h2 id="GC日志中的术语"><a href="#GC日志中的术语" class="headerlink" title="GC日志中的术语"></a>GC日志中的术语</h2><ul>
+<li><strong>Minor GC</strong> 指发生在新生代的垃圾收集动作，非常频繁，速度较快。</li>
+<li><strong>Major GC</strong>（通常与 Full GC 是等价de ）指发生发生在整个 GC 堆中的垃圾收集动作，频次较少，一般由多次 Minor GC 后，内存空间仍不满足程序运行时调用。</li>
+</ul>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/02/《深入理解Java虚拟机》读书笔记 - Java对象/">《深入理解Java虚拟机》读书笔记 - Java对象</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-02
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <blockquote>
+<p>此篇为《深入理解Java虚拟机》第二章2.3部分的读书笔记</p>
+</blockquote>
+<h2 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h2><p>Java 是一门面向对象的编程语言，在 Java 程序运行过程中无时无刻都有对象被创建出来。在语言层面上，创建对象通常仅仅是一个 new 关键字而已，而在虚拟机中，对象（仅限于普通 Java 对象，不包括数组和 Class 对象等）的创建又是怎样一个过程呢？</p>
+<ol>
+<li>虚拟机遇到一条 new 指令时，<strong>首先将去检查这个指令的参数是否能在常量池中定位到一个类的符号引用</strong>，并且检查这个符号引用代表的类是否已经被加载、解析和初始化过。如果没有，那必须先执行相应的类加载过程。</li>
+<li><strong>在类加载检查通过后，接下来虚拟机将为新生对象分配内存。</strong>对象所需内存的大小在类加载完成后便可以完全确定，为对象分配空间的任务等同于把一块确定大小的内存从 Java 堆中划分出来。具体堆的内存如何划分以及怎么分配堆中的内存者这取决于虚拟机所采用的垃圾收集器是否带有压缩整理功能决定。</li>
+<li>除如何划分可用空间之外，还有另外一个<strong>需要考虑的问题是对象创建在虚拟机中是非常频繁的行为</strong>，即使是仅仅修改一个指针所指向的位置，在并发情况下也并不是线程安全的，可能出现正在给对象 A 分配内存，指针还没来得及修改，对象 B 又同时使用了原来的指针分配内存的情况。解决这个问题有两种方案：<ol>
+<li>一种是对分配内存空间的动作进行同步处理——实际上虚拟机采用 CAS + 失败重试的方式来保证更新操作的原子性；</li>
+<li>另一种把内存分配动作按照线程划分在不同的空间中进行，即每个线程在 Java 堆中预先分配一小块内存，称之为本地线程分配缓冲（Thread Local Allocation Buffer, TLAB）。哪个线程需要分配内存，就在哪个线程的 TLAB 上分配，只有 TLAB 用完并分配新的 TLAB 时，才需要同步锁定。</li>
+</ol>
+</li>
+<li><strong>内存分配完成后，虚拟机需要将分配到的内存空间都初始化为零值（不包括对象头）</strong>，如果使用了 TLAB，这一工作过程也可以提前至 TLAB 分配时进行。这一步操作保证了对象的实例字段在 Java 代码中可以不赋初始值就直接使用，程序能访问到这些字段的数据类型所对应的零值。</li>
+<li><strong>接下来，虚拟机要对对象进行必要的设置</strong>，例如这个对象是哪个类的实例、如何才能找到类的元数据信息、对象的哈希码、对象的 GC 分代年龄等信息。这些信息都存放在对象的对象头之中。根据虚拟机当前的运行状态的不同，如是否启用偏向锁等，对象头会有不同的设置方式。</li>
+</ol>
+<p>在上面工作都完成之后，从虚拟机的视角来看，一个新的对象已经产生了，但从 Java 程序的视角来看，对象创建才刚刚开始——<code>&lt;init&gt;</code>方法还没有执行，所有的字段都还为零。<strong>所以，一般来说，执行 new 指令之后会接着执行<code>&lt;init&gt;</code>方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象才算完全产生出来。</strong></p>
+<h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><p>在 HotSpot 虚拟机中，对象在内存中存储的布局可以分为3个区域：对象头（Header）、实例数据（Instance Data）和对其补充（Padding）。</p>
+<ul>
+<li><p><strong>对象头。</strong>对象头可以分为以下两部分信息：</p>
+<ul>
+<li>用于存储对象自身运行时数据，如哈希码（HashCode）、GC 分代年龄、锁状态标志、线程持有的锁、偏向线程 ID、偏向时间戳等。</li>
+<li>类型指针，即对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是哪个类的实例。另外，如果对象是一个 Java 数组，那在对象头中还必须有一块用于记录数组长度的数据，因为虚拟机可以通过普通 Java 对象的元数据信息来确定 Java 对象的大小，但是从数据的元数据中却无法确定数组的大小。</li>
+</ul>
+<div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E5%AF%B9%E8%B1%A1%E5%A4%B4.png" alt=""><br></div>
+</li>
+<li><p><strong>实例数据</strong></p>
+<p>实例数据部分是对象真正存储的有效信息，也是在程序代码中所定义的各种类型的字段内容。无论是从父类继承下来的，还是在子类中定义的，都需要记录下来。</p>
+</li>
+<li><p><strong>对齐补充</strong></p>
+<p>对齐补充并不是必然存在的，也没有特别的含义，它仅仅起着占位符的作用。由于 HotSpot VM 的自动内存管理系统要求对象起始地址必须是8字节的整数倍，换句话说，就是对象的大小必须是8字节的整数倍。</p>
+</li>
+</ul>
+<h2 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h2><p>建立对象是为了使用对象，我们的 Java 程序需要通过栈上的 renference 数据来操作堆上的具体对象。由于 reference 类型在 Java 虚拟机规范中只规定了一个指向对象的引用，并没有定义这个引用应该通过何种方式去定位、访问堆中的对象的具体位置，所以对象访问的方式也是取决于虚拟机实现而决定的。目前主流的访问方式有使用句柄和直接指针两种。</p>
+<ul>
+<li><strong>如果使用句柄访问的话，那么 Java 堆中将会划分出一块内存来作为句柄池，reference 中存储的就是对象的句柄地址，而句柄中包含了对象实例数据与类型数据各自的具体地址信息。</strong>其最大好处在于 reference 中存储的是稳定的句柄地址，在对象移动（垃圾收集时移动对象是非常普遍的行为）时只会改变句柄中的实例数据指针，而 refernece 本身不需要修改。<div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E5%8F%A5%E6%9F%84%E8%AE%BF%E9%97%AE.png" alt=""><br></div></li>
+<li><strong>如果使用直接指针访问（HotSpot 采取方式），那么 Java 堆对象的布局就必须考虑如何放置访问类型数据的相关信息，而 reference 中存储的直接就是对象地址。</strong>其最大好处在于速度相较于句柄访问更快，它节省了一次指针定位的时间开销，由于对象的访问在 Java 中非常频繁，因此这类开销积少成多后也是一项非常可观的执行成本。<div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE.png" alt=""><br></div></li>
+</ul>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/01/PriorityQueue-源码分析/">PriorityQueue 源码分析</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-01
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h2 id="结构体系"><a href="#结构体系" class="headerlink" title="结构体系"></a>结构体系</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PriorityQueue</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractQueue</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</div></pre></td></tr></table></figure>
+<p><code>PriorityQueue</code>是通过最小堆（？）实现内部元素按一定顺序的队列，也称其为优先队列。从结构体系上看，<code>PriorityQueue</code>是继承自<code>AbstractQueue</code>的，即<code>PriorityQueue</code>实现了基本的队列的操作。但为何<code>PriorityQueue</code>能够实现元素按指定排序存在队列呢，那么我们应该看它的成员变量部分。</p>
+<blockquote>
+<p>若忘了最大/小堆的概念，可以查看这篇文章<a href="/2017/10/31/堆排序（Heap%20Sort）/">堆排序（Heap Sort）</a></p>
+</blockquote>
+<h2 id="常量与重要的成员变量"><a href="#常量与重要的成员变量" class="headerlink" title="常量与重要的成员变量"></a>常量与重要的成员变量</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 默认容器初始大小</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">11</span>;</div><div class="line"></div><div class="line"><span class="comment">// 容器最大大小</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ARRAY_SIZE = Integer.MAX_VALUE - <span class="number">8</span>;</div><div class="line"></div><div class="line"><span class="comment">// PriorityQueue 真实操作容器(知道最大/小堆性质的，应该不难明白)</span></div><div class="line"><span class="keyword">transient</span> Object[] queue;</div><div class="line"></div><div class="line"><span class="comment">// 记录容器内部实际元素个数</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">  * The comparator, or null if priority queue uses elements'</span></div><div class="line"><span class="comment">  * natural ordering.</span></div><div class="line"><span class="comment">  */</span></div><div class="line"><span class="comment">// 上述注释表明comparator若为空时，即使用自然递增的顺序存储元素</span></div><div class="line"><span class="comment">// 那么既然给出了这个comparator，就说明了该comparator可以由用户给定</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> Comparator&lt;? <span class="keyword">super</span> E&gt; comparator;</div></pre></td></tr></table></figure>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">PriorityQueue</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">this</span>(DEFAULT_INITIAL_CAPACITY, <span class="keyword">null</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">PriorityQueue</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</div><div class="line">  	<span class="keyword">this</span>(initialCapacity, <span class="keyword">null</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">PriorityQueue</span><span class="params">(Comparator&lt;? <span class="keyword">super</span> E&gt; comparator)</span> </span>&#123;</div><div class="line">  	<span class="keyword">this</span>(DEFAULT_INITIAL_CAPACITY, comparator);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 关键构造函数，这一步证实了可以由用户传递自定义的comparator来实现自定义顺序容器</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">PriorityQueue</span><span class="params">(<span class="keyword">int</span> initialCapacity,</span></span></div><div class="line"><span class="function"><span class="params">                     Comparator&lt;? <span class="keyword">super</span> E&gt; comparator)</span> </span>&#123;</div><div class="line">  	<span class="keyword">if</span> (initialCapacity &lt; <span class="number">1</span>)</div><div class="line">    	<span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">  	<span class="keyword">this</span>.queue = <span class="keyword">new</span> Object[initialCapacity];</div><div class="line">  	<span class="keyword">this</span>.comparator = comparator;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="增加操作-——-add"><a href="#增加操作-——-add" class="headerlink" title="增加操作 —— add()"></a>增加操作 —— add()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">  	<span class="keyword">return</span> offer(e);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">offer</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (e == <span class="keyword">null</span>)</div><div class="line">      	<span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">    modCount++;</div><div class="line">    <span class="keyword">int</span> i = size;</div><div class="line">  	<span class="comment">// 保证容器能够存储所有元素</span></div><div class="line">    <span class="keyword">if</span> (i &gt;= queue.length)</div><div class="line">      	grow(i + <span class="number">1</span>);</div><div class="line">    size = i + <span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span> (i == <span class="number">0</span>)</div><div class="line">      	queue[<span class="number">0</span>] = e;</div><div class="line">    <span class="keyword">else</span></div><div class="line">      	<span class="comment">// 实际操作部分</span></div><div class="line">      	siftUp(i, e);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>关键部分如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 这一步就是PriorityQueue的关键部分</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">siftUp</span><span class="params">(<span class="keyword">int</span> k, E x)</span> </span>&#123;</div><div class="line">  	<span class="comment">// 若comparator不为空，则使用用户给定的comparator，否则则使用元素本身提供的比较器</span></div><div class="line">    <span class="keyword">if</span> (comparator != <span class="keyword">null</span>)</div><div class="line">      	siftUpUsingComparator(k, x);</div><div class="line">    <span class="keyword">else</span></div><div class="line">      	siftUpComparable(k, x);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line"><span class="comment">// comparator为空时调用</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">siftUpComparable</span><span class="params">(<span class="keyword">int</span> k, E x)</span> </span>&#123;</div><div class="line">  	<span class="comment">// 获取元素本身，并转化为可Comparable类型</span></div><div class="line">    Comparable&lt;? <span class="keyword">super</span> E&gt; key = (Comparable&lt;? <span class="keyword">super</span> E&gt;) x;</div><div class="line">  	<span class="comment">// 若k&gt;0，即k未处于根元素位置</span></div><div class="line">    <span class="keyword">while</span> (k &gt; <span class="number">0</span>) &#123;</div><div class="line">      	<span class="keyword">int</span> parent = (k - <span class="number">1</span>) &gt;&gt;&gt; <span class="number">1</span>;</div><div class="line">      	Object e = queue[parent];</div><div class="line">      	<span class="keyword">if</span> (key.compareTo((E) e) &gt;= <span class="number">0</span>)</div><div class="line">       	 	<span class="keyword">break</span>;</div><div class="line">      	queue[k] = e;</div><div class="line">      	k = parent;</div><div class="line">    &#125;</div><div class="line">    queue[k] = key;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line"><span class="comment">// comparator不为空时调用</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">siftUpUsingComparator</span><span class="params">(<span class="keyword">int</span> k, E x)</span> </span>&#123;</div><div class="line">    <span class="keyword">while</span> (k &gt; <span class="number">0</span>) &#123;</div><div class="line">      	<span class="keyword">int</span> parent = (k - <span class="number">1</span>) &gt;&gt;&gt; <span class="number">1</span>;</div><div class="line">      	Object e = queue[parent];</div><div class="line">      	<span class="comment">// 使用用户给定的comparator</span></div><div class="line">      	<span class="keyword">if</span> (comparator.compare(x, (E) e) &gt;= <span class="number">0</span>)</div><div class="line">        	<span class="keyword">break</span>;</div><div class="line">      	queue[k] = e;</div><div class="line">      	k = parent;</div><div class="line">    &#125;</div><div class="line">    queue[k] = x;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="删除操作-poll"><a href="#删除操作-poll" class="headerlink" title="删除操作 - poll()"></a>删除操作 - poll()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">poll</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (size == <span class="number">0</span>)</div><div class="line">      	<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">int</span> s = --size;</div><div class="line">    modCount++;</div><div class="line">    E result = (E) queue[<span class="number">0</span>];</div><div class="line">    E x = (E) queue[s];</div><div class="line">    queue[s] = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">if</span> (s != <span class="number">0</span>)</div><div class="line">      	siftDown(<span class="number">0</span>, x);</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>与add()同理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">siftDown</span><span class="params">(<span class="keyword">int</span> k, E x)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (comparator != <span class="keyword">null</span>)</div><div class="line">        siftDownUsingComparator(k, x);</div><div class="line">    <span class="keyword">else</span></div><div class="line">        siftDownComparable(k, x);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">siftDownComparable</span><span class="params">(<span class="keyword">int</span> k, E x)</span> </span>&#123;</div><div class="line">    Comparable&lt;? <span class="keyword">super</span> E&gt; key = (Comparable&lt;? <span class="keyword">super</span> E&gt;)x;</div><div class="line">    <span class="keyword">int</span> half = size &gt;&gt;&gt; <span class="number">1</span>;        <span class="comment">// loop while a non-leaf</span></div><div class="line">    <span class="keyword">while</span> (k &lt; half) &#123;</div><div class="line">        <span class="keyword">int</span> child = (k &lt;&lt; <span class="number">1</span>) + <span class="number">1</span>; <span class="comment">// assume left child is least</span></div><div class="line">        Object c = queue[child];</div><div class="line">        <span class="keyword">int</span> right = child + <span class="number">1</span>;</div><div class="line">        <span class="keyword">if</span> (right &lt; size &amp;&amp;</div><div class="line">            ((Comparable&lt;? <span class="keyword">super</span> E&gt;) c).compareTo((E) queue[right]) &gt; <span class="number">0</span>)</div><div class="line">            c = queue[child = right];</div><div class="line">        <span class="keyword">if</span> (key.compareTo((E) c) &lt;= <span class="number">0</span>)</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        queue[k] = c;</div><div class="line">        k = child;</div><div class="line">    &#125;</div><div class="line">    queue[k] = key;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">siftDownUsingComparator</span><span class="params">(<span class="keyword">int</span> k, E x)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> half = size &gt;&gt;&gt; <span class="number">1</span>;</div><div class="line">    <span class="keyword">while</span> (k &lt; half) &#123;</div><div class="line">        <span class="keyword">int</span> child = (k &lt;&lt; <span class="number">1</span>) + <span class="number">1</span>;</div><div class="line">        Object c = queue[child];</div><div class="line">        <span class="keyword">int</span> right = child + <span class="number">1</span>;</div><div class="line">        <span class="keyword">if</span> (right &lt; size &amp;&amp;</div><div class="line">            comparator.compare((E) c, (E) queue[right]) &gt; <span class="number">0</span>)</div><div class="line">            c = queue[child = right];</div><div class="line">        <span class="keyword">if</span> (comparator.compare(x, (E) c) &lt;= <span class="number">0</span>)</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        queue[k] = c;</div><div class="line">        k = child;</div><div class="line">    &#125;</div><div class="line">    queue[k] = x;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="查找操作-peek"><a href="#查找操作-peek" class="headerlink" title="查找操作 - peek()"></a>查找操作 - peek()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 时间复杂度O(1)</span></div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">peek</span><span class="params">()</span> </span>&#123;</div><div class="line">  	<span class="keyword">return</span> (size == <span class="number">0</span>) ? <span class="keyword">null</span> : (E) queue[<span class="number">0</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/01/《深入理解Java虚拟机》读书笔记 - Java内存分配/">《深入理解Java虚拟机》读书笔记 - Java内存分配</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-01
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <blockquote>
+<p>此篇为《深入理解Java虚拟机》第二章2.2部分的读书笔记</p>
+</blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>对于 Java 程序员来说，在虚拟机自动内存管理机制的帮助下，不再需要为每一个 new 操作去写配对的 delete/free 代码，不容易出现内存泄漏和内存溢出问题，由于虚拟机管理内存这一切看起来很美好，不过，也正是因为 Java 程序员将内存控制的权利交给了 Java 虚拟机，一旦出现内存泄漏和溢出问题，如果不了解虚拟机是怎样使用内存的，那么排查错误将是一件异常艰难的工作。</p>
+<h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><p>Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域都有各自的用途，以及创建和销毁的时间。有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线程的启动和结束而建立和销毁。根据《Java 虚拟机规范》的规定，Java 虚拟机所管理的内存将会包括以下几个运行时数据区域，如下图所示。</p>
+<p><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/Java%20%E5%86%85%E5%AD%98%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA.png" alt=""><br></div></p>
+<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p><strong>程序计数器（Program Counter Register）是一块较小的内存空间，它可以看作是当前线程执行的字节码的行号指示器。</strong>在虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令（类似于操作系统一般），分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
+<p>由于 Java 虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现，在任何一个确定的时刻，一个处理器（对于多核处理器来说是一个内核）都只会执行一条线程中的指令。<strong>因此，为了线程切换后能够恢复到正确的执行位置，每条线程都需要有一个独立的程序计数器，各条线程之间计数器互不影响，独立存储，我们称这类内存区域为“线程私有”的内存。</strong></p>
+<p>如果线程正在执行的是一个 Java 方法，这个计数器记录的是正在执行的虚拟机字节码指令的地址；如果正在执行的是 Native 方法，这个计数器值则为空（Undefined）（因为 Native 所修饰的方法是虚拟机根据当前系统，调用本地应用/库实现的，不归属于任何字节码指令）。<strong>此内存区域是唯一一个在 Java 虚拟机规范中没有规定任何 OutOfMemoryError 情况的区域。</strong></p>
+<h2 id="Java-虚拟机栈"><a href="#Java-虚拟机栈" class="headerlink" title="Java 虚拟机栈"></a>Java 虚拟机栈</h2><p><strong>与程序计数器一样，Java 虚拟机栈（Java Virtual Machine Stack）也是线程私有的，它的生命周期与线程相同。虚拟机栈描述的是 Java 方法执行的内存模型：每个方法在执行的同时会创建一个栈帧（Stack Frame）用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应一个栈帧在虚拟机栈中入栈到出栈的过程。</strong></p>
+<p>局部变量表存放了编译期可知的各种基本数据类型（boolean、byte、char、short、int、float、long、double）、对象引用（reference 类型，它不等同于对象本身，可能是一个指向对象起始地址的引用指针，也可能是指向一个代表对象的句柄或其他与此对象相关的位置）和 returnAddress 类型（指向了一条字节码指令的地址）。</p>
+<p>其中64位长度的 long 和 doule 类型的数据会占用2个局部变量空间（slot），其余的数据类型只占用1个。<strong>局部变量表所需的内存空间在编译期间完成分配，当进入一个方法时，这个方法需要在帧中分配多大的局部变量空间是完全确定的，在方法运行期间不会改变局部变量表的大小。</strong></p>
+<p>在 Java 虚拟机规范中，对这个区域规定了两种异常状况：如果线程请求的栈深度大于虚拟机所允许的深度，将抛出 StackOverflowError 异常；如果虚拟机栈可以动态扩展，如果扩展时无法申请到足够的内存，就会抛出 OutOfMemoryError 异常。</p>
+<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p><strong>本地方法栈（Native Method Stack）与虚拟机栈所发挥的作用是非常相似的，它们之间的区别不过是虚拟机栈为虚拟机执行 Java 方法（也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务。</strong>在虚拟机规范中，对本地方法栈中方法使用的语言、使用方式与数据结构并没有强制规定，因此具体的虚拟机可以自由实现它。与虚拟机栈一样，本地方法栈也会抛出 StackOverflowError 和 OutOfMemoryError 异常。</p>
+<h2 id="Java-堆"><a href="#Java-堆" class="headerlink" title="Java 堆"></a>Java 堆</h2><p><strong>对于大多数应用来说，Java 堆（Java Heap）是 Java 虚拟机所管理的内存中最大的一块。Java 堆被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例都在这里分配内存。</strong>这一点在 Java 虚拟机规范中的描述是：所有的对象实例以及数组都要在堆上分配。但随着 JIT 编译器的发展与逃逸分析技术逐渐成熟，栈上分配、标量替换优化技术将会导致一些微妙的变化发生，所有的对象都分配在堆上也渐渐变得不是那么“绝对”了。</p>
+<p>Java 堆是垃圾收集器管理的主要区域，因此很多时候也被称作“GC 堆”（Garbage Collected Heap）。从内存回收的角度来看，由于现在收集器基本都采用分代收集算法，所以 Java 堆还可以细分为：新生代和老年代；再细致一点的有 Eden 空间、From Survivor 空间、To Survivor 空间等；从内存分配的角度来看，线程共享的 Java 堆中可能划分出多个线程私有的分配缓冲区（Thread Local Allocation Buffer, TLAB）。不过无论如何划分，都与存放内容无关，无论哪个区域，存储的仍然是对象实例，进一步划分的目的是为了更好地回收内存，或者更快地分配内存。</p>
+<p>根据 Java 虚拟机规范的规定，Java 堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可，就像我们的磁盘空间一样。</p>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p><strong>方法区（Method Area）与 Java 堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。</strong>虽然 Java 虚拟机规范把方法区描述为堆的一个逻辑部分，但是它却有一个别名叫做 Non-Heap（非堆），目的应该是与 Java 堆区分开来。</p>
+<p>Java 虚拟机规范对方法区的限制非常宽松，除了和 Java 堆一样不需要连续的内存和可以选择固定大小或可扩展外，还可以选择不实现垃圾收集。相对来言，垃圾收集行为在这个区域是比较少出现的，但并非数据进入了方法区就如同永生代的名字一样“永远”存在了。</p>
+<p><strong>这区域的内存回收目标主要是针对常量池的回收和对类型的卸载，一般来说，这个区域的回收“成绩”比较难令人满意（类似于操作系统中页面的换入换出算法），尤其是类型的卸载，条件相当苛刻，但是这部分区域的回收确实是必要的。</strong></p>
+<p>根据 Java 虚拟机规范的规定，当方法区无法满足内存分配需求时，将抛出 OutOfMemoryError 异常。</p>
+<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p><strong>运行时常量池（Runtime Constant Pool）是方法区的一部分。Class 文件中除了有类的版本、字段、方法等描述信息外，还有一项信息就是常量池（Constant Pool Table），用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。</strong></p>
+<p>Java 虚拟机对 Class 文件每一部分（自然也包括常量池）的格式都有严格规定，每一个字节用于存储那种数据都必须符合规范上的要求才会被虚拟机认可、装载和执行，但对于运行时常量池，Java 虚拟机规范没有做任何细节的要求，不同的提供商实现的虚拟机可以按照自己的需要来实现这个内存区域。不过，一般来说，除了保存 Class 文件中描述的符号引用外，还会把翻译出来的直接引用也存储在运行时常量池中。</p>
+<p><strong>运行时常量池相对于 Class 文件常量池的另外一个重要特征是具备动态性，Java 语言并不要求常量一定只有编译器才能产生，也就是并非预置入 Class 文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，类似于 String 类的 intern() 方法。</strong></p>
+<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是 Java 虚拟机规范中定义的内存区域。但是这部分内存也会被频繁地使用。</p>
+<p>在 JDK1.4中新加入了 NIO（New Input/Output）类，引入了一种基于通道（Channel）与缓冲区（ Buffer）的 I/O 方式，<strong>它可以使用 Native 函数库直接分配堆外内存，然后通过一个存储在 Java 队中的 DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在 Java 堆和 Native 堆中来回复制数据。</strong></p>
+<p>显然，本机直接内存的分配不会受到 Java 堆大小的限制，但是，既然是内存，肯定还是会受本机总内存大小以及处理器寻址空间的限制。</p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/10/31/Java抽象类与接口/">Java抽象类与接口</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-10-31
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>抽象类是用来捕捉子类的通用特性的。它不能被实例化，只能被用作子类的超类。可以将抽象类当做是被用来创建继承层级里子类的模板。</p>
+<p>接口是抽象方法的集合。如果一个类实现了某个接口，那么它就继承了这个接口的所有抽象方法，并需要确保这些方法全部实现，这就像是契约模式一般。接口只是一种形式，接口自身不能做任何事情。</p>
+<p>在Java中，一个类只能够继承一个抽象类，但是一个类可以同时实现多个接口。</p>
+<h2 id="设计思想"><a href="#设计思想" class="headerlink" title="设计思想"></a>设计思想</h2><p>从概念上，可知抽象类与接口所设计的目的是不一样的 —— <strong>接口是对动作的抽象，而抽象类是对根源的抽象</strong>。</p>
+<p>举个例子而言，在这个世界上存在很多不同的车，跑车、轿车、货车等，那么对于抽象类而言，我们就需要从这些车中提取它们的公共部分，设计出一个更高级别的抽象类——四轮车。</p>
+<p>但轿车与货车同为四轮车，但是普遍轿车都存在着自动驾驶功能，如果货车需要自动驾驶功能的话，那么对于接口而言，可以把自动驾驶功能所需的这些方法抽象成接口——自动驾驶。</p>
+<h2 id="如何选择"><a href="#如何选择" class="headerlink" title="如何选择"></a>如何选择</h2><p>从程序设计中，如何选择抽象类与接口？从我的观点而言，在程序设计中我们需要考虑的是高度抽象化以及程序可扩展性。</p>
+<p>因为在Java中只能够继承一个父类，所以定义抽象类的代价比较高。即在程序设计中，需要从自下至上，综合分析所有子类中的共同点，高度抽象化成父类（这里可以联想Object，即使不是抽象类，但它却由始至终贯穿整个java体系）。</p>
+<p>但相比于抽象类而言，接口所付出的代价相对的低很多，可扩展性也大大提高了，因为类可以实现多个接口，因此每个接口你只需要将特定的动作抽象到这个接口即可。</p>
+<p>举个例子，如<code>LinkedList</code>的继承体系一般。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
+<ul>
+<li>抽象类的角度。<code>LinkedList</code>继承自<code>AbstractSequentialList</code>，这说明了<code>LinkedList</code>属于链表这种数据结构的继承体系中，它继承了所有链表的基本操作。</li>
+<li>接口的角度。<code>LinkedList</code>实现了<code>Deque</code>接口，这表明了即使是链表，也能够实现双端队列的功能，使程序调用者可以将<code>LinkedList</code>同等视为队列使用。</li>
+</ul>
+<hr>
+<p>参考资料</p>
+<p><a href="https://www.zhihu.com/question/20149818/answer/153188511" target="_blank" rel="external">接口和抽象类有什么区别？</a></p>
+<p><a href="http://www.importnew.com/12399.html" target="_blank" rel="external">Java抽象类与接口的区别</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/10/31/Java关键字-final/">Java关键字 - final</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-10-31
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>在Java中，我们可以通过<code>final</code>来表示某个变量、某个方法，甚至是某个类是“不变的”或“无法改变的”。</p>
+<h2 id="怎么使用final"><a href="#怎么使用final" class="headerlink" title="怎么使用final"></a>怎么使用final</h2><h3 id="final变量"><a href="#final变量" class="headerlink" title="final变量"></a>final变量</h3><p><code>final</code>修饰的变量称之为常量，其主要应用于以下地方：</p>
+<ul>
+<li>编译器常量，永远不可改变。</li>
+<li>运行其初始化时，我们希望它不会被改变。</li>
+</ul>
+<p>对于编译器常量，它在类加载的过程就已经完成了初始化，所以当类加载完成后是不可改变的。而对于运行时变量，也称为空白<code>final</code>，即代表先声明，后赋值这一过程。</p>
+<p>运行时变量可分为基本数据类型与引用数据类型，其中基本数据类型不可变的是内容，而引用数据类型的不可变的是引用，引用所指的对象内容是可变的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> SIZE;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String test = <span class="string">"final can't change"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Test</span><span class="params">(<span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">      	<span class="comment">// 运行期变量，可以根据传递的值来声明不同的常量</span></div><div class="line">        <span class="keyword">this</span>.SIZE = size;</div><div class="line">      	<span class="comment">// 编译器报错，因为test被final修饰，其在编译期间已确定的值，所以不可改变</span></div><div class="line">        <span class="keyword">this</span>.test = <span class="string">"final??"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="final方法"><a href="#final方法" class="headerlink" title="final方法"></a>final方法</h3><p>被<code>final</code>修饰的方法都是不能被继承、更改的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"father can't change"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> Son().hello();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</div><div class="line">  	<span class="comment">// 编译器报错，因为Father类中的hello()被final修饰，所以子类是不能够重写的</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"hhello"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="final参数"><a href="#final参数" class="headerlink" title="final参数"></a>final参数</h3><p>被<code>final</code>修饰的参数都是不可变的，即在函数作用域内，该参数的值都是不可变的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">(<span class="keyword">final</span> String str)</span> </span>&#123;</div><div class="line">	<span class="comment">// 编译出错</span></div><div class="line">  	str = <span class="string">"world"</span>;</div><div class="line">  	System.out.println(str);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="final类"><a href="#final类" class="headerlink" title="final类"></a>final类</h3><p>被<code>final</code>修饰的类是不允许被继承的，所以可视该类为最终类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 编译出错，Father类不可被继承</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="final能提高性能吗？"><a href="#final能提高性能吗？" class="headerlink" title="final能提高性能吗？"></a>final能提高性能吗？</h2><p>基于<a href="https://www.zhihu.com/question/21762917" target="_blank" rel="external">JVM对于声明为final的局部变量（local var）做了哪些性能优化？</a>与<a href="http://codewenda.com/%E5%9C%A8java%E4%B8%AD%E4%BD%BF%E7%94%A8final%E5%85%B3%E9%94%AE%E5%AD%97%E4%BC%9A%E6%8F%90%E9%AB%98%E6%80%A7%E8%83%BD%E5%90%97%EF%BC%9F/" target="_blank" rel="external">在Java中使用final关键字会提高性能吗？</a>两文，可以归纳总结出<code>final</code>关键字并不会从性能上有很大的提升，甚至可以说是没有。反而要求设计者在程序设计中，不要过分追求性能，需要注重的是代码的可读性与可维护性。</p>
+<hr>
+<p>参考资料</p>
+<p><a href="http://www.cnblogs.com/chenssy/p/3428180.html" target="_blank" rel="external">java提高篇(十五)—–关键字final</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    
+      <a class="prev" href="/page/2/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text">上一页</span>
+      </a>
+    
+    
+      <a class="next" href="/page/4/">
+        <span class="next-text">下一页</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+
+          </div>
+          
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

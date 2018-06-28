@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="Scala - 类构造器"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2018/05/14/Scala - 类构造器/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> Scala - 类构造器 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Scala - 类构造器
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-05-14
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#主构造器"><span class="toc-text">主构造器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#辅助构造器"><span class="toc-text">辅助构造器</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>Scala 构造器可分为两种，主构造器和辅助构造器。</p>
+<h4 id="主构造器"><a href="#主构造器" class="headerlink" title="主构造器"></a>主构造器</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 无参主构造器</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line">    <span class="comment">// 主构造器的构成部分</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 有参主构造器</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo2</span>(<span class="params">name: <span class="type">String</span>, age: <span class="type">Int</span></span>) </span>&#123;</div><div class="line">    <span class="comment">// 主构造器的构成部分</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从类的定义开始，花括号的部分为主构造器的构成部分。主构造器在执行时，会执行类中所有的语句。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// example</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">val</span> name = <span class="string">"tom"</span></div><div class="line">    <span class="keyword">val</span> age = <span class="number">18</span></div><div class="line">    </div><div class="line">    doSomething() <span class="comment">// 初始化对象时，会打印 name: tome, age: 18</span></div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">doSomething</span></span>() = &#123;</div><div class="line">        println(<span class="string">"name: "</span> + name + <span class="string">", age: "</span> + age)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="辅助构造器"><a href="#辅助构造器" class="headerlink" title="辅助构造器"></a>辅助构造器</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> name = <span class="string">""</span></div><div class="line">    <span class="keyword">var</span> age = <span class="number">0</span></div><div class="line">    </div><div class="line">    <span class="comment">// 错误定义!!</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>() &#123;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>(name: <span class="type">String</span>) &#123;</div><div class="line">        <span class="keyword">this</span>()</div><div class="line">        <span class="keyword">this</span>.name = name</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>(name: <span class="type">String</span>, age: <span class="type">Int</span>) &#123;</div><div class="line">        <span class="keyword">this</span>(name)</div><div class="line">        <span class="keyword">this</span>.age = age</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>辅助构造器的名称为<code>this</code>，与 Java 的构造器名称不同（Java 构造器名称是以类名定义的），其代码大致结构为<code>def this(...) {}</code>。若一个类如果没有显式定义主构造器，则编译器会自动生成一个无参的主构造器。</p>
+<p>必须注意的是，每个辅助构造器都必须以一个对先前已定义的其他辅助构造器或者主构造器的调用开始。</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2018/05/18/Scala - 有关变量赋值的问题/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Scala - 有关变量赋值的问题</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2018/05/07/寻找一种更快更高效的方法/">
+        <span class="next-text nav-default">寻找一种更快更高效的方法</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

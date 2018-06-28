@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="心跳机制"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/08/28/心跳机制/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 心跳机制 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          心跳机制
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-08-28
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#心跳机制及基本实现"><span class="toc-text">心跳机制及基本实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是心跳机制"><span class="toc-text">什么是心跳机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一般的实现机制"><span class="toc-text">一般的实现机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端实现"><span class="toc-text">客户端实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器端实现"><span class="toc-text">服务器端实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#尝实现"><span class="toc-text">尝实现</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h1 id="心跳机制及基本实现"><a href="#心跳机制及基本实现" class="headerlink" title="心跳机制及基本实现"></a>心跳机制及基本实现</h1><h3 id="什么是心跳机制"><a href="#什么是心跳机制" class="headerlink" title="什么是心跳机制"></a>什么是心跳机制</h3><p>心跳机制是定时发送一个自定义的结构体（心跳包），让对方知道自己还活着，以确保连接的有效性的机制。这种机制在分布式系统中十分常见，也是确保分布式系统中的主机是否存在的有效机制之一。</p>
+<h3 id="一般的实现机制"><a href="#一般的实现机制" class="headerlink" title="一般的实现机制"></a>一般的实现机制</h3><p>心跳机制一般会有两种，客户端实现和服务器端实现。</p>
+<h4 id="客户端实现"><a href="#客户端实现" class="headerlink" title="客户端实现"></a>客户端实现</h4><p>客户端通过本机与服务器端连接后获得的 Socket 对象，在一定时间间隔中，发送附加有效信息的心跳包给服务器端。服务器端正确接收后，在服务器端上以适当的形式保存该客户端发送心跳包时间，以便用于检测客户端在规定的超时间隔内依然是否存在。</p>
+<h4 id="服务器端实现"><a href="#服务器端实现" class="headerlink" title="服务器端实现"></a>服务器端实现</h4><p>服务器端需要保留所有已连接的客户端 Socket 对象，并在一定时间间隔中，发送空载的心跳包给所有客户端，并在本机中维护一个发送时间计时器。客户端正确接收到心跳包后，回传给服务器端一个附加有效信息的心跳包，用于证明客户端依然存在。若服务器端在计时器超时之后，仍没有收到客户端发送来的心跳包，可视为客户端断开连接。</p>
+<h3 id="尝实现"><a href="#尝实现" class="headerlink" title="尝实现"></a>尝实现</h3><p>自己觉得好玩就尝试去实现，放在了 github，代码比较粗糙</p>
+<p>Github: <a href="https://github.com/jianpeng957/heartbeat" target="_blank" rel="external">https://github.com/jianpeng957/heartbeat</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/09/01/Android 进行 HTTPS 网络通信/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Android 进行 HTTPS 网络通信</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/08/07/记得刷牙！/">
+        <span class="next-text nav-default">记得刷牙！</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

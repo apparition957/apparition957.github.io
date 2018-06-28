@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="设计模式笔记 – 单例模式（Singleton Patttern）"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/16/设计模式笔记-–-单例模式（Singleton-Patttern）/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 设计模式笔记 – 单例模式（Singleton Patttern） - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          设计模式笔记 – 单例模式（Singleton Patttern）
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-16
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/设计模式/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#模式定义"><span class="toc-text">模式定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式结构"><span class="toc-text">模式结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式实例"><span class="toc-text">模式实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式分析"><span class="toc-text">模式分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#传统实现方式引发的多线程问题："><span class="toc-text">传统实现方式引发的多线程问题：</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><blockquote>
+<p>单例模式（Singleton Pattern）确保某一个类只有一个实例，而且自行实例化并向整个系统提供该唯一实例。这个类称为单例类，它提供全局访问的方法。</p>
+<p>单例模式有三个要点：</p>
+<ul>
+<li>某个类中有一个实例</li>
+<li>它必须自行创建这个实例</li>
+<li>它必须自行向整个系统提供这个实例</li>
+</ul>
+</blockquote>
+<hr>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>单例模式包含如下角色：</p>
+<ul>
+<li>Singleton：单例</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F.JPG" alt="img"></p>
+<hr>
+<h4 id="模式实例"><a href="#模式实例" class="headerlink" title="模式实例"></a>模式实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">// Singleton - 单例</div><div class="line">public class Singleton &#123;</div><div class="line">  	private static Singleton singleton;</div><div class="line">  </div><div class="line">  	// 设置Singleton的构造器为私有，即外部不可实例化该类</div><div class="line">  	private Singleton() &#123;</div><div class="line">      	;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	// 这是其中一种实现方式，但并不能保证在多线程情况下安全</div><div class="line">  	public static Singleton getInstance() &#123;</div><div class="line">    	if (singleton == null) &#123;</div><div class="line">          	singleton = new Singleton();</div><div class="line">    	&#125;</div><div class="line">      </div><div class="line">      	return singleton;</div><div class="line">  	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
+<li>单例模式的目的是保证一个类仅有一个实例，并提供一个访问它的全局访问点。单例模式包含的角色有且只有一个。</li>
+<li>单例模式拥有一个私有构造函数，确保用户无法通过new关键字直接实例化它。除此之外，该模式中包含一个静态私有成员变量与静态公有的工厂方法，该工厂方法负责检验实例的存在性并实例化自己，然后存储在静态成员变量中，以确保只有一个实例被创建。</li>
+</ul>
+<p><strong>单例模式的优点：</strong></p>
+<ul>
+<li>提供了对唯一实例的受控访问。因为单例类封装了它的唯一实例，所以它可以严格控制客户怎样或何时访问它，并为设计及开发团队提供了共享的概念。</li>
+<li>由于在系统内存中只存在一个对象，因此可以节约系统资源，对于一些需要频繁创建和销毁的对象，单例模式无疑提高了系统的性能。</li>
+<li>允许可变数目的实例。可以基于单例模式的思想进行扩展，使用与单例控制相似的方法来获取指定数目的实例。</li>
+</ul>
+<p><strong>单例模式的缺点：</strong></p>
+<ul>
+<li>单例类不能被继承（因为单例类的私有构造器对外不可见），也无法继承（因为继承，则必须确保父类也是单例类，才能确保一致性，但父类也是私有构造器，对子类不可见），对单例类的扩展有很大的难度。</li>
+<li>单例类的职责过重，在一定程度上违背了类应遵循的“单一职责原则”。因为单例类即充当了工厂角色，提供工厂方法，同时也充当了产品角色，包含一些业务方法，将产品的创建和产品的本身的功能耦合在一起。</li>
+</ul>
+<hr>
+<h4 id="传统实现方式引发的多线程问题："><a href="#传统实现方式引发的多线程问题：" class="headerlink" title="传统实现方式引发的多线程问题："></a>传统实现方式引发的多线程问题：</h4><p>在多线程问题上，单例模式中传统的实现方式会在多个线程第一次同时访问创建实例的方法时，产生多个对象。</p>
+<blockquote>
+<p>线程A调用getInstance()，判断singleton为空并创建Singleton对象，同时线程B也调用getInstance()，恰巧也判断singleton为空，继而创建了第二个Singleton对象。这样一来延伸至若干个线程也这么做，后果不堪设想。</p>
+</blockquote>
+<p>以下有不同的解决方式，各有优缺点：</p>
+<ul>
+<li>在单例类中静态变量中直接赋值，确保每次获取该类的实例中只有一个。但是这样就无法做到按需加载的目的，容易造成浪费资源。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;</div><div class="line">  	private static Singleton singleton = new Singleton();</div><div class="line">  </div><div class="line">  	private Singleton() &#123;</div><div class="line">      	;</div><div class="line">  	&#125;</div><div class="line"></div><div class="line">  	public static Singleton getInstance() &#123;</div><div class="line">      	return singleton;</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>在单例类的传统的获取实例方法中，增加synchronized同步块。虽能做到同步加载，但每次获取该实例，都需要进行同步检查，性能会有所下降。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;</div><div class="line">  	private static Singleton singleton;</div><div class="line">  </div><div class="line">  	private Singleton() &#123;</div><div class="line">      	;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public static synchronized Singleton getInstance() &#123;</div><div class="line">      	if (singleton == null) &#123;</div><div class="line">          	singleton = new Singleton();</div><div class="line">      	&#125;</div><div class="line">      	</div><div class="line">      	return singleton;</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>在单例类中的静态变量添加volatile关键字，并使用“双重检查加锁”机制。只有在对象不存在的时候使用同步。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;</div><div class="line">  	/*</div><div class="line">  	 * 当把变量声明为volatile类型后，编译器与运行时都会注意到这个变量是</div><div class="line">  	 * 共享的，因此不会将该变量上的操作与其他内存操作一起重排序。</div><div class="line">  	 * volatile变量不会被缓存在寄存器或者对其他处理器不可见的地方，因此</div><div class="line">  	 * 在读取volatile类型的变量时总会返回最新写入的值。</div><div class="line">  	 */</div><div class="line">  	private volatile static Singleton singleton;</div><div class="line">  </div><div class="line">  	private Singleton() &#123;</div><div class="line">      	;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public static Singleton getInstance() &#123;</div><div class="line">      </div><div class="line">      	// 只有第一次才彻底往下执行</div><div class="line">      	if (singleton == null) &#123;</div><div class="line">          </div><div class="line">          	// 执行此同步块时，确保线程安全</div><div class="line">          	synchronized (Singleton.class) &#123;</div><div class="line">              </div><div class="line">              	/* 当有多个线程同时访问时，会进行排队，若不进行二次判</div><div class="line">              	 * 断，当第一个线程访问结束已创建对象时，第二个线程紧接</div><div class="line">              	 * 着访问，仍会再次创建对象，不符合单例模式的思想。</div><div class="line">              	 */</div><div class="line">              	if (singleton == null) &#123;</div><div class="line">                  	singleton == new Singleton();</div><div class="line">              	&#125;</div><div class="line">          	&#125;</div><div class="line">      	&#125;</div><div class="line">      </div><div class="line">      	return singleton;</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/singleton.html" target="_blank" rel="external">https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/singleton.html</a></p>
+<p>[2] <a href="http://www.cnblogs.com/zhengbin/p/5654805.html" target="_blank" rel="external">http://www.cnblogs.com/zhengbin/p/5654805.html</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/16/设计模式笔记-命令模式（Command-Pattern）/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">设计模式笔记 - 命令模式（Command Pattern）</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/03/15/设计模式笔记-抽象工厂模式（Abstract-Factory-Pattern）/">
+        <span class="next-text nav-default">设计模式笔记 - 抽象工厂模式（Abstract Factory Pattern）</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

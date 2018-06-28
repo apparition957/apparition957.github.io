@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="PO/VO/BO/DTO/DAO/POJO相关概念"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/07/PO-VO-BO-DTO-DAO-POJO相关概念/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> PO/VO/BO/DTO/DAO/POJO相关概念 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          PO/VO/BO/DTO/DAO/POJO相关概念
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-07
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/Spring/">Spring</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#PO-Persistant-Object-持久化对象"><span class="toc-text">PO(Persistant Object) - 持久化对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VO-Value-Object-值对象"><span class="toc-text">VO(Value Object) - 值对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BO-Business-Object-业务对象"><span class="toc-text">BO(Business Object) - 业务对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DTO-Data-Transfer-Object-数据传输对象"><span class="toc-text">DTO(Data Transfer Object) - 数据传输对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DAO-Data-Access-Object-数据访问对象"><span class="toc-text">DAO(Data Access Object) - 数据访问对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#POJO-Plain-Old-Java-Object-普通Java对象"><span class="toc-text">POJO(Plain Old Java Object) - 普通Java对象</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h4 id="PO-Persistant-Object-持久化对象"><a href="#PO-Persistant-Object-持久化对象" class="headerlink" title="PO(Persistant Object) - 持久化对象"></a>PO(Persistant Object) - 持久化对象</h4><p>在ORM(Object-Relation Mapping<strong>，</strong>对象关系映射)中，PO通常对应数据库当中的数据模型<strong>，</strong>是与数据库中的表映射出来的java对象。<br><strong>最简单的PO对应于数据库中的某表的一条记录</strong>，<strong>多条记录可以作为PO的集合</strong>。<strong>PO当中不应该含有任何对数据库的操作。</strong></p>
+<hr>
+<h4 id="VO-Value-Object-值对象"><a href="#VO-Value-Object-值对象" class="headerlink" title="VO(Value Object) - 值对象"></a>VO(Value Object) - 值对象</h4><p>通过new创建的Java对象<strong>，</strong>可以根据业务的需求进行个性化定制<strong>。</strong></p>
+<p><strong>VO通常用于业务层不同模块之间进行数据传递，和PO一样仅仅包含数据。</strong></p>
+<p><strong>PO用于数据层，VO用于业务逻辑层，两者所负责的区域不同。</strong></p>
+<hr>
+<h4 id="BO-Business-Object-业务对象"><a href="#BO-Business-Object-业务对象" class="headerlink" title="BO(Business Object) - 业务对象"></a>BO(Business Object) - 业务对象</h4><p><strong>封装业务逻辑的Java对象，通过调用DAO方法，结合PO、VO进行业务操作。</strong></p>
+<p>表示应用程序领域内“事物”的所有实体类。这些实体类驻留在服务器上<strong>，</strong>并利用服务类来协助完成它们的职责<strong>。</strong></p>
+<hr>
+<h4 id="DTO-Data-Transfer-Object-数据传输对象"><a href="#DTO-Data-Transfer-Object-数据传输对象" class="headerlink" title="DTO(Data Transfer Object) - 数据传输对象"></a>DTO(Data Transfer Object) - 数据传输对象</h4><p><strong>根据业务逻辑获取相应的PO集合，对集合中PO内数据进行校验/封装，返回调用方需要的数据。</strong></p>
+<p>通常用于业务逻辑层与表现层之间通过网络进行数据传递<strong>，</strong>可以有效减少请求次数<strong>，</strong>降低延迟<strong>。</strong></p>
+<hr>
+<h4 id="DAO-Data-Access-Object-数据访问对象"><a href="#DAO-Data-Access-Object-数据访问对象" class="headerlink" title="DAO(Data Access Object) - 数据访问对象"></a>DAO(Data Access Object) - 数据访问对象</h4><p>封装对数据库的访问<strong>，</strong>结合PO/POJO对数据库进行相应的操作<strong>，</strong>为业务逻辑层提供相应的接口<strong>。</strong></p>
+<hr>
+<h4 id="POJO-Plain-Old-Java-Object-普通Java对象"><a href="#POJO-Plain-Old-Java-Object-普通Java对象" class="headerlink" title="POJO(Plain Old Java Object) - 普通Java对象"></a>POJO(Plain Old Java Object) - 普通Java对象</h4><p>传统意义的 JavaBean 对象<strong>，</strong>只有属性以及相应的getter/setter方法<strong>，</strong>不包含任何逻辑代码<strong>。</strong></p>
+<hr>
+<p><img src="http://on83riher.bkt.clouddn.com/09113536_hMNM.png" alt="img"></p>
+<hr>
+<p>参考资料:</p>
+<p>[1] <a href="http://blog.csdn.net/gaoyunpeng/article/details/2093211" target="_blank" rel="external">http://blog.csdn.net/gaoyunpeng/article/details/2093211</a></p>
+<p>[2] <a href="http://www.cnblogs.com/bluestorm/archive/2012/09/26/2703234.html" target="_blank" rel="external">http://www.cnblogs.com/bluestorm/archive/2012/09/26/2703234.html</a></p>
+<p>[3] <a href="https://my.oschina.net/liting/blog/354077" target="_blank" rel="external">https://my.oschina.net/liting/blog/354077</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/08/Robbin中-No-instances-available-for-XX-亦或者遇到-NULL-错误/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Robbin中 No instances available for XX 亦或者遇到 NULL 错误</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/03/06/MySQL基本概念-主键-外键-索引/">
+        <span class="next-text nav-default">MySQL基本概念 -- 主键/外键/索引</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

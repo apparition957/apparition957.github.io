@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="数据库语言的五大分类"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/10/数据库语言的五大分类/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 数据库语言的五大分类 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          数据库语言的五大分类
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-10
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        <blockquote>
+<p>SQL语言分类有五大类：数据定义语言（DDL）、数据操纵语言（DML）、数据查询语言（DQL)、数据控制语言（DCL）和事务处理语言（TPL）。</p>
+</blockquote>
+<hr>
+<p><strong>数据定义语言</strong></p>
+<p>数据定义语言（Data Definition Language，DDL）是SQL语言中用于创建或删除数据库对象的语句。这类语句也可以定义数据表对象的主外键、索引等要素。主要语句如下：</p>
+<ul>
+<li>CREATE DATABASE - 创建数据库</li>
+<li>DROP DATABASE - 删除数据库</li>
+<li>ALTER DATABASE - 修改数据库属性</li>
+<li>CREATE TABLE - 创建数据库表</li>
+<li>DROP TABLE - 删除数据库表</li>
+<li>CREATE INDEX - 创建索引</li>
+<li>DROP INDEX - 删除索引</li>
+</ul>
+<hr>
+<p><strong>数据操纵语言</strong></p>
+<p>数据操纵语言（Data Manipulation Language, DML）是SQL语言中用于添加、修改、删除数据的语句，<strong>需要进行事务提交（commit）</strong>。主要语句如下：</p>
+<ul>
+<li>INSERT - 向数据库表中插入数据</li>
+<li>UPDATE - 更新数据库表中的数据</li>
+<li>DELETE - 从数据库表中删除数据</li>
+</ul>
+<hr>
+<p><strong>数据查询语言</strong></p>
+<p>数据查询语言（Data Query Language, DQL）是SQL语言中用于对数据库进行查询的语句。主要语句如下：</p>
+<ul>
+<li>SELECT - 从至少一个数据库表中查询数据</li>
+</ul>
+<hr>
+<p><strong>数据控制语言</strong></p>
+<p>数据控制语言（Data Control Language, DCL）是SQL语言用于对数据对象访问权进行控制的语句。主要语句如下：</p>
+<ul>
+<li>GRANT - 授予用户对数据库对象的权限</li>
+<li>DENY - 拒绝授予用户对数据库对象的权限</li>
+<li>REVOKE - 撤销用户对数据库对象的权限</li>
+</ul>
+<hr>
+<p><strong>事务处理语言</strong></p>
+<p>事务处理语言（Transaction Process Language, TPL）是SQL语言用于数据库内部事务处理的语句。主要语句如下：</p>
+<ul>
+<li>BEGIN TRANSACTION - 开始事务</li>
+<li>COMMIT - 提交事务</li>
+<li>ROLLBACK - 回滚事务</li>
+</ul>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/11/范式设计与反范式设计/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">范式设计与反范式设计</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/03/09/Eureka客户端强制关闭-注册中心界面中客户端依然以UP状态存在/">
+        <span class="next-text nav-default">Eureka客户端强制关闭, 注册中心界面中客户端依然以UP状态存在</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

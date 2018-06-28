@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="Java关键字 - final"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/10/31/Java关键字-final/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> Java关键字 - final - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Java关键字 - final
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-10-31
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么使用final"><span class="toc-text">怎么使用final</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#final变量"><span class="toc-text">final变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#final方法"><span class="toc-text">final方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#final参数"><span class="toc-text">final参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#final类"><span class="toc-text">final类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#final能提高性能吗？"><span class="toc-text">final能提高性能吗？</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>在Java中，我们可以通过<code>final</code>来表示某个变量、某个方法，甚至是某个类是“不变的”或“无法改变的”。</p>
+<h2 id="怎么使用final"><a href="#怎么使用final" class="headerlink" title="怎么使用final"></a>怎么使用final</h2><h3 id="final变量"><a href="#final变量" class="headerlink" title="final变量"></a>final变量</h3><p><code>final</code>修饰的变量称之为常量，其主要应用于以下地方：</p>
+<ul>
+<li>编译器常量，永远不可改变。</li>
+<li>运行其初始化时，我们希望它不会被改变。</li>
+</ul>
+<p>对于编译器常量，它在类加载的过程就已经完成了初始化，所以当类加载完成后是不可改变的。而对于运行时变量，也称为空白<code>final</code>，即代表先声明，后赋值这一过程。</p>
+<p>运行时变量可分为基本数据类型与引用数据类型，其中基本数据类型不可变的是内容，而引用数据类型的不可变的是引用，引用所指的对象内容是可变的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> SIZE;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String test = <span class="string">"final can't change"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Test</span><span class="params">(<span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">      	<span class="comment">// 运行期变量，可以根据传递的值来声明不同的常量</span></div><div class="line">        <span class="keyword">this</span>.SIZE = size;</div><div class="line">      	<span class="comment">// 编译器报错，因为test被final修饰，其在编译期间已确定的值，所以不可改变</span></div><div class="line">        <span class="keyword">this</span>.test = <span class="string">"final??"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="final方法"><a href="#final方法" class="headerlink" title="final方法"></a>final方法</h3><p>被<code>final</code>修饰的方法都是不能被继承、更改的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"father can't change"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> Son().hello();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</div><div class="line">  	<span class="comment">// 编译器报错，因为Father类中的hello()被final修饰，所以子类是不能够重写的</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"hhello"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="final参数"><a href="#final参数" class="headerlink" title="final参数"></a>final参数</h3><p>被<code>final</code>修饰的参数都是不可变的，即在函数作用域内，该参数的值都是不可变的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">(<span class="keyword">final</span> String str)</span> </span>&#123;</div><div class="line">	<span class="comment">// 编译出错</span></div><div class="line">  	str = <span class="string">"world"</span>;</div><div class="line">  	System.out.println(str);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="final类"><a href="#final类" class="headerlink" title="final类"></a>final类</h3><p>被<code>final</code>修饰的类是不允许被继承的，所以可视该类为最终类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 编译出错，Father类不可被继承</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="final能提高性能吗？"><a href="#final能提高性能吗？" class="headerlink" title="final能提高性能吗？"></a>final能提高性能吗？</h2><p>基于<a href="https://www.zhihu.com/question/21762917" target="_blank" rel="external">JVM对于声明为final的局部变量（local var）做了哪些性能优化？</a>与<a href="http://codewenda.com/%E5%9C%A8java%E4%B8%AD%E4%BD%BF%E7%94%A8final%E5%85%B3%E9%94%AE%E5%AD%97%E4%BC%9A%E6%8F%90%E9%AB%98%E6%80%A7%E8%83%BD%E5%90%97%EF%BC%9F/" target="_blank" rel="external">在Java中使用final关键字会提高性能吗？</a>两文，可以归纳总结出<code>final</code>关键字并不会从性能上有很大的提升，甚至可以说是没有。反而要求设计者在程序设计中，不要过分追求性能，需要注重的是代码的可读性与可维护性。</p>
+<hr>
+<p>参考资料</p>
+<p><a href="http://www.cnblogs.com/chenssy/p/3428180.html" target="_blank" rel="external">java提高篇(十五)—–关键字final</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/10/31/Java抽象类与接口/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Java抽象类与接口</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/10/31/Java关键字-static/">
+        <span class="next-text nav-default">Java关键字 - static</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

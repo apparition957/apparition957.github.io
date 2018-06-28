@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="Executor 框架 - 线程池"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/11/14/Executor 框架 - 线程池/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> Executor 框架 - 线程池 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Executor 框架 - 线程池
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-14
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重要成员"><span class="toc-text">重要成员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工作流程"><span class="toc-text">工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拒绝策略"><span class="toc-text">拒绝策略</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>线程池（Thread Pool）是一种线程使用模式。当线程使用不当，创建过多时会带来调度的开销，进而影响缓存局部性和整体性能。而线程池维护着若干个线程，等待着监督管理者分配可并发执行的任务。这避免了在处理短时间任务时创建与销毁线程的代价。</p>
+<h2 id="重要成员"><a href="#重要成员" class="headerlink" title="重要成员"></a>重要成员</h2><p>在 Java 中，线程池一般都是通过 ThreadPoolExecutor 来构建的，下面将介绍 ThreadPoolExecutor 的构造函数部分。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></div><div class="line"><span class="function"><span class="params">                          <span class="keyword">int</span> maximumPoolSize,</span></span></div><div class="line"><span class="function"><span class="params">                          <span class="keyword">long</span> keepAliveTime,</span></span></div><div class="line"><span class="function"><span class="params">                          TimeUnit unit,</span></span></div><div class="line"><span class="function"><span class="params">                          BlockingQueue&lt;Runnable&gt; workQueue,</span></span></div><div class="line"><span class="function"><span class="params">                          ThreadFactory threadFactory,</span></span></div><div class="line"><span class="function"><span class="params">                          RejectedExecutionHandler handler)</span></span></div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>corePoolSize</td>
+<td>线程池中所保存的核心线程数。线程池启动时默认是空的，只有任务来临时才会创建线程以处理请求。在 corePoolSize 范围内已创建的线程即使处于空闲状态，除非设置了 allowCoreThreadTimeOut，否则不会被销毁</td>
+</tr>
+<tr>
+<td>maximumPoolSize</td>
+<td>线程池允许创建的最大线程数。</td>
+</tr>
+<tr>
+<td>keepAliveTime</td>
+<td>当线程池中的线程超过了 corePoolSize 的范围时，终止过多的空闲线程的时间</td>
+</tr>
+<tr>
+<td>unit</td>
+<td>keepAliveTime 的时间单位</td>
+</tr>
+<tr>
+<td>workQueue</td>
+<td>用于容纳所有待执行的任务的工作队列。该工作队列只能够容纳实通过 execute() 方法提交的实现 Runnable 接口的任务</td>
+</tr>
+<tr>
+<td>threadFactory</td>
+<td>用于 executor 如何创建一个线程（一般使用默认线程工厂DefaultThreadFactory）</td>
+</tr>
+<tr>
+<td>handler</td>
+<td>当线程池与工作队列的容量已满时，任务提交被拒绝时所采取的拒绝策略。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p>以下流程为向线程池中正常提交任务时的基本流程：</p>
+<ol>
+<li>线程池判断核心线程池（corePoolSize）里的线程是否都在执行任务，如果不是，则创建一个新的工作线程（或复用一个工作线程）来执行任务。如果核心线程池里的线程都在执行任务，则执行第二步。</li>
+<li>线程池判断工作队列（workQueue）是否已经满了。如果工作队列没有满，则将新提交的任务存储到工作队列中，等待被调度执行。如果工作队列已满，则执行第三步。</li>
+<li>线程池判断线程池的线程是否已经满了（maximumPoolSize）。如果没有，则创建一个新的工作线程来执行任务。如果已经满了，则根据线程池的拒绝策略来处理该任务。</li>
+</ol>
+<p><img src="http://on83riher.bkt.clouddn.com/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B1.png" alt=""></p>
+<p><img src="http://on83riher.bkt.clouddn.com/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B2.png" alt=""></p>
+<blockquote>
+<p>以上两图均来自于这篇博客<a href="http://blog.csdn.net/fuyuwei2015/article/details/72758179" target="_blank" rel="external">Java线程池(ThreadPoolExecutor)原理分析与使用 - 孙_悟__空</a></p>
+</blockquote>
+<h2 id="拒绝策略"><a href="#拒绝策略" class="headerlink" title="拒绝策略"></a>拒绝策略</h2><p>线程池中已经定义了四种任务提交的拒绝策略（以下策略我都贴出源码部分，怕翻译有问题）：</p>
+<ul>
+<li>AbortPolicy ：不执行任务，并直接抛出一个运行时异常。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">A handler <span class="keyword">for</span> rejected tasks that <span class="keyword">throws</span> a RejectedExecutionException</div></pre></td></tr></table></figure>
+<ul>
+<li>DiscardPolicy ：（silently）直接抛弃任务，其内部实现是一个空方法。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">A handler <span class="keyword">for</span> rejected tasks that silently discards the rejected task.</div></pre></td></tr></table></figure>
+<ul>
+<li>DiscardOldestPolicy ： 从工作队列中抛弃最老的未处理的任务，并尝试重新执行该任务。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">A handler <span class="keyword">for</span> rejected tasks that discards the oldest unhandled request </div><div class="line">and then retries &#123;<span class="meta">@code</span> execute&#125;, unless the executor is shut down, in </div><div class="line">which <span class="keyword">case</span> the task is discarded.</div></pre></td></tr></table></figure>
+<ul>
+<li>CallerRunsPolicy ： 线程池直接创建一个 calling 线程来执行任务。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">A handler <span class="keyword">for</span> rejected tasks that runs the rejected task directly in the </div><div class="line">calling thread of the &#123;<span class="meta">@code</span> execute&#125; method, unless the executor has </div><div class="line">been shut down, in which <span class="keyword">case</span> the task is discarded.</div></pre></td></tr></table></figure>
+<hr>
+<p>参考资料</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E7%BA%BF%E7%A8%8B%E6%B1%A0" target="_blank" rel="external">线程池 - 维基百科，自由的百科全书</a></p>
+<p><a href="http://www.cnblogs.com/nayitian/p/3262031.html" target="_blank" rel="external">Java：多线程，线程池，ThreadPoolExecutor详解</a></p>
+<p><a href="http://blog.csdn.net/fuyuwei2015/article/details/72758179" target="_blank" rel="external">Java线程池(ThreadPoolExecutor)原理分析与使用</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/11/26/SpringMVC源码分析-DispatcherServlet初始化过程/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">SpringMVC源码分析 - DispatcherServlet初始化过程</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/11/14/Executor 框架 - 概念/">
+        <span class="next-text nav-default">Executor 框架 - 概念</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

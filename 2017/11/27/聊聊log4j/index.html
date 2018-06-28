@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="聊聊log4j"/>
+
+
+
+
+  <meta name="keywords" content="log4j, APPARITION957" />
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/11/27/聊聊log4j/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 聊聊log4j - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          聊聊log4j
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-27
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概要"><span class="toc-text">概要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#与-slf4j-的关系"><span class="toc-text">与 slf4j 的关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何配置"><span class="toc-text">如何配置</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><blockquote>
+<p>最近在学习 Zookeeper 的时候，遇到了不少问题，想要在控制台中查看日志但是记录却死活不显示，于是找到了 /etc/zookeeper/log4j.properties 文件，但发现配置选项看不懂，想到之前在写 Web 应用的时候也是拿来就用，都没涉及到日志配置文件这一层面，所以打算整理一番。</p>
+</blockquote>
+<p>log4j 是一个用 Java 编写的可靠，快速和灵活的日志框架（API），它在 Apache 软件许可下发布。log4j 是高度可配置的，并可通过在运行时的外部文件配置。它根据记录的优先级别，并提供机制，以指示记录信息到许多的目的地，诸如：数据库，文件，控制台，UNIX 系统日志等。</p>
+<h2 id="与-slf4j-的关系"><a href="#与-slf4j-的关系" class="headerlink" title="与 slf4j 的关系"></a>与 slf4j 的关系</h2><p>在实际开发当中，常常有人提醒我们，要使用 slf4j 来记录日志，为什么呢？</p>
+<p>下面是 sl4fj 官网的介绍。</p>
+<blockquote>
+<p>The Simple Logging Facade for Java (SLF4J) serves as a simple facade or abstraction for various logging frameworks (e.g. java.util.logging, logback, log4j) allowing the end user to plug in the desired logging framework at deployment time.</p>
+</blockquote>
+<p>slf4j（Simple Logging Facade For Java，Java 简易日志门面）是一套封装 Logging 框架的抽象层，而 log4j 是 slf4j 下一个具体实现的日志框架，其中还有许许多多的成熟的日志框架，如 logback 等，也是从属于 slf4j。</p>
+<p>使用 slf4j 可以在应用层中屏蔽底层的日志框架，而不需理会过多的日志配置、管理等操作。</p>
+<h2 id="如何配置"><a href="#如何配置" class="headerlink" title="如何配置"></a>如何配置</h2><p>log4j 配置文件的基本格式如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#配置根Logger</div><div class="line">log4j.rootLogger = [level], appenderName1, appenderName2, ...</div><div class="line"></div><div class="line">#配置日志信息输出目的地 Appender</div><div class="line">log4j.appender.appenderName = fully.qualified.name.of.appender.class </div><div class="line">log4j.appender.appenderName.option1 = value1 </div><div class="line">log4j.appender.appenderName.optionN = valueN </div><div class="line"></div><div class="line">#配置日志信息的格式（布局）</div><div class="line">log4j.appender.appenderName.layout = fully.qualified.name.of.layout.class</div><div class="line">log4j.appender.appenderName.layout.option1 = value1 </div><div class="line">log4j.appender.appenderName.layout.optionN = valueN</div></pre></td></tr></table></figure>
+<p>其中：</p>
+<ul>
+<li>[level] - 日志输出级别，可分为以下级别（级别程度从上到下递增）：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ALL</strong></td>
+<td>所有级别，包括定制级别。</td>
+</tr>
+<tr>
+<td><strong>TRACE</strong></td>
+<td>比 DEBUG 级别的粒度更细。</td>
+</tr>
+<tr>
+<td><strong>DEBUG</strong></td>
+<td>指明细致的事件信息，对调试应用最有用。</td>
+</tr>
+<tr>
+<td><strong>INFO</strong></td>
+<td>指明描述信息，从粗粒度上描述了应用运行过程。</td>
+</tr>
+<tr>
+<td><strong>WARN</strong></td>
+<td>指明潜在的有害状况。</td>
+</tr>
+<tr>
+<td><strong>ERROR</strong></td>
+<td>指明错误事件，但应用可能还能继续运行。</td>
+</tr>
+<tr>
+<td><strong>FATAL</strong></td>
+<td>指明非常严重的错误事件，可能会导致应用终止执行。</td>
+</tr>
+<tr>
+<td><strong>OFF</strong></td>
+<td>最高级别，用于关闭日志。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Appender - 日志输出目的地，常用的 Appender 有以下几种：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Appender</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>org.apache.log4j.ConsoleAppender</strong></td>
+<td>输出至控制台</td>
+</tr>
+<tr>
+<td><strong>org.apache.log4j.FileAppender</strong></td>
+<td>输出至文件</td>
+</tr>
+<tr>
+<td><strong>org.apache.log4j.DailyRollingFileAppender</strong></td>
+<td>每天产生一个日志文件</td>
+</tr>
+<tr>
+<td><strong>org.apache.log4j.RollingFileAppender</strong></td>
+<td>文件容量到达指定大小时产生一个新的文件</td>
+</tr>
+<tr>
+<td><strong>org.apache.log4j.WriterAppender</strong></td>
+<td>将日志信息以输出流格式发送到任意指定地方</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Layout - 日志输出格式，常用的 Layout 有以下几种：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Layout</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>org.apache.log4j.HTMLLayout</strong></td>
+<td>以 HTML 表格形式布局</td>
+</tr>
+<tr>
+<td><strong>org.apache.log4j.PatternLauout</strong>（常用）</td>
+<td>以格式化的方式定制布局</td>
+</tr>
+<tr>
+<td><strong>org.apache.log4j.SimpleLayout</strong></td>
+<td>包含日志信息的级别和信息字符串</td>
+</tr>
+<tr>
+<td><strong>org.apache.log4j.TTCCLayout</strong></td>
+<td>包含日志所在线程、产生时间、类名和日志内容等</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>打印参数（格式化输出格式，一般对应于 org.apache.log4j.PatternLauout）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>%m</strong></td>
+<td>输出代码中指定的消息</td>
+</tr>
+<tr>
+<td><strong>%p</strong></td>
+<td>输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL</td>
+</tr>
+<tr>
+<td><strong>%r</strong></td>
+<td>输出自应用启动到输出该log信息耗费的毫秒数</td>
+</tr>
+<tr>
+<td><strong>%c</strong></td>
+<td>输出所属的类目，通常就是所在类的全名。%c{1} 可取当前类名称</td>
+</tr>
+<tr>
+<td><strong>%t</strong></td>
+<td>输出产生该日志事件的线程名</td>
+</tr>
+<tr>
+<td><strong>%n </strong></td>
+<td>输出一个回车换行符，Windows平台为“\r\n”，Unix平台为“\n”</td>
+</tr>
+<tr>
+<td><strong>%d</strong></td>
+<td>输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式。标准格式为 %d{yyyy-MM-dd HH:mm:ss}</td>
+</tr>
+<tr>
+<td><strong>%l </strong></td>
+<td>输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>option - 可选配置。一般来说每个 Appender 或者 Layout 都有默认配置，用户使用自定义日志配置，如指定输出地点等。常用的 option 有以下几种：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>file</strong></td>
+<td>日志输出至指定文件</td>
+</tr>
+<tr>
+<td><strong>thresold</strong></td>
+<td>定制日志消息的输出在不同 level 时的行为，</td>
+</tr>
+<tr>
+<td><strong>append</strong></td>
+<td>是否追加至日志文件中</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>参考资料：</p>
+<p><a href="http://wiki.jikexueyuan.com/project/log4j/overview.html" target="_blank" rel="external">Log4J 教程 - 极客学院</a></p>
+<p><a href="http://www.cnblogs.com/ITEagle/archive/2010/04/23/1718365.html" target="_blank" rel="external">log4j.properties配置详解</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/log4j/">log4j</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2018/01/22/大三上学期总结/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">大三上学期总结</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/11/26/SpringMVC源码分析-DispatcherServlet请求处理过程/">
+        <span class="next-text nav-default">SpringMVC源码分析 - DispatcherServlet请求处理过程</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="ArrayList与LinkedList的循环效率对比"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/10/29/ArrayList与LinkedList的循环效率对比/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> ArrayList与LinkedList的循环效率对比 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          ArrayList与LinkedList的循环效率对比
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-10-29
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题来源"><span class="toc-text">问题来源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题解释"><span class="toc-text">问题解释</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h2 id="问题来源"><a href="#问题来源" class="headerlink" title="问题来源"></a>问题来源</h2><p><code>for</code>循环遍历存在这两种方式，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; objects.length; i++);</div><div class="line"><span class="keyword">for</span> (Object object: objects);</div></pre></td></tr></table></figure>
+<p><code>ArrayList</code>与<code>LinkedList</code>两种集合在两种方式的遍历存在着较大的性能差距，下面将以以下测试代码作为范例解释：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForTest</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NUM_SIZE = <span class="number">2000000</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testList</span><span class="params">(List&lt;Integer&gt; list)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</div><div class="line">            list.get(i);</div><div class="line">        &#125;</div><div class="line">        System.out.println(list.getClass().getSimpleName() + <span class="string">"-普通for-花费时间: "</span> + (System.currentTimeMillis() - start) + <span class="string">"ms"</span>);</div><div class="line"></div><div class="line">        start = System.currentTimeMillis();</div><div class="line">        <span class="keyword">for</span> (Integer num: list) &#123;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        System.out.println(list.getClass().getSimpleName() + <span class="string">"-foreach-花费时间: "</span> + (System.currentTimeMillis() - start) + <span class="string">"ms"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        List&lt;Integer&gt; arrayNums = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        List&lt;Integer&gt; linkNums = <span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; NUM_SIZE; i++) &#123;</div><div class="line">            arrayNums.add(i);</div><div class="line">            linkNums.add(i);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        testList(arrayNums);</div><div class="line">        testList(linkNums);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>测试运行结果可得：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ArrayList-普通for-花费时间: 5ms</div><div class="line">ArrayList-foreach-花费时间: 7ms</div><div class="line">LinkedList-普通for-花费时间: 32459ms</div><div class="line">LinkedList-foreach-花费时间: 9ms</div></pre></td></tr></table></figure>
+<p>从上述的结果中，可以看出<code>ArrayList</code>在普通for循环上更胜一筹，而在LinkedList在foreach上效率极高。倘若数据量不断上升，那么这个差距只会不断加大。</p>
+<p>那么为什么会造成上述情况发生呢？</p>
+<h2 id="问题解释"><a href="#问题解释" class="headerlink" title="问题解释"></a>问题解释</h2><p>问题可以从两者的结构体系上分析。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div><div class="line"><span class="class">        </span></div><div class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
+<p>在两者对比中，我们可以发现<code>ArrayList</code>中实现了<code>RandomAccess</code>接口，而<code>LinkedList</code>没有实现。仔细查看RandomAccess的注释解释，如果实现该接口的<code>List</code>，在普通for循环遍历的效率上会快于foreach循环。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * Marker interface used by &lt;tt&gt;List&lt;/tt&gt; implementations to indicate that</span></div><div class="line"><span class="comment"> * they support fast (generally constant time) random access.  The primary</span></div><div class="line"><span class="comment"> * purpose of this interface is to allow generic algorithms to alter their</span></div><div class="line"><span class="comment"> * behavior to provide good performance when applied to either random or</span></div><div class="line"><span class="comment"> * sequential access lists.</span></div><div class="line"><span class="comment"> * List实现所使用的标记接口，用来表明实现了这个接口的list支持快速随机访问(通常在常数时</span></div><div class="line"><span class="comment"> * 间内)。这个接口主要目的在于允许一般的算法更改它们的行为，以便在随机或者顺序访问list</span></div><div class="line"><span class="comment"> * 时有更好的性能。</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * &lt;p&gt;The best algorithms for manipulating random access lists (such as</span></div><div class="line"><span class="comment"> * &lt;tt&gt;ArrayList&lt;/tt&gt;) can produce quadratic behavior when applied to</span></div><div class="line"><span class="comment"> * sequential access lists (such as &lt;tt&gt;LinkedList&lt;/tt&gt;).  Generic list</span></div><div class="line"><span class="comment"> * algorithms are encouraged to check whether the given list is an</span></div><div class="line"><span class="comment"> * &lt;tt&gt;instanceof&lt;/tt&gt; this interface before applying an algorithm that would</span></div><div class="line"><span class="comment"> * provide poor performance if it were applied to a sequential access list,</span></div><div class="line"><span class="comment"> * and to alter their behavior if necessary to guarantee acceptable</span></div><div class="line"><span class="comment"> * performance.</span></div><div class="line"><span class="comment"> * 操作随机访问列表(如ArrayList)的最佳算法在顺序访问列表(如LinkedList)上应用，会产</span></div><div class="line"><span class="comment"> * 生歧义行为。泛型列表的算法鼓励在将某个算法应用于顺序访问列表可能产生较差的性能之前，</span></div><div class="line"><span class="comment"> * 检查给定的列表是不是这个接口的实现，并在有必要的时候修改它们的行为，以保证提供可接受</span></div><div class="line"><span class="comment"> * 的性能。</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * &lt;p&gt;It is recognized that the distinction between random and sequential</span></div><div class="line"><span class="comment"> * access is often fuzzy.  For example, some &lt;tt&gt;List&lt;/tt&gt; implementations</span></div><div class="line"><span class="comment"> * provide asymptotically linear access times if they get huge, but constant</span></div><div class="line"><span class="comment"> * access times in practice.  Such a &lt;tt&gt;List&lt;/tt&gt; implementation</span></div><div class="line"><span class="comment"> * should generally implement this interface.  As a rule of thumb, a</span></div><div class="line"><span class="comment"> * &lt;tt&gt;List&lt;/tt&gt; implementation should implement this interface if,</span></div><div class="line"><span class="comment"> * for typical instances of the class, this loop:</span></div><div class="line"><span class="comment"> * 在界定随机访问与顺序访问的界限一般都是模糊不清的。例如，某些列表在它们拥有大量的数据</span></div><div class="line"><span class="comment"> * 时提供非线性访问时间，但实际上是常量级别的访问时间。这样的接口应该实现该接口。</span></div><div class="line"><span class="comment"> * &lt;pre&gt;</span></div><div class="line"><span class="comment"> *     for (int i=0, n=list.size(); i &amp;lt; n; i++)</span></div><div class="line"><span class="comment"> *         list.get(i);</span></div><div class="line"><span class="comment"> * &lt;/pre&gt;</span></div><div class="line"><span class="comment"> * runs faster than this loop:</span></div><div class="line"><span class="comment"> * 比下面的循环运行速度更快。</span></div><div class="line"><span class="comment"> * &lt;pre&gt;</span></div><div class="line"><span class="comment"> *     for (Iterator i=list.iterator(); i.hasNext(); )</span></div><div class="line"><span class="comment"> *         i.next();</span></div><div class="line"><span class="comment"> * &lt;/pre&gt;</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RandomAccess</span> </span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p>参考资料</p>
+<p><a href="http://www.jianshu.com/p/d5ec2ff72b33" target="_blank" rel="external">Java集合干货系列-（二）LinkedList源码解析</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/10/30/Java异常机制分析/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Java异常机制分析</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/10/29/LinkedList 源码分析/">
+        <span class="next-text nav-default">LinkedList 源码分析</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

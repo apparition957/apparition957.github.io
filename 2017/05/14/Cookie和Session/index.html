@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="Cookie和Session"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/05/14/Cookie和Session/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> Cookie和Session - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Cookie和Session
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-05-14
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/技术笔记/">技术笔记</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie"><span class="toc-text">Cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#用途"><span class="toc-text">用途</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原理"><span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#常见结构"><span class="toc-text">常见结构</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缺陷"><span class="toc-text">缺陷</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Session"><span class="toc-text">Session</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端的Session"><span class="toc-text">客户端的Session</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器端的Session"><span class="toc-text">服务器端的Session</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缺陷-1"><span class="toc-text">缺陷</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考资料："><span class="toc-text">参考资料：</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>在日常生活中，作为用户的我们经常与互联网中的大大小小的网站进行交互，例如查看新闻、购买商品等等。在浏览商品的时候，我们经常会将喜欢的商品暂时加入购物车，以便后面的时候一起购买。但对于同一个商城的若干次页面请求当中，服务器在后台当中是如何判别该购物车是哪一个用户的呢？</p>
+<p><strong>对于一次网络的请求，一般都是基于HTTP，但是HTTP是一种无状态协议（即不保留管理用户数据）</strong>，所以不能够单纯依靠HTTP协议。为了针对这一现象，运生出了<strong>Cookie（面向客户端）</strong>和<strong>Session（面向服务端）</strong>两种通用方案。</p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><blockquote>
+<p>Cookie，中文名称为”小型文本文件“，指某些网站为了辨别用户而存储在用户本地终端上的数据（通常经过加密）。</p>
+</blockquote>
+<hr>
+<h4 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h4><p>在之前的介绍当中，我们谈及到了购物车。当用户选购一件商品的时候，服务器在向用户传递该商品页面的同时，<strong>还附加发送了一段Cookie（Response - Set-Cookie）</strong>。在用户点击加入购物车按钮时，客户端会将该商品的Cookie发送给服务器，这样，服务器就明白该用户的选购了哪些商品。最后，当用户点击查看购物车时，客户端会<strong>发送该用户的Cookie给服务器（Reuqest - Cookie）</strong>，服务器就会回传该用户的购物车记录。</p>
+<p>使用Cookie的另外一个经典场景是当登陆一个网站时，网站往往会请求用户输入用户名和密码，并且用户可以勾选“下次自动登录”。当用户勾选了，那么下次访问同一个网站的时候，用户会自动跳过登录界面，跳转至主页当中。这其中的过程就是，在前一次正常的登陆过程中，服务器回传了包含登录凭据（类似于token）的Cookie，并保存在用户的硬盘空间上，第二次访问时，客户端会自动将该Cookie发送至服务器中，从而无须再次输入凭证，即可成功登陆。</p>
+<hr>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p><img src="http://on83riher.bkt.clouddn.com/1891324-bc6799943027a9a2.png" alt="img"></p>
+<h5 id="常见结构"><a href="#常见结构" class="headerlink" title="常见结构"></a>常见结构</h5><ul>
+<li><p><img src="http://on83riher.bkt.clouddn.com/%E6%8D%95%E8%8E%B7.png" alt="img"></p>
+<p>来源于Amazon</p>
+</li>
+</ul>
+<p>其中Cookie的内部格式常以键值对的形式进行保存，可以是系统规定的，也可以添加自定义的Cookie。以下为常用的Cookie属性。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME=VALUE</td>
+<td>赋予 Cookie 的名称和其值（必须项）</td>
+</tr>
+<tr>
+<td>expires=DATE</td>
+<td>Cookie 的有效期（若不明确指定则默认为浏览器关闭前为止）</td>
+</tr>
+<tr>
+<td>path=PATH</td>
+<td>将服务器上的文件目录作为 Cookie 的适用对象（若不指定则默认为文档所在的目录）</td>
+</tr>
+<tr>
+<td>domain=域名</td>
+<td>作为 Cookie 适用对象的域名（若不指定则默认为创建 Cookie 的服务器的域名）</td>
+</tr>
+<tr>
+<td>Secure</td>
+<td>仅在 HTTPS 安全通信时才会发送 Cookie</td>
+</tr>
+<tr>
+<td>HttpOnly</td>
+<td>加以限制，使 Cookie 不能被 Javascript 脚本访问</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h4><ul>
+<li>Cookie会附加在客户端中的每一个HTTP请求，增加了传输流量。</li>
+<li>Cookie中HTTP中是以明文的方式进行传递（即使进行了值加密也会以加密后的内容传送），倘若保存重要数据的Cookie被窃取（XSS-跨站式脚本），会产生严重的安全性问题。</li>
+<li>Cookie能够发送的数量（最多20个，但通常浏览器支持会大于20个）和大小（最大为4KB）受到限制。</li>
+</ul>
+<hr>
+<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><blockquote>
+<p>Session（会话）是一种持久网络协议，在用户（或用户代理）端和服务器端之间的创建关联，从而起到交换数据包的作用机制。</p>
+</blockquote>
+<p>根据上述的介绍，很难将Session与Cookie进行区别。它们两者都用共同的作用——保存用户信息，但是最本质的区别在于Cookie是保留在客户端的，而Session是保留在服务器端。然而Session的实现却需要服务器端和客户端同时实现才能发挥作用。</p>
+<p>以下以Tomcat为容器的Web应用为例。</p>
+<hr>
+<h4 id="客户端的Session"><a href="#客户端的Session" class="headerlink" title="客户端的Session"></a>客户端的Session</h4><p><img src="http://on83riher.bkt.clouddn.com/%E6%8D%95%E8%8E%B72-1.png" alt="img"></p>
+<p>在用户的第一次发起正常的HTTP请求时，服务器端会在请求中（通常在Cookie当中）查看是否已经存在Session标识，若不存在，服务器端将会根据自动生成Session标识（常为SessionID），并在Response中设置Cookie。若存在，服务器将使用请求中的Session标识，来标识该用户。</p>
+<hr>
+<h4 id="服务器端的Session"><a href="#服务器端的Session" class="headerlink" title="服务器端的Session"></a>服务器端的Session</h4><p><img src="http://on83riher.bkt.clouddn.com/%E6%8D%95%E8%8E%B73.png" alt="img"></p>
+<p>在之后的请求当中，客户端都会附加含有SessionID的Cookie到服务器端。服务器端将鉴别该Cookie中的SessionID，赋予该发起请求的用户。</p>
+<hr>
+<h4 id="缺陷-1"><a href="#缺陷-1" class="headerlink" title="缺陷"></a>缺陷</h4><ul>
+<li>生成Session的文件是保留在内存当中。倘若服务器每天接受千万次请求，那么服务器的资源肯定会被消耗殆尽，导致服务器不可用。通常的做法是用Redis保存用户的Session，查询时直接向Redis发出请求即可。</li>
+<li>Session标识通常保存在Cookie当中，若浏览器禁用了Cookie，则导致服务器无法正常识别该用户。另一种可用的方式是URL重写，即直接将SessionID标识写在URL上（以QueryString的形式）</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/%E6%8D%95%E8%8E%B74.png" alt="img"></p>
+<hr>
+<hr>
+<h4 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h4><p>[1] <a href="http://www.jianshu.com/p/e143ddf6fc84" target="_blank" rel="external">http://www.jianshu.com/p/e143ddf6fc84</a></p>
+<p>[2] <a href="http://www.jianshu.com/p/2b7c10291aad" target="_blank" rel="external">http://www.jianshu.com/p/2b7c10291aad</a></p>
+<p>[3] <a href="https://zh.wikipedia.org/wiki/Cookie" target="_blank" rel="external">https://zh.wikipedia.org/wiki/Cookie</a></p>
+<p>[4]<a href="https://zh.wikipedia.org/wiki/%E4%BC%9A%E8%AF%9D_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6" target="_blank" rel="external">https://zh.wikipedia.org/zh-hans/%E4%BC%9A%E8%AF%9D_</a>)(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)</p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/05/17/《大型网站系统与Java中间件开发实践》笔记/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">《大型网站系统与Java中间件开发实践》笔记</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/04/19/JSON笔记/">
+        <span class="next-text nav-default">JSON笔记</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="设计模式笔记 - 策略模式（Strategy Pattern）"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/12/设计模式笔记-策略模式（Strategy-Pattern）/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 设计模式笔记 - 策略模式（Strategy Pattern） - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          设计模式笔记 - 策略模式（Strategy Pattern）
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-12
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/设计模式/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#模式定义"><span class="toc-text">模式定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式结构"><span class="toc-text">模式结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式案例"><span class="toc-text">模式案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式分析"><span class="toc-text">模式分析</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a><strong>模式定义</strong></h4><blockquote>
+<p>策略模式（Strategy Pattern）定义了算法族，分别封装起来，让它们之间可以互相替换，此模式让算法独立于使用算法的客户而变化。</p>
+</blockquote>
+<hr>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a><strong>模式结构</strong></h4><ul>
+<li>Context：环境类</li>
+<li>Strategy：抽象策略类</li>
+<li>ConcreteStrategy：具体策略类</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/1336732187_4598.jpg" alt="img"></p>
+<hr>
+<h4 id="模式案例"><a href="#模式案例" class="headerlink" title="模式案例"></a><strong>模式案例</strong></h4><p>不同的鸭子或许会有不同的飞行模式，又或许两种不同的鸭子有相似的飞行模式。对此我们可以使用策略模式来设计不同的飞行模式，即可提高代码的复用，也易于飞行模式的扩展。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">// Context-环境类 -&gt; 鸭子</div><div class="line">public class Duck &#123;</div><div class="line">	FlyBehavior flyBehavior; </div><div class="line">  </div><div class="line">  	public void performFly() &#123;</div><div class="line">      	this.flyBehavior.fly(); </div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">	public void setFlyBehavior(FlyBehavior flyBehavior) &#123;</div><div class="line">      	this.flyBehavior = flyBehavior;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Strategy-抽象策略类 -&gt; 飞行行为</div><div class="line">public interface FlyBehavior &#123;</div><div class="line">	public void fly();</div><div class="line">&#125;</div><div class="line"></div><div class="line">// ConcreteStrategy-具体策略类</div><div class="line">// 算法1</div><div class="line">public class FlyWithWings implements FlyBehavior &#123;</div><div class="line">	</div><div class="line">	@Override</div><div class="line">  	public void fly() &#123;</div><div class="line">    	System.out.println(&quot;I&apos;m flying with wings&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 算法2</div><div class="line">public class FlyNoWay implements FlyBehavior &#123;</div><div class="line">  	</div><div class="line">  	@Override</div><div class="line">  	public void fly() &#123;</div><div class="line">      	System.out.println(&quot;I can&apos;t fly&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// test-测试类</div><div class="line">public class DuckTest &#123;</div><div class="line">  	</div><div class="line">  	public static void main(String[] args) &#123;</div><div class="line">      	Duck duck = new Duck();</div><div class="line">      	duck.setFlyBehavior(new FlyWithWings());</div><div class="line">      	// &quot;I&apos;m flying with wings&quot;</div><div class="line">        duck.performFly();</div><div class="line">      	duck.setFlyBehavior(new FlyNoWay());</div><div class="line">      	// &quot;I can&apos;t fly&quot;</div><div class="line">        duck.performFly();</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a><strong>模式分析</strong></h4><p><strong>优点：</strong></p>
+<ul>
+<li>策略模式提供了“开闭原则”的完美支持，用户可以在不修改原有系统的基础上选择算法或行为，也可以灵活地增加新的算法或行为。</li>
+<li>策略模式提供了管理相关的算法则的办法。</li>
+<li>策略模式提供了可以利用组合替换继承的办法。</li>
+<li>策略模式可以避免使用多重条件（if..else..）语句。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>客户端必须知道所有的策略类，并自行决定使用哪一个策略类。即在设计接口时，必须适当的暴露出全部的接口。</li>
+<li>策略模式将造成产生很多策略类，但相对于未使用设计模式管理算法族来说，比较容易管理。</li>
+</ul>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="http://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/strategy.html" target="_blank" rel="external">http://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/strategy.html</a></p>
+<p>[2] <a href="http://blog.csdn.net/hguisu/article/details/7558249/" target="_blank" rel="external">http://blog.csdn.net/hguisu/article/details/7558249/</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/13/设计模式笔记-观察者模式（Observer-Pattern）/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">设计模式笔记 - 观察者模式（Observer Pattern）</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/03/12/设计模式笔记-概述/">
+        <span class="next-text nav-default">设计模式笔记 - 概述</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

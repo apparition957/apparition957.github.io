@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="设计模式笔记 - 状态模式（State Pattern）"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/28/设计模式笔记-状态模式（State-Pattern）/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 设计模式笔记 - 状态模式（State Pattern） - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          设计模式笔记 - 状态模式（State Pattern）
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-28
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/设计模式/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#设计模式笔记-状态模式（State-Pattern）"><span class="toc-text">设计模式笔记 - 状态模式（State Pattern）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#模式定义"><span class="toc-text">模式定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式结构"><span class="toc-text">模式结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式实例"><span class="toc-text">模式实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式分析"><span class="toc-text">模式分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式应用"><span class="toc-text">模式应用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式扩展"><span class="toc-text">模式扩展</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h1 id="设计模式笔记-状态模式（State-Pattern）"><a href="#设计模式笔记-状态模式（State-Pattern）" class="headerlink" title="设计模式笔记 - 状态模式（State Pattern）"></a>设计模式笔记 - 状态模式（State Pattern）</h1><h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><blockquote>
+<p>状态模式（State Pattern）允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类。状态模式是一种对象行为型模式。</p>
+</blockquote>
+<hr>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>状态模式包含如下角色：</p>
+<ul>
+<li>Context - 环境类</li>
+<li>State - 抽象状态类</li>
+<li>ConcreteState - 具体状态类</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F.JPG" alt=""></p>
+<hr>
+<h4 id="模式实例"><a href="#模式实例" class="headerlink" title="模式实例"></a>模式实例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"><span class="comment"> * 此例举了个游戏人物的状态变化时发生动作的例子，当人物活着时，可以进行攻  </span></div><div class="line"><span class="comment"> * 击。当人物死亡时，可以选择复活。而无论人处于什么状态，都能够进行购物。</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="comment">// Context - 环境类</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GamePlayer</span> </span>&#123;</div><div class="line">  	<span class="keyword">private</span> GamePlayerState gamePlayerState;</div><div class="line">  </div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="title">GamePlayer</span><span class="params">(GamePlayerState gamePlayerState)</span> </span>&#123;</div><div class="line">      	<span class="keyword">this</span>.gamePlayerState = gamePlayerState;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span> </span>&#123;</div><div class="line">      	gamePlayerState.attack();</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reborn</span><span class="params">()</span> </span>&#123;</div><div class="line">      	gamePlayerState.reborn();</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buy</span><span class="params">()</span> </span>&#123;</div><div class="line">      	System.out.println(<span class="string">"buying sth."</span>);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeState</span><span class="params">(GamePlayerState gamePlayerState)</span> </span>&#123;</div><div class="line">      	<span class="keyword">this</span>.gamePlayerState = gamePlayerState;</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// State - 抽象状态类</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">GamePlayerState</span> </span>&#123;</div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span></span>;</div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">reborn</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ConcreteState - 具体抽象类</span></div><div class="line"><span class="comment">// 活着</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Alive</span> <span class="keyword">extends</span> <span class="title">GamePlayerState</span> </span>&#123;</div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span> </span>&#123;</div><div class="line">      	System.out.println(<span class="string">"Attacking!"</span>);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reborn</span><span class="params">()</span> </span>&#123;</div><div class="line">      	System.out.println(<span class="string">"You are alive!"</span>);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 死亡</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Death</span> <span class="keyword">extends</span> <span class="title">GamePlayerState</span> </span>&#123;</div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span> </span>&#123;</div><div class="line">      	System.out.println(<span class="string">"You are dead!"</span>);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reborn</span><span class="params">()</span> </span>&#123;</div><div class="line">      	System.out.println(<span class="string">"Alive for attack!"</span>);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 测试类</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">      	GamePlayerState alive = <span class="keyword">new</span> Alive();</div><div class="line">      	GamePlayerState death = <span class="keyword">new</span> Death();</div><div class="line">      </div><div class="line">      	GamePlayer gamePlayer = <span class="keyword">new</span> GamePlayer(alive);</div><div class="line">      	gamePlayer.attack();</div><div class="line">      	gamePlayer.changeState(death);</div><div class="line">      	gamePlayer.attack();</div><div class="line">      	gamePlayer.reborn();</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
+<li>状态模式描述了对象状态的变化，以及对象如何在每一种状态下表现出不同的行为。</li>
+<li>状态模式的关键是导入了一个抽象类来专门表示对象的状态，这个类我们叫做抽象状态类，而对象的每一种具体状态类都继承了该类，并在不同的具体状态类中实现了不同状态的行为，包括各种状态之间的转换。</li>
+</ul>
+<p>在状态模式结构中需要理解环境类与抽象状态类的作用：</p>
+<ul>
+<li>环境类 - 实际上就是拥有状态的对象，环境类有时候可以充当状态管理器（State Manager）的角色，可以在环境类中对状态进行切换操作。</li>
+<li>抽象状态类 - 可以是抽象类，也可以是接口，不同状态类就是继承这个父类的不同子类，状态类的产生是由于环境类存在多个状态，同时还满足两个条件：一是这些状态经常需要切换，二是在不同状态下对象的行为不同。因此可以将不同对象下的行为单独提取出来封装在具体的状态类中，使得环境类对象在其内部状态改变时可以改变它的行为，让对象看起来似乎修改了它的类，而实际上是由于切换到不同的具体状态类实现的。</li>
+</ul>
+<p><strong>状态模式的优点：</strong></p>
+<ul>
+<li>封装了转换规则。</li>
+<li>将所有与某个状态有关的行为放到同一个类中，并且方便地添加新的状态，只需改变对象状态，即可改变对象的行为。</li>
+<li>允许状态转换逻辑与状态对象合为一体，舍弃巨大的逻辑条件块（if..else..）</li>
+<li>可以让多个环境对象共享一个状态对象，从而减少系统中对象的个数。</li>
+</ul>
+<p><strong>状态模式的缺点：</strong></p>
+<ul>
+<li>状态模式的使用必然会增加系统类和对象的个数。</li>
+<li>状态模式的结构与实现都较为复杂，如果使用不当将导致程序结构和代码的混乱。</li>
+<li>状态模式对“开闭原则”的支持并不太好，对于可以切换状态的状态模式，增加新的状态类需要修改那些负责状态转换的源代码，否则无法切换到新增状态；而且修改某个状态类的行为也需修改对应类的源代码。</li>
+</ul>
+<hr>
+<h4 id="模式应用"><a href="#模式应用" class="headerlink" title="模式应用"></a>模式应用</h4><ul>
+<li>状态模式在工作流或游戏等类型的软件中得以广泛使用，甚至可以用于这些系统的核心功能设计，如在政府OA办公系统中，一个批文的状态有多种：尚未办理，正在办理，正在批示，正在审核，已经完成等各种状态，而且批文状态不同时对批文的操作也有所差异。使用状态模式可以描述工作流对象（如批文）的状态转换以及不同状态下它所具有的行为。</li>
+</ul>
+<hr>
+<h4 id="模式扩展"><a href="#模式扩展" class="headerlink" title="模式扩展"></a>模式扩展</h4><p>共享状态</p>
+<ul>
+<li>在有些情况下多个环境对象需要共享同一个状态，如果希望在系统中实现多个环境对象实例共享一个或多个状态对象，那么需要将这些状态对象定义为环境的静态成员对象。</li>
+</ul>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="https://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/state.html" target="_blank" rel="external">https://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/state.html</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/29/设计模式笔记-建造者模式（Builder-Pattern）/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">设计模式笔记 - 建造者模式（Builder Pattern）</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/03/27/SQL-GROUP-BY-和-HAVING/">
+        <span class="next-text nav-default">SQL - GROUP BY 和 HAVING</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

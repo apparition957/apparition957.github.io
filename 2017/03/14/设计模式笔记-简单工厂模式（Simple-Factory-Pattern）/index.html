@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="设计模式笔记 - 简单工厂模式（Simple Factory Pattern）"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/14/设计模式笔记-简单工厂模式（Simple-Factory-Pattern）/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 设计模式笔记 - 简单工厂模式（Simple Factory Pattern） - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          设计模式笔记 - 简单工厂模式（Simple Factory Pattern）
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-14
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/设计模式/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#模式定义"><span class="toc-text">模式定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式结构"><span class="toc-text">模式结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式实例"><span class="toc-text">模式实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式分析"><span class="toc-text">模式分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#适用环境"><span class="toc-text">适用环境</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><blockquote>
+<p>简单工厂模式（Simple Factory Pattern），又称为静态工厂方法（Static Factory Method）模式，它属于类创建型模式。在简单工厂模式中，可以根据参数的不同返回不同类的实例。简单工厂模式专门一个类来负责创建其他类的实例，被创建的实例通常都具有都具有共同的父类。</p>
+</blockquote>
+<hr>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>简单工厂模式包含如下角色：</p>
+<ul>
+<li>Factory：工厂角色 - 负责实现创建所有实例的内部逻辑</li>
+<li>Product：抽象产品角色 - 为所有具体产品的类的父类，负责描述所有实例所共有的公共接口</li>
+<li>ConcreteProduct：具体产品角色</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F.JPG" alt="img"></p>
+<hr>
+<h4 id="模式实例"><a href="#模式实例" class="headerlink" title="模式实例"></a>模式实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">// 一家披萨店面急需拥有处理订单的系统</div><div class="line">public class PizzaStore &#123;</div><div class="line">  	public void orderPizza(String item) &#123;</div><div class="line">      	Pizza pizza = PizzaCreateFactory.createPizze(item);</div><div class="line">      	pizza.display();</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Product - 抽象产品角色</div><div class="line">public abstract class Pizza &#123;</div><div class="line">  	public abstract String display(); </div><div class="line">&#125;</div><div class="line"></div><div class="line">// ConcreteProduct - 具体产品角色</div><div class="line">// 产品1</div><div class="line">public class CheesePizza extends Pizza &#123;</div><div class="line">    public String display() &#123;</div><div class="line">      	System.out.println(&quot;You order cheesePizza is ready!&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 产品2</div><div class="line">public class HotDogPizza extends Pizza &#123;</div><div class="line">  	public String display() &#123;</div><div class="line">      	System.out.println(&quot;You order HotDogPizza is ready!&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 工厂角色</div><div class="line">public class PizzaCreateFactory &#123;</div><div class="line">  	public static Pizza createPizza(String item) &#123;</div><div class="line">      	if (item.equals(&quot;cheesea&quot;)) &#123;</div><div class="line">          	return new CheesePizza();</div><div class="line">      	&#125; else if (item.equals(&quot;hot dog&quot;)) &#123;</div><div class="line">          	retrun new HotDogPizza();</div><div class="line">      	&#125; else &#123;</div><div class="line">          	// 一般返回一个具有错误处理的对象，此例中没做任何异常处理</div><div class="line">          	return null;</div><div class="line">      	&#125;</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
+<li>将对象的创建和对象本身业务处理分离可以降低系统的耦合度。</li>
+<li>简单工厂模式最大的问题在于工厂类的职责相对过重，增加新的产品需要修改工厂类的判断逻辑，这一点与开闭原则（对扩展开放，对修改关闭）是相违背的。</li>
+<li>简单工厂模式的要点在于：当你需要什么，只需要传入若干正确参数，就可以获取所需的对象，而无需知道其创建细节。</li>
+</ul>
+<p><strong>简单工厂模式的优点：</strong></p>
+<ul>
+<li>工厂类含有必要的判断逻辑，客户端可以免除直接创建产品对象的责任，而仅仅“消费”产品。简单工厂模式通过这种做法实现了<strong>对责任的分割</strong>，降低两者之间的耦合。</li>
+<li>客户端无须知道所创建的具体产品类的类名，只需要知道具体产品类所对应分参数即可，对于一些复杂的类名，通过简单工厂模式可以减少使用者的记忆量（两者间应有一套严格的明文规定进行对象获取）</li>
+</ul>
+<p><strong>简单工厂模式的缺点：</strong></p>
+<ul>
+<li>系统扩展困难，一旦添加新产品就不得不修改工厂类中的逻辑，在产品类型较多时，有可能造成工厂逻辑过于复杂，不利于系统的扩展和维护。</li>
+<li>简单工厂模式由于使用了静态工厂方法，造成工厂角色无法形成基于继承的等级结构（与后面的抽象工厂作对比）。</li>
+</ul>
+<hr>
+<h4 id="适用环境"><a href="#适用环境" class="headerlink" title="适用环境"></a>适用环境</h4><p>在以下情况下可以使用简单工厂模式：</p>
+<ul>
+<li>工厂类负责创建的对象比较少。由于创建的对象较少，不会造成工厂方法中的业务逻辑太过复杂。</li>
+<li>客户端只知道传入工厂类的参数，对于如何创建对象不关心：客户端既不需要关心创建细节，甚至连类名都不需要记住，只需要知道类型所对应的参数。</li>
+</ul>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/simple_factory.html#simple-factory-pattern" target="_blank" rel="external">https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/simple_factory.html#simple-factory-pattern</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/15/设计模式笔记-工厂方法模式（Factory-Method-Pattern）/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">设计模式笔记 - 工厂方法模式（Factory Method Pattern）</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/03/14/数据库事务的基本概念/">
+        <span class="next-text nav-default">数据库事务的基本概念</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

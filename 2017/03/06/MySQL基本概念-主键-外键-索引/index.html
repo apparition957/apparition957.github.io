@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="MySQL基本概念 -- 主键/外键/索引"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/06/MySQL基本概念-主键-外键-索引/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> MySQL基本概念 -- 主键/外键/索引 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          MySQL基本概念 -- 主键/外键/索引
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-06
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#主键-PRIMARY-KEY"><span class="toc-text">主键(PRIMARY KEY)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#外键-FOREIGN-KEY"><span class="toc-text">外键(FOREIGN KEY)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#唯一性索引-UNIQUE"><span class="toc-text">唯一性索引(UNIQUE)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#索引-KEY"><span class="toc-text">索引(KEY)</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h4 id="主键-PRIMARY-KEY"><a href="#主键-PRIMARY-KEY" class="headerlink" title="主键(PRIMARY KEY)"></a><strong>主键(PRIMARY KEY)</strong></h4><p>主键能够唯一标识表中某一行的属性或属性组。</p>
+<p>主键是索引的一种，并且是唯一性索引的一种。</p>
+<p>主键约束唯一标识数据库表中的每条记录。</p>
+<p>主键必须包含唯一的值。</p>
+<p>主键列不能包含NULL值。</p>
+<p>主键常常与外键构成参照完整性约束，防止出现数据不一致。</p>
+<p>每个表应当有一个主键，但每个表<strong>只能</strong>有一个主键。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">-- 每一笔订单对应一个唯一的订单编号</div><div class="line">-- 若字段使用AUTO_INCREMENT, 其字段类型必须是TINYINT/SMALLINT/INT/BIGINT其中一种</div><div class="line">CREATE TABLE order (</div><div class="line">	id INT NOT NULL AUTO_INCREMENT,</div><div class="line">  	name VARCHAR(40) NOT NULL,</div><div class="line">  	PRIMARY KEY(id)</div><div class="line">);</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="外键-FOREIGN-KEY"><a href="#外键-FOREIGN-KEY" class="headerlink" title="外键(FOREIGN KEY)"></a><strong>外键(FOREIGN KEY)</strong></h4><p><strong>如果一个实体的某个字段指向另一个实体的主键，就称为外键。</strong> 其中,被指向的实体，称之为主实体(主表)。负责指向的实体，称之为从实体(从表)，也叫子实体(子表)。</p>
+<p><strong>主要作用维护两个表之间的数据一致性，加强两个表数据之间的链接的一列或多列。</strong> 每当子表中的字段需要添加记录时，必须查询父表中是否存在该字段记录。需要删除父表中的主键时，则必须查询是否有其他表的外键与其绑定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">-- 每样商品都有特定的商品种类(电脑对应电子产品, 口红对应化妆品)</div><div class="line">CREATE TABLE mb_item_type (</div><div class="line">	id INT NOT NULL AUTO_INCREMENT,</div><div class="line">  	type VARCHAR(200) NOT NULL,</div><div class="line">  	PRIMARY KEY(id)</div><div class="line">);</div><div class="line"></div><div class="line">INSERT INTO mb_item_type (type) VALUES (&apos;电子产品&apos;), (&apos;化妆品&apos;);</div><div class="line"></div><div class="line">CREATE TABLE item (</div><div class="line">	id INT NOT NULL AUTO_INCREMENT,</div><div class="line">  	name VARCHAR(200) NOT NULL,</div><div class="line">  	type_id INT NOT NULL,</div><div class="line">  	PRIMARY KEY(id),</div><div class="line">  	FOREIGN KEY(type_id) REFERENCES mb_item_type(id)</div><div class="line">);</div><div class="line"></div><div class="line">-- 对应相应的商品序号</div><div class="line">INSERT INTO item (name, type_id) VALUES (&apos;thinkpad&apos;, 1);</div><div class="line">INSERT INTO item (name, type_id) VALUES (&apos;口红&apos;, 2);</div><div class="line"></div><div class="line">-- 错误输入, 因为在mb_item_type中不存在序号为3的记录</div><div class="line">INSERT INTO item (name, type_id) VALUES (&apos;相机&apos;, 3);</div></pre></td></tr></table></figure>
+<p>是用来快速地寻找那些具有特定值的记录。主要是为了检索的方便，是为了加快访问速度， 按一定的规则创建的，一般起到排序作用。</p>
+<hr>
+<h4 id="唯一性索引-UNIQUE"><a href="#唯一性索引-UNIQUE" class="headerlink" title="唯一性索引(UNIQUE)"></a><strong>唯一性索引(UNIQUE)</strong></h4><p>UNIQUE 约束唯一标识数据库表中的每条记录。</p>
+<p>UNIQUE 和 PRIMARY KEY 约束均为列或列集合提供了唯一性的保证。</p>
+<p>PRIMARY KEY 拥有自动定义的 UNIQUE 约束。</p>
+<p><strong>每个表可以有多个 UNIQUE 约束，但是每个表只能有一个 PRIMARY KEY 约束</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-- 一名学生对应一个唯一学号</div><div class="line">CREATE TABLE student (</div><div class="line">	id INT NOT NULL AUTO_INCREMENT,</div><div class="line">  	name VARCHAR(40) NOT NULL,</div><div class="line">  	student_id INT NOT NULL,</div><div class="line">  	PRIMARY KEY(id),</div><div class="line">  	UNIQUE KEY student_unique_id (student_id) USING BTREE</div><div class="line">);</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="索引-KEY"><a href="#索引-KEY" class="headerlink" title="索引(KEY)"></a><strong>索引(KEY)</strong></h4><p>根据特定的算法，来快速地查找到具有特定值(按一定的规则创建)的记录。</p>
+<p>主要作用是为了检索的方便，是为了加快访问速度。</p>
+<p>详细参见<a href="http://www.cnblogs.com/hustcat/archive/2009/10/28/1591648.html" target="_blank" rel="external">http://www.cnblogs.com/hustcat/archive/2009/10/28/1591648.html</a></p>
+<hr>
+<p>参考文章:</p>
+<p>[1] <a href="http://blog.csdn.net/duck_arrow/article/details/8264686" target="_blank" rel="external">http://blog.csdn.net/duck_arrow/article/details/8264686</a></p>
+<p>[2] <a href="http://www.cnblogs.com/zunpeng/p/3878459.html" target="_blank" rel="external">http://www.cnblogs.com/zunpeng/p/3878459.html</a></p>
+<p>[3] <a href="http://www.w3school.com.cn/sql/" target="_blank" rel="external">http://www.w3school.com.cn/sql/</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/07/PO-VO-BO-DTO-DAO-POJO相关概念/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">PO/VO/BO/DTO/DAO/POJO相关概念</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/02/28/Spring框架中-Controller类下的返回值/">
+        <span class="next-text nav-default">Spring框架中@Controller类下的返回值</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

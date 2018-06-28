@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="设计模式笔记 - 适配器模式（Adapter Pattern）"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/17/设计模式笔记-适配器模式（Adapter-Pattern）/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 设计模式笔记 - 适配器模式（Adapter Pattern） - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          设计模式笔记 - 适配器模式（Adapter Pattern）
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-17
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/设计模式/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#模式定义"><span class="toc-text">模式定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#模式结构"><span class="toc-text">模式结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式实例"><span class="toc-text">模式实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式分析"><span class="toc-text">模式分析</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h1 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h1><blockquote>
+<p>适配器模式（Adapter Pattern）将一个接口转换成客户希望的另外一个接口，使得与客户现有接口不兼容的第三方接口可以与其一起正常工作</p>
+</blockquote>
+<hr>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>适配器模式包含如下角色：</p>
+<ul>
+<li>Target：目标抽象类（或接口）</li>
+<li>Adapter：适配器类</li>
+<li>Adaptee：适配者类</li>
+<li>Client：客户类</li>
+</ul>
+<p>适配器模式有对象适配器（针对于组合）和类适配器（针对于多重继承）两种实现，以下重点讲述对象适配器实现：</p>
+<p><img src="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F.JPG" alt="img"></p>
+<hr>
+<h4 id="模式实例"><a href="#模式实例" class="headerlink" title="模式实例"></a>模式实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">/* </div><div class="line"> * 此例为英标插头提供能够正常插入国标插座的转换器。不过省去调节电压等细</div><div class="line"> * 节。</div><div class="line"> */</div><div class="line">// Target - 目标抽象类（或接口）</div><div class="line">public class ChinaSocket &#123;</div><div class="line">  </div><div class="line">  	public void workInAWay() &#123;</div><div class="line">      	System.out.println(&quot;You are using ChinaScoket&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Adaptee - 适配者类</div><div class="line">public class EnglandSocket &#123;</div><div class="line">  	</div><div class="line">  public void workInBWay() &#123;</div><div class="line">      	System.out.println(&quot;You are using EnglandSocket&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Adapter - 适配器类</div><div class="line">public class ChinaScoketAdapter &#123;</div><div class="line">  	EnglandScoket englandScoket;</div><div class="line">  </div><div class="line">  	public ChinaScoketAdapter(EnglandScoket englandScoket) &#123;</div><div class="line">      	this.englandScoket = englandScoket;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void workInAWay() &#123;</div><div class="line">      	englandScoket.workInBWay();</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Client - 客户端</div><div class="line">public class Test &#123;</div><div class="line">  	public static void main(String[] args) &#123;</div><div class="line">		ChinaSocket chinaSocket = new ChinaSocket();</div><div class="line">		EnglandSocket englandSocket = new EnglandSocket();</div><div class="line">		ChinaScoketAdapter adapter = new ChinaScoketAdapter(englandSocket);</div><div class="line">      </div><div class="line">      	chinaSocket.workInAWay();</div><div class="line">      	adapter.workInAWay();</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
+<li>适配器提供客户类需要的接口，适配器的实现就是把客户类的请求转化为对适配者的相应接口的调用。也就是说：当客户类调用适配器的方法时，在适配器类的内部将调用适配者类的方法，而这个过程对客户类是透明的，客户类并不直接访问适配者类。因此，适配器可以使由于接口不兼容而不能交互的类可以一起工作。</li>
+</ul>
+<p><strong>适配器模式的优点：</strong></p>
+<ul>
+<li>将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，而无须修改原有代码。</li>
+<li>增加了类的透明性和复用性。将具体的实现封装在适配者类中，对于客户端来说是透明的，而且提高了适配者的复用性。</li>
+<li>对于对象适配器来说，同一适配器可以兼容适配者类以及它的子类到目标接口中。</li>
+</ul>
+<p><strong>适配器模式的缺点：</strong></p>
+<ul>
+<li>若要更改适配器的接口的时候，则需要修改其所兼容适配器的所有接口，维护的难度较大。</li>
+</ul>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/adapter.html" target="_blank" rel="external">https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/adapter.html</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/17/设计模式笔记-外观模式（Facade-Pattern）/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">设计模式笔记 - 外观模式（Facade Pattern）</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/03/16/设计模式笔记-命令模式（Command-Pattern）/">
+        <span class="next-text nav-default">设计模式笔记 - 命令模式（Command Pattern）</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

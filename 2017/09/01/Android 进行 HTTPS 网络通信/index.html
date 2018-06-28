@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="Android 进行 HTTPS 网络通信"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/09/01/Android 进行 HTTPS 网络通信/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> Android 进行 HTTPS 网络通信 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Android 进行 HTTPS 网络通信
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-09-01
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#遇到的问题"><span class="toc-text">遇到的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题分析"><span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方式"><span class="toc-text">解决方式</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h4 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h4><p>前两天在 Andorid 上与使用自签名证书的服务器进行 https 网络通信遇到了问题，主要的问题出在于服务器端的证书不受客户端信任与认证，服务器端也不认识客户端，双方互不认识（在浏览器好歹也会提示用户添加安全证书）。</p>
+<hr>
+<h4 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h4><p>根据需求分析，Android 平台上需要进行双向验证才能够进行正常的 https 通信。而在之前的代码结构中，由于不熟悉 https 沟通方式，错误使用了服务端证书来进行身份识别与验证。</p>
+<hr>
+<h4 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h4><p>进行后续操作的调整，在 centOS 平台上使用 keytool 分别了生成了服务器端证书以及客户端证书，并将客户端证书放置 Android 上，用于连接服务器端时对服务器端的证书进行鉴别与认证。</p>
+<p>具体操作如下所示：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">1、生成服务器证书库</div><div class="line"></div><div class="line">keytool -validity 365 -genkey -v -alias server -keyalg RSA -keystore server.keystore -dname "CN=commonName,OU=organizationalUnit,O=Organization,L=Locality,ST=state,c=country" -storepass 123456 -keypass 123456 -keysize 2048</div><div class="line"></div><div class="line">2、生成客户端证书库</div><div class="line"></div><div class="line">keytool -validity 365 -genkey -v -alias client -keyalg RSA -storetype PKCS12 -keystore client.p12 -dname "CN=client,OU=organizationalUnit,O=Organization,L=Organization,ST=state,c=country" -storepass 123456 -keypass 123456 -keysize 2048</div><div class="line"></div><div class="line">3、从客户端证书库中导出客户端证书</div><div class="line"></div><div class="line">keytool -export -v -alias client -keystore client.p12 -storetype PKCS12 -storepass 123456 -rfc -file client.cer</div><div class="line"></div><div class="line">4、从服务器证书库中导出服务器证书</div><div class="line"></div><div class="line">keytool -export -v -alias server -keystore server.keystore -storepass 123456 -rfc -file server.cer</div><div class="line"></div><div class="line">5、生成客户端信任证书库(由服务端证书生成的证书库)</div><div class="line"></div><div class="line">keytool -import -v -alias server -file server.cer -keystore client.truststore -storepass 123456 -storetype BKS -provider org.bouncycastle.jce.provider.BouncyCastleProvider</div><div class="line"></div><div class="line">6、将客户端证书导入到服务器证书库(使得服务器信任客户端证书)</div><div class="line"></div><div class="line">keytool -import -v -alias client -file client.cer -keystore server.keystore -storepass 123456</div></pre></td></tr></table></figure>
+<p>keytool 常用参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-genkey</td>
+<td>在用户主目录中创建一个默认文件“.keystore”</td>
+</tr>
+<tr>
+<td>-validity</td>
+<td>指定创建的证书有效期为多少天</td>
+</tr>
+<tr>
+<td>-alias</td>
+<td>产生别名，每个 keystore 都关联一个独一无二的 alias</td>
+</tr>
+<tr>
+<td>-keystore</td>
+<td>指定密钥库的名称</td>
+</tr>
+<tr>
+<td>-keyalg</td>
+<td>指定密钥的算法</td>
+</tr>
+<tr>
+<td>-keysize</td>
+<td>指定密钥的长度</td>
+</tr>
+<tr>
+<td>-dname</td>
+<td>指定证书发行者信息，其中： “CN=名字与姓氏,OU=组织单位名称,O=组织名称,L=城市或区域名 称,ST=州或省份名称,C=单位的两字母国家代码”</td>
+</tr>
+<tr>
+<td>-storepass</td>
+<td>指定密钥库的密码（.keystore密码）</td>
+</tr>
+<tr>
+<td>-keypass</td>
+<td>指定别名条目的密码（私钥密码）</td>
+</tr>
+<tr>
+<td>-storetype</td>
+<td>指定密钥库的存储类型</td>
+</tr>
+<tr>
+<td>-export</td>
+<td>将 alias 指定的证书导出到文件</td>
+</tr>
+<tr>
+<td>-import</td>
+<td>将已签名的证书导入密钥库中</td>
+</tr>
+<tr>
+<td>-rfc</td>
+<td>以Base64的编码格式打印证书</td>
+</tr>
+<tr>
+<td>-file</td>
+<td>指定导出到文件的文件名</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>查看密钥库中的证书详细信息</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>在代码结构上，在 http 通信代码中添加 SSL 通信机制，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_TYPE_BKS = <span class="string">"BKS"</span>;<span class="comment">//证书类型</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_TYPE_P12 = <span class="string">"PKCS12"</span>;<span class="comment">//证书类型</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_CLIENT_PATH = <span class="string">"swaypay.p12"</span>;<span class="comment">//客户端要给服务器端认证的证书</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_TRUST_PATH = <span class="string">"swaypay.truststore"</span>;<span class="comment">//客户端验证服务器端的证书库</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_PASSWORD = <span class="string">"superssl1"</span>;<span class="comment">// 客户端证书密码</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_TRUST_PASSWORD = <span class="string">"superssl1"</span>;<span class="comment">//客户端证书库密码</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_STORE_TYPE_X509 = <span class="string">"X509"</span>;</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String SSL_CONTEXT_PROTOCOL = <span class="string">"TLS"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSSLConnection</span><span class="params">()</span> </span>&#123;</div><div class="line">  		<span class="comment">// 1 - KeyStore - 用于存储各种类型的密钥，方便管理与使用</span></div><div class="line">        KeyStore keyStore = KeyStore.getInstance(KEY_STORE_TYPE_P12);</div><div class="line">        KeyStore trustStore = KeyStore.getInstance(KEY_STORE_TYPE_BKS);</div><div class="line"></div><div class="line">  		<span class="comment">// 2 - 将提前获取的受服务器端信任的客户端证书/用于验证服务器端的证书的证书库进行导入</span></div><div class="line">        InputStream ksIn = ContextHolder.getContext().getAssets().open(KEY_STORE_CLIENT_PATH);</div><div class="line">        InputStream tsIn = ContextHolder.getContext().getAssets().open(KEY_STORE_TRUST_PATH);</div><div class="line">  </div><div class="line">  		<span class="comment">// 3 - 初始化 KeyManagerFactory</span></div><div class="line">        keyStore.load(ksIn, KEY_STORE_PASSWORD.toCharArray());</div><div class="line">  		KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KEY_STORE_TYPE_X509);</div><div class="line">        keyManagerFactory.init(keyStore, KEY_STORE_PASSWORD.toCharArray());</div><div class="line">  </div><div class="line">  		<span class="comment">// 4 - 初始化 TrustManagerFactory</span></div><div class="line">        trustStore.load(tsIn, KEY_STORE_TRUST_PASSWORD.toCharArray());</div><div class="line">        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());</div><div class="line">        trustManagerFactory.init(trustStore);</div><div class="line">  </div><div class="line">  		<span class="comment">// 5 - 初始化 SSLContext 并添加通过 KeyManagerFactory 和 TrustManagerFactory 分别生成的 getKeyManagers 和 getTrustManagers</span></div><div class="line">  		<span class="comment">// 这一步中，通过这种方式，才算 https 的双向验证机制的真正建立</span></div><div class="line">  		sslContext = SSLContext.getInstance(SSL_CONTEXT_PROTOCOL);</div><div class="line">  		sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), <span class="keyword">null</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">... </div><div class="line">  </div><div class="line"><span class="function"><span class="keyword">private</span> HttpURLConnection <span class="title">createHttpURLConnection</span><span class="params">(String targetUrl)</span> </span>&#123;</div><div class="line">        ...</div><div class="line">        <span class="comment">// 6</span></div><div class="line">        <span class="keyword">if</span> (httpURLConnection <span class="keyword">instanceof</span> HttpsURLConnection) &#123;</div><div class="line">            setSSLConnection();</div><div class="line">            ((HttpsURLConnection) httpURLConnection).setSSLSocketFactory(sslContext.getSocketFactory());</div><div class="line">          	<span class="comment">// 暂不验证 host 有效性</span></div><div class="line">            ((HttpsURLConnection) httpURLConnection).setHostnameVerifier((String hostname, SSLSession session) -&gt; &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">        ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<hr>
+<p>参考资料:</p>
+<p>[1] <a href="http://frank-zhu.github.io/android/2014/12/26/android-https-ssl/" target="_blank" rel="external">http://frank-zhu.github.io/android/2014/12/26/android-https-ssl/</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/09/07/Android 源码分析资料归纳/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Android 源码分析资料归纳</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/08/28/心跳机制/">
+        <span class="next-text nav-default">心跳机制</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

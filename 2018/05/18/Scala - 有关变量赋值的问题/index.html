@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="Scala - 有关变量赋值的问题"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2018/05/18/Scala - 有关变量赋值的问题/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> Scala - 有关变量赋值的问题 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Scala - 有关变量赋值的问题
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-05-18
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#先看个小问题"><span class="toc-text">先看个小问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#为什么呢"><span class="toc-text">为什么呢</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案"><span class="toc-text">解决方案</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h4 id="先看个小问题"><a href="#先看个小问题" class="headerlink" title="先看个小问题"></a>先看个小问题</h4><p>先贴下一段<code>Scala</code>代码，看下这段代码是否存在问题？</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> persons = <span class="type">List</span>[<span class="type">Person</span>](<span class="type">Person</span>(<span class="string">"tom"</span>), <span class="type">Person</span>(<span class="string">"marry"</span>), <span class="literal">null</span>).iterator</div><div class="line"><span class="keyword">var</span> person: <span class="type">Person</span> = <span class="literal">null</span></div><div class="line"><span class="keyword">while</span> ((person = persons.next()) != <span class="literal">null</span>) &#123;</div><div class="line">  println(<span class="string">"obj name: "</span> + person.name)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果你的答案是<code>这段代码运行不会出任何问题</code>的话，那么你对于 Scala 的变量赋值还是了解太少。</p>
+<hr>
+<h4 id="为什么呢"><a href="#为什么呢" class="headerlink" title="为什么呢"></a>为什么呢</h4><p>在我们一般的认知中，在 Java 和 C++ 中对变量赋值后，其会返回相对应该变量的值，而在 Scala 中，如果对变量赋值后，获取到的返回值却统一是 Unit。</p>
+<blockquote>
+<p>Unit 是表示为无值，其作用与其他语言中的 void 作用相同，用作不返回任何结果的方法的结果类型。</p>
+</blockquote>
+<p>回到刚才那段代码，根据以上说明，如果我们在赋值对<code>person</code>变量的话，那就会导致在每一次循环当中，其实我们一直都是拿 Unit 这个值去与 null 比较，那么就可以换做一个恒等式为<code>Unit != null</code>，这样做的结果就是这个循环不会中断。</p>
+<blockquote>
+<p>在 IDEA 中，如果我们仔细查看代码，发现 IDE 已经提醒我们这个问题的存在了，这这也仅仅只是 Warning 而已。</p>
+<p>若通过编译的方法查看源代码的话，会在编译的过程中，获得这样一句警告（并非错误！）：</p>
+<p><img src="http://on83riher.bkt.clouddn.com/QQ20180518-225838@2x.png" alt=""></p>
+</blockquote>
+<p>有个简单的例子可以检验自己是否明白懂了这个”bug”：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a: <span class="type">Int</span> = <span class="number">0</span></div><div class="line"><span class="keyword">var</span> b: <span class="type">Int</span> = <span class="number">0</span></div><div class="line">a = b = <span class="number">1</span> <span class="comment">// 这行代码能够跑通，在其他语言呢？</span></div></pre></td></tr></table></figure>
+<hr>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>在给出常见的解决方案前，先给出为什么 Scala 要这样设计的理由（Scala 之父亲自解释）：</p>
+<p><a href="https://stackoverflow.com/questions/1998724/what-is-the-motivation-for-scala-assignment-evaluating-to-unit-rather-than-the-v" target="_blank" rel="external">https://stackoverflow.com/questions/1998724/what-is-the-motivation-for-scala-assignment-evaluating-to-unit-rather-than-the-v</a></p>
+<p>常见的解决方案会有以下几种：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// solution 1 - 封装成代码块返回最终值，直观但麻烦</span></div><div class="line"><span class="keyword">var</span> person = <span class="literal">null</span></div><div class="line"><span class="keyword">while</span> (&#123;person = persons.next; person != <span class="literal">null</span>&#125;) &#123;</div><div class="line">  println(<span class="string">"obj name: "</span> + person.name)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// solution 2 （推荐）- 通过 Scala 的语法特性，使用它的奇淫技巧</span></div><div class="line"><span class="type">Iterator</span>.continually(persons.next())</div><div class="line">  .takeWhile(_ != <span class="literal">null</span>)</div><div class="line">  .foreach(t =&gt; &#123;println(<span class="string">"obj name: "</span> + t.name)&#125;)</div><div class="line"></div><div class="line"><span class="comment">// solution 3 - 这个与 Solution2 的区别仅仅在于使用的类不同，但使用的类不同便意味着这两者之间存在着不同的遍历方式。两者的区别会在博客中更新。</span></div><div class="line"><span class="type">Stream</span>.continually(persons.next())</div><div class="line">  .takeWhile(_ != <span class="literal">null</span>)</div><div class="line">  .foreach(t =&gt; &#123;println(<span class="string">"obj name: "</span> + t.name)&#125;)</div></pre></td></tr></table></figure>
+<p>参考资料：</p>
+<ol>
+<li><a href="https://stackoverflow.com/questions/6881384/why-do-i-get-a-will-always-yield-true-warning-when-translating-the-following-f" target="_blank" rel="external">https://stackoverflow.com/questions/6881384/why-do-i-get-a-will-always-yield-true-warning-when-translating-the-following-f</a></li>
+<li><a href="https://stackoverflow.com/questions/3062804/scala-unit-type" target="_blank" rel="external">https://stackoverflow.com/questions/3062804/scala-unit-type</a></li>
+<li><a href="https://stackoverflow.com/questions/2442318/how-would-i-express-a-chained-assignment-in-scala" target="_blank" rel="external">https://stackoverflow.com/questions/2442318/how-would-i-express-a-chained-assignment-in-scala</a></li>
+</ol>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2018/05/19/Scala - Iterator vs Stream vs View/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Scala - Iterator vs Stream vs View</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2018/05/14/Scala - 类构造器/">
+        <span class="next-text nav-default">Scala - 类构造器</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

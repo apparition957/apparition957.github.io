@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="Java抽象类与接口"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/10/31/Java抽象类与接口/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> Java抽象类与接口 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Java抽象类与接口
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-10-31
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设计思想"><span class="toc-text">设计思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何选择"><span class="toc-text">如何选择</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>抽象类是用来捕捉子类的通用特性的。它不能被实例化，只能被用作子类的超类。可以将抽象类当做是被用来创建继承层级里子类的模板。</p>
+<p>接口是抽象方法的集合。如果一个类实现了某个接口，那么它就继承了这个接口的所有抽象方法，并需要确保这些方法全部实现，这就像是契约模式一般。接口只是一种形式，接口自身不能做任何事情。</p>
+<p>在Java中，一个类只能够继承一个抽象类，但是一个类可以同时实现多个接口。</p>
+<h2 id="设计思想"><a href="#设计思想" class="headerlink" title="设计思想"></a>设计思想</h2><p>从概念上，可知抽象类与接口所设计的目的是不一样的 —— <strong>接口是对动作的抽象，而抽象类是对根源的抽象</strong>。</p>
+<p>举个例子而言，在这个世界上存在很多不同的车，跑车、轿车、货车等，那么对于抽象类而言，我们就需要从这些车中提取它们的公共部分，设计出一个更高级别的抽象类——四轮车。</p>
+<p>但轿车与货车同为四轮车，但是普遍轿车都存在着自动驾驶功能，如果货车需要自动驾驶功能的话，那么对于接口而言，可以把自动驾驶功能所需的这些方法抽象成接口——自动驾驶。</p>
+<h2 id="如何选择"><a href="#如何选择" class="headerlink" title="如何选择"></a>如何选择</h2><p>从程序设计中，如何选择抽象类与接口？从我的观点而言，在程序设计中我们需要考虑的是高度抽象化以及程序可扩展性。</p>
+<p>因为在Java中只能够继承一个父类，所以定义抽象类的代价比较高。即在程序设计中，需要从自下至上，综合分析所有子类中的共同点，高度抽象化成父类（这里可以联想Object，即使不是抽象类，但它却由始至终贯穿整个java体系）。</p>
+<p>但相比于抽象类而言，接口所付出的代价相对的低很多，可扩展性也大大提高了，因为类可以实现多个接口，因此每个接口你只需要将特定的动作抽象到这个接口即可。</p>
+<p>举个例子，如<code>LinkedList</code>的继承体系一般。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
+<ul>
+<li>抽象类的角度。<code>LinkedList</code>继承自<code>AbstractSequentialList</code>，这说明了<code>LinkedList</code>属于链表这种数据结构的继承体系中，它继承了所有链表的基本操作。</li>
+<li>接口的角度。<code>LinkedList</code>实现了<code>Deque</code>接口，这表明了即使是链表，也能够实现双端队列的功能，使程序调用者可以将<code>LinkedList</code>同等视为队列使用。</li>
+</ul>
+<hr>
+<p>参考资料</p>
+<p><a href="https://www.zhihu.com/question/20149818/answer/153188511" target="_blank" rel="external">接口和抽象类有什么区别？</a></p>
+<p><a href="http://www.importnew.com/12399.html" target="_blank" rel="external">Java抽象类与接口的区别</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/11/01/《深入理解Java虚拟机》读书笔记 - Java内存分配/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">《深入理解Java虚拟机》读书笔记 - Java内存分配</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/10/31/Java关键字-final/">
+        <span class="next-text nav-default">Java关键字 - final</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

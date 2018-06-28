@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="设计模式笔记 - 观察者模式（Observer Pattern）"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/13/设计模式笔记-观察者模式（Observer-Pattern）/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 设计模式笔记 - 观察者模式（Observer Pattern） - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          设计模式笔记 - 观察者模式（Observer Pattern）
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-13
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/设计模式/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#模式定义"><span class="toc-text">模式定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式结构"><span class="toc-text">模式结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式案例"><span class="toc-text">模式案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式分析"><span class="toc-text">模式分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#适用环境"><span class="toc-text">适用环境</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><blockquote>
+<p>观察者模式（Observer Pattern）定了对象间的一种一对多的依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并自动更新。观察者模式又叫发布-订阅（Publish/Subscribe）模式、模型-视图（Model/View）模式。</p>
+</blockquote>
+<hr>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>观察者模式包含如下角色：</p>
+<ul>
+<li>Subject：目标</li>
+<li>ConcreteSubject：具体目标</li>
+<li>Observer：观察者</li>
+<li>ConcreteObserver：具体观察者</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/1336707179_9037.jpg" alt="img"></p>
+<hr>
+<h4 id="模式案例"><a href="#模式案例" class="headerlink" title="模式案例"></a>模式案例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div></pre></td><td class="code"><pre><div class="line">// Subject-目标（主题）</div><div class="line">public abstract class Subject &#123;</div><div class="line">  	public List&lt;Observer&gt; observers;</div><div class="line">  	</div><div class="line">  	public Subject() &#123;</div><div class="line">      	observers = new ArrayList&lt;Observers&gt;();</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void attach(Observer observer) &#123;</div><div class="line">      	observers.add(observer);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public boolean detach(Observer observer) &#123;</div><div class="line">      	return observers.remove(observer);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public abstract void notify();</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Observer-观察者 -&gt; 定义共同约定的接口</div><div class="line">public interface Observer &#123;</div><div class="line">  	public void update();</div><div class="line">&#125;</div><div class="line"></div><div class="line">// ConcreteSubject-具体目标（主题）</div><div class="line">public class ConcreteSubject extends Subject &#123;</div><div class="line">  	public void notify(String text) &#123;</div><div class="line">      	for (Observer observer: observers) &#123;</div><div class="line">          	observer.update(text);</div><div class="line">      	&#125;</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// ConcreteObserver-具体观察者</div><div class="line">// 观察者1</div><div class="line">public class ConcreteObserver1 implements Observer &#123;</div><div class="line">  	private ConcreteSubject concreteSubject;</div><div class="line">  	</div><div class="line">  	public ConcreteObserver1(ConcreteSubject concreteSubject) &#123;</div><div class="line">      	this.concreteSubject = concreteSubject;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void update(String text) &#123;</div><div class="line">      	display(text);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void display(String text) &#123;</div><div class="line">      	System.out.println(&quot;ConcreteObserver1 get message: &quot; + text);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 观察者2</div><div class="line">public class ConcreteObserver2 implements Observer &#123;</div><div class="line">  	private ConcreteSubject concreteSubject;</div><div class="line">  	</div><div class="line">  	public ConcreteObserver2(ConcreteSubject concreteSubject) &#123;</div><div class="line">      	this.concreteSubject = concreteSubject;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void update(String text) &#123;</div><div class="line">      	display(text);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void display(String text) &#123;</div><div class="line">      	System.out.println(&quot;ConcreteObserver2 get message: &quot; + text + &quot;, also can individuation.&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 测试类</div><div class="line">public class Test &#123;</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">      	  	ConcreateSubject subject = new ConcreteSubject();</div><div class="line">      		Observer observer1 = new ConcreteObserver1();</div><div class="line">      		Observer observer2 = new ConcreteObserver2();</div><div class="line">      		</div><div class="line">      		// 向目标（主体）注册观察者</div><div class="line">      		subject.attach(observer1);</div><div class="line">      		subject.attach(observer2);</div><div class="line">      		</div><div class="line">   			// 向已注册的观察者发送消息</div><div class="line">      		subject.notify(&quot;test message - A&quot;);</div><div class="line">     		subject.notify(&quot;test message - B&quot;);</div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
+<li>观察者模式描述了如何建立对象与对象之间的依赖关系，如果构造满足这种需求的系统。</li>
+<li>这一模式中的关键对象是被观察目标与观察者两者，一个目标可以有任意数目的与之相依赖的观察者，一旦目标的状态发生改变，所有观察者都将得到通知。</li>
+<li>作为对这个通知的响应，每个观察者都可以即时更新自己的状态。</li>
+</ul>
+<p><strong>观察者模式的优点：</strong></p>
+<ul>
+<li>观察者模式可以实现表现层与数据逻辑层的分离，并定义了稳定的消息更新传递机制，抽象了更新接口，使得可以有各种各样的表现层作为具体的观察者角色（前提是实现了更新接口）。</li>
+<li>观察者模式在观察目标与观察者之间建立一个抽象的耦合。</li>
+<li>观察者模式支持广播通信。</li>
+<li>观察者模式符合“开闭原则”的要求。</li>
+</ul>
+<p><strong>观察者模式的缺点：</strong></p>
+<ul>
+<li>如果一个观察目标对象有很多直接和间接的观察者的话，将所有的观察者都通知到会花费很多时间。</li>
+<li>如果在观察者和观察目标之间有循环依赖的话，观察目标会触发它们之间进行循环调用，可能导致系统崩溃。</li>
+<li>观察者模式没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅只是知道观察目标发生了变化。</li>
+</ul>
+<hr>
+<h4 id="适用环境"><a href="#适用环境" class="headerlink" title="适用环境"></a>适用环境</h4><p><strong>在以下情况可以使用观察者模式：</strong></p>
+<ul>
+<li>一个抽象模型有两个方面，其中一个方面依赖于另一个方面。将这些方面封装在独立的对象中使它们可以各自独立地改变和复用。</li>
+<li>一个对象的改变将导致一个或多个对象也发生改变，而不知道具体有多少对象将发生改变，可以降低对象之间的耦合度。</li>
+<li>需要在系统中创建一个触发链，A对象的行为将影响B对象，B对象的行为将影响C对象….，可以使用观察者模式创建一种<strong>链式触发机制</strong>。</li>
+</ul>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="http://blog.csdn.net/hguisu/article/details/7556625" target="_blank" rel="external">http://blog.csdn.net/hguisu/article/details/7556625</a></p>
+<p>[2] <a href="https://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/observer.html" target="_blank" rel="external">https://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/observer.html</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/14/数据库事务的基本概念/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">数据库事务的基本概念</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/03/12/设计模式笔记-策略模式（Strategy-Pattern）/">
+        <span class="next-text nav-default">设计模式笔记 - 策略模式（Strategy Pattern）</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

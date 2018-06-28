@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="设计模式笔记 - 模板模式（Template Pattern）"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/18/设计模式笔记-模板模式（Template-Pattern）/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 设计模式笔记 - 模板模式（Template Pattern） - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          设计模式笔记 - 模板模式（Template Pattern）
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-18
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/设计模式/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#模式定义"><span class="toc-text">模式定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式结构"><span class="toc-text">模式结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式实例"><span class="toc-text">模式实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式分析"><span class="toc-text">模式分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-text"> </span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式扩展"><span class="toc-text">模式扩展</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q-amp-A"><span class="toc-text">Q&A</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><blockquote>
+<p>模板模式（Template Pattern）定义一个操作中算法的框架，而将一些步骤延迟到子类中，使得子类可以不改变算法的结构，重新定义算法中的某些特定步骤。</p>
+</blockquote>
+<hr>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>模板模式包含以下角色：</p>
+<ul>
+<li>AbstractClass：抽象类</li>
+<li>ConcreteClass：具体类</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F.JPG" alt="img"></p>
+<hr>
+<h4 id="模式实例"><a href="#模式实例" class="headerlink" title="模式实例"></a>模式实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * 此例为实现模板模式的小例子。茶与咖啡同属于咖啡因的种类，两者的冲泡方式也十分相同：煮沸水、添</div><div class="line"> * 加咖啡豆（或茶包）、导入杯中、添加调料。利用模板模式，可以将两者的冲泡过程进行抽象泛化。</div><div class="line"> */</div><div class="line">// AbstractClass - 抽象类</div><div class="line">public abstract class CaffeineBeverage &#123;</div><div class="line">  	// final - 标记子类无法重载该方法</div><div class="line">  	final void prepareRecipe() &#123;</div><div class="line">      	boilWater();</div><div class="line">      	brew();</div><div class="line">      	pourInCup();</div><div class="line">      	hook();</div><div class="line">      	addCondiments();</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	// 指定子类必须实现以下两个抽象方法</div><div class="line">  	abstract void brew();</div><div class="line">  	</div><div class="line">  	abstract void addCondiments();</div><div class="line">  </div><div class="line">  	void boilWater() &#123;</div><div class="line">      	System.out.println(&quot;Boiling Water!&quot;);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	void pourInCup() &#123;</div><div class="line">      	System.out.println(&quot;Pouring into Cup!&quot;);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	// hook钩子 - 空方法 - 使算法更具拓展性</div><div class="line">  	void hook() &#123;</div><div class="line">      	;</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// ConcreteClass - 具体类</div><div class="line">// 茶</div><div class="line">public class Tea extends CaffeineBeverage &#123;</div><div class="line">  	public void brew() &#123;</div><div class="line">      	System.out.println(&quot;Steeping the tea!&quot;);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void addCondiments() &#123;</div><div class="line">      	System.out.println(&quot;Adding Lemon!&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 咖啡</div><div class="line">public class Coffee extends CaffeineBeverage &#123;</div><div class="line">  	public void brew() &#123;</div><div class="line">      	System.out.println(&quot;Dripping Coffee through filter!&quot;);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void addCondiments() &#123;</div><div class="line">      	System.out.println(&quot;Adding Sugar and Milk!&quot;);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void hook() &#123;</div><div class="line">      	System.out.println(&quot;Please give me a spoon!&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class Test &#123;</div><div class="line">  	public static void main(String[] args) &#123;</div><div class="line">      	CaffeineBeverage tea = new Tea();</div><div class="line">      	CaffeineBeverage coffee = new Coffee();</div><div class="line">      </div><div class="line">      	tea.prepareRecipe();</div><div class="line">      	coffee.prepareRecipe();</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
+<li>通常来说，模板模式中抽象类负责实现模板方法，定义算法的骨架，而具体类实现抽象类中的抽象方法，实现完整的算法。</li>
+</ul>
+<h4 id=""><a href="#" class="headerlink" title=" "></a> </h4><p><strong>模板模式的优点：</strong></p>
+<ul>
+<li>模板模式提供了抽象类专注于算法本身，并定义了算法的大致骨架，使代码的复用最大化。</li>
+<li>子类可以继承模板类，并实现算法所指定的细节，有助于算法的扩展。</li>
+</ul>
+<p><strong>模板模式的缺点：</strong></p>
+<ul>
+<li>抽象类内部的细节若划分太过于细节，将减少子类实现该抽象类的弹性，不易于扩展。</li>
+</ul>
+<hr>
+<h4 id="模式扩展"><a href="#模式扩展" class="headerlink" title="模式扩展"></a>模式扩展</h4><p><strong>模板模式中不一定非要继承抽象类才能够实现算法的复用。</strong>java.util 包中 Array.sort() 静态方法为我们提供了排序的模板，但是我们并不能够继承数组类，所以它要求需要排序的类实现Comparable接口，才能够正常使用该排序。</p>
+<hr>
+<h4 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h4><ul>
+<li><strong>当我创建一个模板方法时，怎么知道什么时候才能使用抽象方法，什么时候用钩子</strong>当你的子类“必须”提供算法中某个方法或步骤的实现时，就使用抽象方法。如果算法的这个部分是可选的，就使用钩子。</li>
+<li><strong>使用钩子的真正目的</strong>钩子可以让子类实现算法中可选的部分，换种角度来说，在钩子对于子类的实现并不重要的时候，子类可以对此置之不理。钩子的另外一个用法，是让子类能够有机会对模板方法中某些即将发生的（或刚刚发生的）步骤做出反应。</li>
+<li><strong>策略模式与模板模式的区别</strong>策略模式与模板模式的思想是封装算法。但策略模式的侧重点在于使用组合，实现算法的替换，而模板模式的侧重点使用继承，实现算法框架的某些细节。</li>
+</ul>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/18/大型网站架构演化笔记/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">大型网站架构演化笔记</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/03/17/设计模式笔记-外观模式（Facade-Pattern）/">
+        <span class="next-text nav-default">设计模式笔记 - 外观模式（Facade Pattern）</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

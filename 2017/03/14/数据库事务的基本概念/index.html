@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="数据库事务的基本概念"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/14/数据库事务的基本概念/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 数据库事务的基本概念 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          数据库事务的基本概念
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-14
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#事务具有以下4个基本特性："><span class="toc-text">事务具有以下4个基本特性：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务的基本SQL语句"><span class="toc-text">事务的基本SQL语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务的并发执行"><span class="toc-text">事务的并发执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#并发执行产生的后果"><span class="toc-text">并发执行产生的后果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务隔离级别"><span class="toc-text">事务隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库锁机制"><span class="toc-text">数据库锁机制</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p><strong>事务（Transaction）是并发控制的基本单位。</strong>所谓的事务，可以看做一个操作序列，这一操作序列里面所包含的所有操作要么都执行，要么都不执行，它是一个不可分割的工作单位。</p>
+<blockquote>
+<p>在银行转账的过程中，需要从一个账户的钱款转移到另外一个账户上，这样必定涉及一删一增的操作。在没有事务的情况下，假设在完成对甲方账户扣款，由于不可控力，数据在进行下一步操作时失败或丢失，这样乙方账户就正常无法收到这笔欠款，且甲方已扣除欠款而无法退还。但在存在事务的情况下，由于事务的特性，当在转账过程中出现异常，就会立即回滚，保证甲乙两方账户的安全。</p>
+</blockquote>
+<hr>
+<h4 id="事务具有以下4个基本特性："><a href="#事务具有以下4个基本特性：" class="headerlink" title="事务具有以下4个基本特性："></a>事务具有以下4个基本特性：</h4><ul>
+<li><strong>原子性（Atomicity）</strong>事务中包含的操作被看做一个逻辑单元，这个逻辑单元中的操作要么全部成功，要么全部失败。</li>
+<li><strong>一致性（Consistency）</strong>一个事务的执行前后，数据库都必须处于数据一致性状态。</li>
+<li><strong>隔离性（Isolation）</strong>事务允许多个用户对同一个数据进行并发访问，而不破坏数据的正确性和完整性。同时，并行事务的修改必须与其他并行事务的修改相互独立。</li>
+<li><strong>持久性（Durability）</strong>事务结束后，对数据库中数据的影响是永久的。</li>
+</ul>
+<hr>
+<h4 id="事务的基本SQL语句"><a href="#事务的基本SQL语句" class="headerlink" title="事务的基本SQL语句"></a>事务的基本SQL语句</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">START TRANSACTION;	-- 开启事务</div><div class="line">COMMIT;	-- 提交事务</div><div class="line">ROLLBACK; -- 回滚事务</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">-- 转账小例子</div><div class="line">&gt; select * from account;</div><div class="line">+----+------+-------+</div><div class="line">| id | name | money |</div><div class="line">+----+------+-------+</div><div class="line">|  1 | 小明 | 5000  |</div><div class="line">|  2 | 小红 | 8000  |</div><div class="line">+----+------+-------+</div><div class="line">&gt;</div><div class="line">&gt;</div><div class="line">&gt; start transaction; -- 事务提交失败，进行回滚</div><div class="line">&gt; update account set money=money-1000 where name=&apos;小明&apos;; -- 从小明账户中减1000, 但出于某些原由需要进行回滚（极端情况直接关闭控制台）</div><div class="line">&gt; rollback;</div><div class="line">&gt;</div><div class="line">&gt; select * from account;</div><div class="line">+----+------+-------+</div><div class="line">| id | name | money |</div><div class="line">+----+------+-------+</div><div class="line">|  1 | 小明 | 5000  |</div><div class="line">|  2 | 小红 | 8000  |</div><div class="line">+----+------+-------+</div><div class="line">&gt;</div><div class="line">&gt;</div><div class="line">&gt; start transaction; -- 事务提交成功</div><div class="line">&gt; update account set money=money-1000 where name=&apos;小明&apos;;</div><div class="line">&gt; update account set money=money+1000 where name=&apos;小红&apos;;</div><div class="line">&gt; commit;</div><div class="line">&gt;</div><div class="line">&gt; select * from account;</div><div class="line">+----+------+-------+</div><div class="line">| id | name | money |</div><div class="line">+----+------+-------+</div><div class="line">|  1 | 小明 | 4000  |</div><div class="line">|  2 | 小红 | 9000  |</div><div class="line">+----+------+-------+</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="事务的并发执行"><a href="#事务的并发执行" class="headerlink" title="事务的并发执行"></a>事务的并发执行</h4><p>在数据库系统中，如果各个事务都是按串行方式执行的，DBMS很容易实现事务的ACID特性。这是因为在DBMS中串行执行事务程序，不会导致数据不一致性和事务隔离性问题。但是，在实际应用中，需要在DBMS中多个事务并发执行，原因如下：</p>
+<ol>
+<li><strong>改善系统的资源利用率。</strong>一个事务一般都是由多个操作组合而成的，它们在不同执行阶段需要不同的资源。有时需要I/O资源，有时需要CPU资源或需要网络资源。如果事务能够并发执行的话，就能够充分利用系统资源，提高系统处理的吞吐能力。</li>
+<li><strong>减少事务运行的平均时间。</strong>每个事务的执行时长不同，倘若事务是串行处理的，那么当有些需要长时间处理的事务必定阻塞只需短时间处理的事务。所以事务的并发执行是刚需。</li>
+</ol>
+<hr>
+<h4 id="并发执行产生的后果"><a href="#并发执行产生的后果" class="headerlink" title="并发执行产生的后果"></a>并发执行产生的后果</h4><p>事务并发执行倘若不加约束的话，不但效率不会增加，反而不如串行执行，主要表现在若干数据的不一致问题，如脏读、不可重复读、幻读、丢失更新等问题。</p>
+<ul>
+<li><strong>脏读（Dirty Read）</strong></li>
+</ul>
+<p>脏读是指当一个事务读取被另外一个事务所修改的共享数据后，若修改数据的事务因某种原因失败，数据未被提交到数据库中，而读取共享数据的事务则在同一时刻，获取一个垃圾数据，即脏数据。</p>
+<p>脏数据是对未提交事务中所修改的数据的统称。如果别的事务读取了这个数据，则可能会导致应用的数据错误，也造成不同应用的数据不一致问题。</p>
+<ul>
+<li><p><img src="http://on83riher.bkt.clouddn.com/%E8%84%8F%E8%AF%BB.jpg" alt="img"></p>
+<p>图中，事务A和事务B共享访问雇员表信息。其中事务B将雇员编号为1的年龄数据从18修改为20。在事务A结束前，事务A程序再次读取了该雇员信息，获得了新的年龄数据20。但事务B在结束前，由于某种原因，回滚了之前的操作数据，即雇员编号为1的年龄数据恢复到18，从而导致事务A获取了一个脏数据。</p>
+</li>
+</ul>
+<ul>
+<li><strong>不可重复读（Unrepeatable Read）</strong></li>
+</ul>
+<p>不可重复读是指当一个事务对同一共享数据重复读取两次，但是发现原有的数据改变或丢失。这是由于多个事务并发执行时，其中一个事务对共享数据执行了修改或删除操作造成的。</p>
+<ul>
+<li><p><img src="http://on83riher.bkt.clouddn.com/%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB.jpg" alt="img"></p>
+<p>图中，事务A和事务B共享访问雇员表信息。事务A第一次读取雇员年龄数据小于或等于20的数据为3条。其后事务B将雇员编号为2的数据删除。当事务A再次读取雇员年龄数据小于或等于20的数据时，则为2条。</p>
+</li>
+</ul>
+<ul>
+<li><strong>幻读（Phantom Read）</strong></li>
+</ul>
+<p>幻读是指当一个事务对同一个共享数据重复读取两次，但是发现第二次读取比第一次读取时，新增了一些数据。这是由于多个事务并发执行时，其中一个事务同时对共享数据进行添加操作造成的。</p>
+<ul>
+<li><p><img src="http://on83riher.bkt.clouddn.com/%E5%B9%BB%E8%AF%BB.jpg" alt="img"></p>
+<p>图中，事务A和事务B共享访问雇员表信息。事务A第一次读取雇员年龄数据小于或等于20的数据为2条。其后事务B新添加了雇员编号为3的数据。当事务A再次读取雇员年龄数据小于或等于20的数据时，则为3条。</p>
+</li>
+</ul>
+<ul>
+<li><strong>丢失更新（Lost Update）</strong></li>
+</ul>
+<p>丢失更新是指一个事务对一共享数据进行更新处理，但是以后再查询该共享数据值与原更新值不一致。这是由于多个事务并发执行，其中一个事务也对同一个共享数据进行了更新，并将前面事务的更新值改变了。</p>
+<ul>
+<li><p><img src="http://on83riher.bkt.clouddn.com/%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.jpg" alt="img"></p>
+<p>图中，事务A和事务B共享访问雇员表信息。事务A对雇员编号为1的年龄数据修改为19。其后事务B也对该雇员的年龄数据进行修改，数据改为20。当事务A再次读取该雇员的信息时，其年龄数据已与先前数据修改不同。</p>
+</li>
+</ul>
+<hr>
+<h4 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h4><p>为了避免事务并发执行可能出现的以上的并发问题而导致的数据不一致问题，可以在DBMS中设置事务隔离级别（Isolation Level）。</p>
+<p><img src="http://on83riher.bkt.clouddn.com/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.jpg" alt="img"></p>
+<p>各个隔离级别解释：</p>
+<ul>
+<li><strong>读取为提交（READ UNCOMMITED）。</strong>指定语句可以读取已由事务修改但尚未修改的行。</li>
+<li><strong>读取已提交（READ COMMITED）。</strong>指定语句不能读取已由其他事务修改但尚未提交的数据。</li>
+<li><strong>可重复读（REPEATABLE READ）。</strong>指定语句不能读取已由其他事务修改但尚未提交的行，并且指定，其他任何事务都不能在当前事务完成之前修改由当前事务修改的数据。</li>
+<li><strong>可串行化（SERIALIZABLE）。</strong>指定事务中任何语句所读取的数据都将是在该事务开始时便存在的数据。 所有事务都是按顺序执行。</li>
+</ul>
+<hr>
+<h4 id="数据库锁机制"><a href="#数据库锁机制" class="headerlink" title="数据库锁机制"></a>数据库锁机制</h4><p>// 有空再写笔记补充</p>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="http://blog.csdn.net/zdwzzu2006/article/details/5947062" target="_blank" rel="external">http://blog.csdn.net/zdwzzu2006/article/details/5947062</a></p>
+<p>[2] <a href="http://www.cnblogs.com/Achang/archive/2013/03/22/2975161.html" target="_blank" rel="external">http://www.cnblogs.com/Achang/archive/2013/03/22/2975161.html</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/14/设计模式笔记-简单工厂模式（Simple-Factory-Pattern）/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">设计模式笔记 - 简单工厂模式（Simple Factory Pattern）</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/03/13/设计模式笔记-观察者模式（Observer-Pattern）/">
+        <span class="next-text nav-default">设计模式笔记 - 观察者模式（Observer Pattern）</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

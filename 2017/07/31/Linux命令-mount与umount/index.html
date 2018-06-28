@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="Linux命令 - mount与umount"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/07/31/Linux命令-mount与umount/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> Linux命令 - mount与umount - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Linux命令 - mount与umount
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-07-31
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mount"><span class="toc-text">mount</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本语法"><span class="toc-text">基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#基本参数解释："><span class="toc-text">基本参数解释：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用基本操作"><span class="toc-text">常用基本操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#umount"><span class="toc-text">umount</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本语法-1"><span class="toc-text">基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#基本参数解释：-1"><span class="toc-text">基本参数解释：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用基本操作-1"><span class="toc-text">常用基本操作</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><blockquote>
+<p>mount 与 umount 分别用于挂载与卸载文件系统</p>
+</blockquote>
+<h4 id="mount"><a href="#mount" class="headerlink" title="mount"></a>mount</h4><hr>
+<h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mount [-l|-h|-V]</div><div class="line">mount -a</div><div class="line">mount [-fnrsvw] [-t fstype] [-o options] &lt;device&gt; &lt;dir&gt;</div></pre></td></tr></table></figure>
+<h5 id="基本参数解释："><a href="#基本参数解释：" class="headerlink" title="基本参数解释："></a>基本参数解释：</h5><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无参数</td>
+<td>显示所有磁盘的挂载情况</td>
+</tr>
+<tr>
+<td>-a</td>
+<td>依照配置文件 /etc/fstab 的数据将所有未挂载的磁盘挂载上去</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>显示时多一列 Label 名称</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>可以加上文件系统种类来指定欲挂载的类型。常见 Linux 支持类型有：ext2, ext3, vfat, reiserfs 等</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>在默认的情况下，系统会将实际挂载的情况实时写入 /etc/mtab 中，以方便其他程序的运行。但某些情况下允许用户不将挂在情况写入</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>可以在挂载时附加一些参数（详情看链接）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="常用基本操作"><a href="#常用基本操作" class="headerlink" title="常用基本操作"></a>常用基本操作</h4><ul>
+<li>显示所有端口</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> mount</div><div class="line">sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)</div><div class="line">proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)</div><div class="line">devtmpfs on /dev type devtmpfs (rw,nosuid,size=49311808k,nr_inodes=12327952,mode=755)</div><div class="line">securityfs on /sys/kernel/security type securityfs (rw,nosuid,nodev,noexec,relatime)</div><div class="line">tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)</div><div class="line">...</div><div class="line">nfsd on /proc/fs/nfsd type nfsd (rw,relatime)</div><div class="line">/dev/sda2 on /boot type ext4 (rw,relatime,data=ordered)</div><div class="line">/dev/sda1 on /boot/efi type vfat (rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=ascii,shortname=winnt,errors=remount-ro)</div><div class="line">/dev/mapper/ze-home on /home type xfs (rw,relatime,attr2,inode64,noquota)</div><div class="line">tmpfs on /run/user/0 type tmpfs (rw,nosuid,nodev,relatime,size=9864680k,mode=700)</div></pre></td></tr></table></figure>
+<ul>
+<li>挂载硬盘</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> mount /dev/sdb /home</div></pre></td></tr></table></figure>
+<p>上面的命令是指将 <code>/dev/sdb</code>磁盘挂载至<code>/home</code>文件目录下。</p>
+<blockquote>
+<p>其余操作在有空闲服务器时再添加</p>
+</blockquote>
+<hr>
+<hr>
+<h4 id="umount"><a href="#umount" class="headerlink" title="umount"></a>umount</h4><hr>
+<h4 id="基本语法-1"><a href="#基本语法-1" class="headerlink" title="基本语法"></a>基本语法</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">umount -a</div><div class="line">umount [dflnrv] [-t fstype] [-O options] &lt;device|dir&gt;</div></pre></td></tr></table></figure>
+<h5 id="基本参数解释：-1"><a href="#基本参数解释：-1" class="headerlink" title="基本参数解释："></a>基本参数解释：</h5><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-a</td>
+<td>将所有在 /proc/self/moutinfo 有描述记录的文件系统卸载下来，除了 proc, devfs, devpts, sysfs, rpc_pipefs 以及 nfsd 文件系统</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>强制卸载！</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>不将磁盘卸载情况写入 /etc/mtab</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="常用基本操作-1"><a href="#常用基本操作-1" class="headerlink" title="常用基本操作"></a>常用基本操作</h4><ul>
+<li>卸载磁盘</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> umount /dev/sdb</div></pre></td></tr></table></figure>
+<p>上面的命令是指将 <code>/home</code>文件目录下的<code>/dev/sdb</code>磁盘卸载下来</p>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="http://cn.linux.vbird.org/linux_basic/0230filesystem.php#mount" target="_blank" rel="external">http://cn.linux.vbird.org/linux_basic/0230filesystem.php#mount</a></p>
+<p>[2] <a href="http://man7.org/linux/man-pages/man8/umount.8.html" target="_blank" rel="external">http://man7.org/linux/man-pages/man8/umount.8.html</a></p>
+<p>[3] <a href="http://man7.org/linux/man-pages/man8/mount.8.html" target="_blank" rel="external">http://man7.org/linux/man-pages/man8/mount.8.html</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/08/04/joda-time源码简略剖析/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">joda-time源码简略剖析.md</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/07/30/《程序员修炼之道》读书笔记/">
+        <span class="next-text nav-default">《程序员修炼之道》读书笔记</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

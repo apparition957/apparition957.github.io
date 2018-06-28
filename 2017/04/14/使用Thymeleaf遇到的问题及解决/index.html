@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="使用Thymeleaf遇到的问题及解决"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/04/14/使用Thymeleaf遇到的问题及解决/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> 使用Thymeleaf遇到的问题及解决 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          使用Thymeleaf遇到的问题及解决
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-04-14
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/技术笔记/">技术笔记</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        <ol>
+<li><strong>**使用th:each时，无法作用于循环最开始处获取循环体。</strong></li>
+</ol>
+<p>虽然像大多数的循环中都是无法在循环开始处就获得循环体，但仍有时候，根据某些框架的特性，需要在开始处进行属性设置。</p>
+<p>以下示例中，想要在每次循环中在 tr 中根据 user 中的值 ${user.id} 设置 rel属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 以下方式不会有用，也不会报错 --&gt;</div><div class="line">&lt;tbody&gt;</div><div class="line">	&lt;tr th:each=&quot;user: $&#123;users&#125;&quot; rel=&quot;$&#123;user.id&#125;&quot; &gt;</div><div class="line">		&lt;td th:text=&quot;$&#123;user.id&#125;&quot;&gt;&lt;/td&gt;</div><div class="line">		&lt;td th:text=&quot;$&#123;user.username&#125;&quot;&gt;&lt;/td&gt;</div><div class="line">		&lt;td th:text=&quot;$&#123;user.password&#125;&quot;&gt;&lt;/td&gt;</div><div class="line">	&lt;/tr&gt;</div><div class="line">&lt;/tbody&gt;</div></pre></td></tr></table></figure>
+<p> 如果想要必须设置的话，就需要在后期利用JS代码手动实现。</p>
+<hr>
+<ol>
+<li><strong>thymeleaf 提供的自定义属性设置在大多数时候不会有效。</strong></li>
+</ol>
+<p>在官方提供的例子中，用户在使用 thymeleaf 时可以对自定义属性来进行赋值。以下为官方示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;!-- </div><div class="line">	Thymeleaf offers a default attribute processor that allows us to </div><div class="line">    set the value of any attribute, even if no specific th:* processor </div><div class="line">    has been defined for it at the Standard Dialect.</div><div class="line">--&gt;</div><div class="line"></div><div class="line">&lt;!-- So something like: --&gt;</div><div class="line">&lt;span th:whatever=&quot;$&#123;user.name&#125;&quot;&gt;...&lt;/span&gt;</div><div class="line"></div><div class="line">&lt;-- Will result in: --&gt;</div><div class="line">&lt;span whatever=&quot;John Apricot&quot;&gt;...&lt;/span&gt;</div></pre></td></tr></table></figure>
+<p>但在实际使用过程中，这个特性不尽人意，从后台获取的值有时无法利用上面的方式作用到页面中。</p>
+<p>有个可取的，稳定的解决方法如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 利用 th:attr 将需要自定义属性写在里面 --&gt;</div><div class="line">&lt;span th:attr=&quot;whatever=$&#123;user.name&#125;, another=$&#123;user.age&#125;&quot;&gt;...&lt;/span&gt;</div><div class="line"></div><div class="line">&lt;!-- 实际效果 --&gt;</div><div class="line">&lt;span whatever=&quot;John Apricot&quot; another=&quot;23&quot;&gt;...&lt;/span&gt;</div></pre></td></tr></table></figure>
+<hr>
+<ol>
+<li><strong>设置表单中的action属性时，注意花括号的引用</strong></li>
+</ol>
+<p>在设置URL地址时，thymeleaf 推荐使用<code>@</code>符号：<code>@{...}</code>。</p>
+<p>以下示例指明了需要注意的地方：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- Will produce &apos;/gtvg/order/details?orderId=3&apos; --&gt;</div><div class="line">&lt;a href=&quot;details.html&quot; th:href=&quot;@&#123;/order/details(orderId=$&#123;o.id&#125;)&#125;&quot;&gt;view&lt;/a&gt;</div><div class="line"></div><div class="line">&lt;!-- Will produce &apos;/gtvg/order/3/details&apos; --&gt;</div><div class="line">&lt;a href=&quot;details.html&quot; th:href=&quot;@&#123;/order/&#123;orderId&#125;/details(orderId=$&#123;o.id&#125;)&#125;&quot;&gt;view&lt;/a&gt;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/04/14/数据库连接查询/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">数据库连接查询</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/04/07/Linux命令-netstat/">
+        <span class="next-text nav-default">Linux命令 - netstat</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

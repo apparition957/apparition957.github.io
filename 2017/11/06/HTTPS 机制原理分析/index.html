@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="HTTPS 机制原理分析"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/11/06/HTTPS 机制原理分析/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> HTTPS 机制原理分析 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          HTTPS 机制原理分析
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-06
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关术语"><span class="toc-text">相关术语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过程"><span class="toc-text">过程</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>超文本传输安全协议（Hypertext Transfer Protocol Secure，HTTPS） 是一种通过计算机网络进行安全通信的传输协议。HTTPS 经由 HTTP 进行通信，但利用 SSL/TLS 来加密数据包。HTTPS 开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。这个协议由网景公司在1994年首次提出，随后扩展至互联网上。</p>
+<p>HTTPS 顺应时代被发展出来的很大原因在于 HTTP 协议本身的不安全性，即 HTTP 协议传输的内容是不加密的，直接由明文的方式传输，在复杂的网络通信容易被黑客截取，比如<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB" target="_blank" rel="external">中间人攻击</a>等手段。所以在发展 HTTP为前提下，网景公司加入了 SSL（Secure Socket Layer，安全套接字层） ，并在随后的发展过程中，扩展了 TSL（Transport Layer Security，传输层安全），如下所示：</p>
+<div align="center"><br><img src="http://on83riher.bkt.clouddn.com/HTTPS%20%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E5%9B%BE.png" alt=""><br></div>
+
+<h2 id="相关术语"><a href="#相关术语" class="headerlink" title="相关术语"></a>相关术语</h2><p>在了解 HTTPS 如何在信息传输过程中保证数据的安全性前，需要了解下述的一些术语解释：</p>
+<ul>
+<li>对称加密</li>
+</ul>
+<p><strong>对称加密是指对数据进行加密和解密时使用相同的密钥，或是使用两个可以简单地相互推算的密钥。</strong>对称加密优点在于算法公开，计算量小，加解密效率高，但是其明显的缺点在于若密钥在网络传输过程中被黑客截取，那么黑客就能够正确地解析数据，那么这样就无法保证数据的安全了。</p>
+<ul>
+<li>非对称加密</li>
+</ul>
+<p><strong>非对称加密，与对称加密正好相反，该算法需要两个密钥：公开密钥（public key）和私有密钥（private key）。</strong>公开密钥与私有密钥是一对，如果用公开密钥对数据进行加密，只有用对应的私有密钥才能解密；如果用私有密钥对数据进行加密，那么只有用对应的公开密钥才能解密。因为加密和解密使用的是两个不同的密钥，所以这种算法叫作非对称加密算法。其最大的优点在于安全性大大提高，原因在于数据接收方的私钥一般处于不公开的状态，黑客在获取数据的时候，无法通过私钥正确解析数据。那么其缺点，相对于对称加密，在于计算量大，加解密时效率较低。</p>
+<ul>
+<li>哈希算法</li>
+</ul>
+<p>哈希算法是一种单向密码体制，即它是一个从明文到密文的不可逆的映射，只有加密过程，没有解密过程。同时,哈希函数可以将任意长度的输入经过变化以后得到固定长度的输出。哈希算法在 HTTPS 的应用当中起了数据校验和的作用。</p>
+<ul>
+<li>数字证书</li>
+</ul>
+<p>数字证书是一个经证书授权中心数字签名的包含公开密钥拥有者信息以及公开密钥的文件。它是一种权威性的电子文档，具有极高的安全性和可依赖性。</p>
+<ul>
+<li>数字签名</li>
+</ul>
+<p>数字签名就是在 HTTPS 验证过程中，用指定的哈希算法将信息进行哈希华后，将所得的值附加在信息后面，用于在数据传输后，方便信息接收端对数据进行校验，确保信息没有被恶意篡改。</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/HTTPS%20%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B.png" alt=""><br></div>
+
+<blockquote>
+<p>图源来自于<a href="https://www.cnblogs.com/zery/p/5164795.html" target="_blank" rel="external">HTTPS 原理解析</a> ，这张画的实在太棒了！</p>
+</blockquote>
+<ol>
+<li><p>客户端首先从发送一个 HTTPS 请求，将自己所支持的加密算法，通知服务器端。</p>
+</li>
+<li><p>服务器端从客户端发来的加密算法列表中，选出一种加密算法和 HASH 算法，并将其自身的数字证书附加选出的算法一并发回给客户端。而证书中一般包含了网站的地址，公钥，证书失效日期以及证书的颁发机构等等。</p>
+</li>
+<li><p>客户端在收到服务器端的响应之后，会做一下几件事：</p>
+<p>1）验证证书的合法性。一般通过证书的颁发机构是否是合法的、证书是否超过失效日期、证书中所包含的网站地址是否与你正在所访问的相同等方面进行验证。若证书合法，则通过验证，否则将提示用户该证书存在风险。</p>
+<p>2）生成随机密码。在证书通过验证，或用户主动信任该证书后，客户端会随机生成一串序列号，并使用服务器端传来的公钥进行加密，并生成握手消息。</p>
+<p>3）HASH 算法加密信息。利用服务器端所回传的 HASH 算法将客户端生成的握手信息进行加密，并将加密后的 HASH 值附加上握手消息中，用于数据校验。</p>
+</li>
+<li><p>服务器端接收到客户端的请求后，同样也会做下面几件事：</p>
+<p>1）使用自己的私钥来解密客户端所传来的握手消息，得到客户端生成的随机序列号。在这一部分过程中就运用了非对称加密的技术。</p>
+<p>2）使用随机序列号，对握手消息进行 HASH 算法加密，并将获得的 HASH 值与从客户单一并传来的 HASH 值进行对比，查看是否一致。</p>
+<p>3）最后，使用该随机序列号，再用公钥加密一段握手消息，并附加上该握手消息的 HASH 值，发回给客户端。</p>
+</li>
+<li><p>客户端接收到服务器端的请求后，用生成的随机序列号对握手消息进行解密，并对比传来的 HASH 值是否一致。倘若 HASH 值一直，则握手过程正式结束，之后的所有通信将由客户端所生成的随机序列号并利用加密算法对消息进行加密处理。</p>
+</li>
+</ol>
+<hr>
+<p>参考资料</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE" target="_blank" rel="external">超文本传输安全协议</a></p>
+<p><a href="http://blog.csdn.net/zhongzh86/article/details/69389967" target="_blank" rel="external">深度解析HTTPS原理</a></p>
+<p><a href="http://www.jianshu.com/p/650ad90bf563" target="_blank" rel="external">简单粗暴系列之HTTPS原理</a></p>
+<p><a href="http://www.cnblogs.com/zery/p/5164795.html" target="_blank" rel="external">HTTPS 原理解析</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/11/06/从输入 URL 到页面加载完成的过程中都发生了什么事情/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">从输入 URL 到页面加载完成的过程中都发生了什么事情?</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/11/05/《深入理解Java虚拟机》读书笔记 - 类加载机制/">
+        <span class="next-text nav-default">《深入理解Java虚拟机》读书笔记 - 类加载机制</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

@@ -1,0 +1,1461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/05/27/TCP%20%E5%8D%8F%E8%AE%AE%E4%B8%AD%20Keep-Alive%20%E7%89%B9%E6%80%A7/</loc>
+    <lastmod>2018-05-27T10:48:37.000Z</lastmod>
+    <data>
+        <display>
+        <title>TCP 协议中 Keep-Alive 特性</title>
+        <pubTime>2018-05-27T10:47:59.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/05/22/Scala%20-%20NonLocalReturnControl/</loc>
+    <lastmod>2018-05-22T08:38:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Scala - NonLocalReturnControl</title>
+        <pubTime>2018-05-22T08:36:18.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/05/19/Scala%20-%20Iterator%20vs%20Stream%20vs%20View/</loc>
+    <lastmod>2018-05-19T09:58:33.000Z</lastmod>
+    <data>
+        <display>
+        <title>Scala - Iterator vs Stream vs View</title>
+        <pubTime>2018-05-19T09:58:10.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/05/18/Scala%20-%20%E6%9C%89%E5%85%B3%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
+    <lastmod>2018-05-18T15:15:12.000Z</lastmod>
+    <data>
+        <display>
+        <title>Scala - 有关变量赋值的问题</title>
+        <pubTime>2018-05-18T15:14:46.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/05/14/Scala%20-%20%E7%B1%BB%E6%9E%84%E9%80%A0%E5%99%A8/</loc>
+    <lastmod>2018-05-14T15:59:09.000Z</lastmod>
+    <data>
+        <display>
+        <title>Scala - 类构造器</title>
+        <pubTime>2018-05-14T15:58:37.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/05/07/%E5%AF%BB%E6%89%BE%E4%B8%80%E7%A7%8D%E6%9B%B4%E5%BF%AB%E6%9B%B4%E9%AB%98%E6%95%88%E7%9A%84%E6%96%B9%E6%B3%95/</loc>
+    <lastmod>2018-05-07T14:36:00.000Z</lastmod>
+    <data>
+        <display>
+        <title>寻找一种更快更高效的方法</title>
+        <pubTime>2018-05-07T14:35:49.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/04/19/%E6%9C%89%E5%A4%9A%E5%B0%91%E4%BA%BA%E5%B7%A5%E5%B0%B1%E6%9C%89%E5%A4%9A%E5%B0%91%E6%99%BA%E8%83%BD/</loc>
+    <lastmod>2018-04-19T15:04:46.000Z</lastmod>
+    <data>
+        <display>
+        <title>有多少人工就有多少智能</title>
+        <pubTime>2018-04-19T15:04:25.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/04/14/Spark%20-%20take()%20%E7%AE%97%E5%AD%90/</loc>
+    <lastmod>2018-04-14T05:41:19.000Z</lastmod>
+    <data>
+        <display>
+        <title>Spark - take() 算子</title>
+        <pubTime>2018-04-14T05:41:00.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/04/01/Spark%20-%20%E7%94%B1%20foreach%20%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83/</loc>
+    <lastmod>2018-03-31T17:34:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>Spark - 由 foreach 引发的思考</title>
+        <pubTime>2018-03-31T17:34:32.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/03/24/%E5%88%97%E5%BC%8F%E5%AD%98%E5%82%A8%20-%20HBase%20vs%20Parquet/</loc>
+    <lastmod>2018-03-24T07:06:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>列式存储 - HBase vs Parquet</title>
+        <pubTime>2018-03-24T07:05:48.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/03/19/Scala%20-%20identity()%20%E5%87%BD%E6%95%B0/</loc>
+    <lastmod>2018-03-19T12:52:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>Scala - identity() 函数</title>
+        <pubTime>2018-03-19T12:51:59.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/03/06/%E5%88%86%E5%B8%83%E5%BC%8F%E7%88%AC%E8%99%AB%E6%9E%B6%E6%9E%84/</loc>
+    <lastmod>2018-03-06T14:54:56.000Z</lastmod>
+    <data>
+        <display>
+        <title>分布式爬虫架构</title>
+        <pubTime>2018-03-06T14:53:55.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2018/01/22/%E5%A4%A7%E4%B8%89%E4%B8%8A%E5%AD%A6%E6%9C%9F%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2018-01-22T14:30:25.000Z</lastmod>
+    <data>
+        <display>
+        <title>大三上学期总结</title>
+        <pubTime>2018-01-22T14:30:09.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/27/%E8%81%8A%E8%81%8Alog4j/</loc>
+    <lastmod>2017-11-27T07:03:40.000Z</lastmod>
+    <data>
+        <display>
+        <title>聊聊log4j</title>
+        <pubTime>2017-11-27T06:53:55.000Z</pubTime>
+        
+        <tag>log4j</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/26/SpringMVC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-DispatcherServlet%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B/</loc>
+    <lastmod>2017-11-26T15:59:13.000Z</lastmod>
+    <data>
+        <display>
+        <title>SpringMVC源码分析 - DispatcherServlet请求处理过程</title>
+        <pubTime>2017-11-26T15:58:23.000Z</pubTime>
+        
+        <tag>SpringMVC</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/26/SpringMVC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-DispatcherServlet%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/</loc>
+    <lastmod>2017-11-26T15:58:52.000Z</lastmod>
+    <data>
+        <display>
+        <title>SpringMVC源码分析 - DispatcherServlet初始化过程</title>
+        <pubTime>2017-11-26T15:58:09.000Z</pubTime>
+        
+        <tag>SpringMVC</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/14/Executor%20%E6%A1%86%E6%9E%B6%20-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0/</loc>
+    <lastmod>2017-11-14T04:25:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>Executor 框架 - 线程池</title>
+        <pubTime>2017-11-14T04:25:11.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/14/Executor%20%E6%A1%86%E6%9E%B6%20-%20%E6%A6%82%E5%BF%B5/</loc>
+    <lastmod>2017-11-14T02:21:41.000Z</lastmod>
+    <data>
+        <display>
+        <title>Executor 框架 - 概念</title>
+        <pubTime>2017-11-14T02:19:26.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/11/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%20-%20%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E4%B8%8E%E9%94%81%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2017-11-11T08:33:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>《深入理解Java虚拟机》读书笔记 - 线程安全与锁优化</title>
+        <pubTime>2017-11-11T08:32:18.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/04/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%20-%20Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/</loc>
+    <lastmod>2017-11-11T07:43:34.000Z</lastmod>
+    <data>
+        <display>
+        <title>《深入理解Java虚拟机》读书笔记 - Java内存模型与线程</title>
+        <pubTime>2017-11-04T09:24:52.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/09/20/BIO-NIO-AIO%20%E4%B8%89%E8%80%85%E5%85%B3%E7%B3%BB%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2017-11-10T13:21:53.000Z</lastmod>
+    <data>
+        <display>
+        <title>BIO/NIO/AIO 三者关系解析</title>
+        <pubTime>2017-09-20T13:13:43.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/10/26/HashMap%20%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2017-11-09T13:36:42.000Z</lastmod>
+    <data>
+        <display>
+        <title>HashMap 源码分析</title>
+        <pubTime>2017-10-26T14:06:32.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/06/%E4%BB%8E%E8%BE%93%E5%85%A5%20URL%20%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E5%AE%8C%E6%88%90%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%83%BD%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%E4%BA%8B%E6%83%85/</loc>
+    <lastmod>2017-11-06T13:00:30.000Z</lastmod>
+    <data>
+        <display>
+        <title>从输入 URL 到页面加载完成的过程中都发生了什么事情?</title>
+        <pubTime>2017-11-06T13:00:01.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/06/HTTPS%20%E6%9C%BA%E5%88%B6%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2017-11-06T12:30:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>HTTPS 机制原理分析</title>
+        <pubTime>2017-11-06T12:29:51.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/05/%E7%90%86%E8%A7%A3%E6%82%B2%E8%A7%82%E9%94%81%E4%B8%8E%E4%B9%90%E8%A7%82%E9%94%81/</loc>
+    <lastmod>2017-11-06T11:06:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>理解悲观锁与乐观锁</title>
+        <pubTime>2017-11-05T06:58:26.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/05/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%20-%20%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</loc>
+    <lastmod>2017-11-05T15:17:25.000Z</lastmod>
+    <data>
+        <display>
+        <title>《深入理解Java虚拟机》读书笔记 - 类加载机制</title>
+        <pubTime>2017-11-05T13:19:02.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/03/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%20-%20%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</loc>
+    <lastmod>2017-11-05T11:51:05.000Z</lastmod>
+    <data>
+        <display>
+        <title>《深入理解Java虚拟机》读书笔记 - 垃圾回收机制</title>
+        <pubTime>2017-11-03T11:08:31.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/01/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%20-%20Java%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/</loc>
+    <lastmod>2017-11-04T09:27:40.000Z</lastmod>
+    <data>
+        <display>
+        <title>《深入理解Java虚拟机》读书笔记 - Java内存分配</title>
+        <pubTime>2017-11-01T05:57:11.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/02/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%20-%20Java%E5%AF%B9%E8%B1%A1/</loc>
+    <lastmod>2017-11-02T05:44:09.000Z</lastmod>
+    <data>
+        <display>
+        <title>《深入理解Java虚拟机》读书笔记 - Java对象</title>
+        <pubTime>2017-11-02T05:34:34.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/11/01/PriorityQueue-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2017-11-01T09:00:10.000Z</lastmod>
+    <data>
+        <display>
+        <title>PriorityQueue 源码分析</title>
+        <pubTime>2017-11-01T08:58:30.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/10/31/%E5%A0%86%E6%8E%92%E5%BA%8F%EF%BC%88Heap%20Sort%EF%BC%89/</loc>
+    <lastmod>2017-10-31T12:55:27.000Z</lastmod>
+    <data>
+        <display>
+        <title>堆排序（Heap Sort）</title>
+        <pubTime>2017-10-30T17:02:22.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/10/31/Java%E6%8A%BD%E8%B1%A1%E7%B1%BB%E4%B8%8E%E6%8E%A5%E5%8F%A3/</loc>
+    <lastmod>2017-10-31T12:48:09.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java抽象类与接口</title>
+        <pubTime>2017-10-31T12:41:15.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/19/UML%E4%B8%AD%E7%B1%BB%E5%9B%BE%E4%B8%8E%E7%B1%BB%E5%85%B3%E7%B3%BB%E8%AF%A6%E8%A7%A3/</loc>
+    <lastmod>2017-10-31T12:03:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>UML中类图与类关系详解</title>
+        <pubTime>2017-03-19T11:59:22.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术笔记" url="http://apparition957.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/10/31/Java%E5%85%B3%E9%94%AE%E5%AD%97-final/</loc>
+    <lastmod>2017-10-31T12:02:20.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java关键字 - final</title>
+        <pubTime>2017-10-31T12:02:14.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/10/31/Java%E5%85%B3%E9%94%AE%E5%AD%97-static/</loc>
+    <lastmod>2017-10-31T07:11:31.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java关键字 - static</title>
+        <pubTime>2017-10-31T07:11:17.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/10/30/Java%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2017-10-30T11:30:37.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java异常机制分析</title>
+        <pubTime>2017-10-30T11:29:40.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/10/29/LinkedList%20%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2017-10-29T07:31:33.000Z</lastmod>
+    <data>
+        <display>
+        <title>LinkedList 源码分析</title>
+        <pubTime>2017-10-28T16:10:54.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/10/29/ArrayList%E4%B8%8ELinkedList%E7%9A%84%E5%BE%AA%E7%8E%AF%E6%95%88%E7%8E%87%E5%AF%B9%E6%AF%94/</loc>
+    <lastmod>2017-10-28T17:08:14.000Z</lastmod>
+    <data>
+        <display>
+        <title>ArrayList与LinkedList的循环效率对比</title>
+        <pubTime>2017-10-28T17:06:14.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/08/05/%E7%A7%BB%E4%BD%8D%E6%93%8D%E4%BD%9C%E7%AC%A6/</loc>
+    <lastmod>2017-10-28T07:35:27.000Z</lastmod>
+    <data>
+        <display>
+        <title>移位操作符</title>
+        <pubTime>2017-08-05T13:20:30.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/10/28/Map-Entry%20%E4%BD%BF%E7%94%A8%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2017-10-28T07:33:52.000Z</lastmod>
+    <data>
+        <display>
+        <title>Map.Entry 使用解析</title>
+        <pubTime>2017-10-28T03:04:07.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/10/27/ArrayList%20%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2017-10-27T11:59:34.000Z</lastmod>
+    <data>
+        <display>
+        <title>ArrayList 源码分析</title>
+        <pubTime>2017-10-27T11:57:40.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/10/12/%E3%80%8A%E5%88%AB%E8%AE%A9%E6%88%91%E6%80%9D%E8%80%83%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2017-10-12T10:27:12.000Z</lastmod>
+    <data>
+        <display>
+        <title>《别让我思考》读书笔记</title>
+        <pubTime>2017-10-12T10:25:10.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/09/07/Android%20%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E8%B5%84%E6%96%99%E5%BD%92%E7%BA%B3/</loc>
+    <lastmod>2017-09-19T16:08:56.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 源码分析资料归纳</title>
+        <pubTime>2017-09-07T13:32:24.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/09/01/Android%20%E8%BF%9B%E8%A1%8C%20HTTPS%20%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/</loc>
+    <lastmod>2017-09-01T06:53:20.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 进行 HTTPS 网络通信</title>
+        <pubTime>2017-09-01T06:52:32.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/08/28/%E5%BF%83%E8%B7%B3%E6%9C%BA%E5%88%B6/</loc>
+    <lastmod>2017-08-28T11:47:44.000Z</lastmod>
+    <data>
+        <display>
+        <title>心跳机制</title>
+        <pubTime>2017-08-28T11:46:10.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/08/07/%E8%AE%B0%E5%BE%97%E5%88%B7%E7%89%99%EF%BC%81/</loc>
+    <lastmod>2017-08-07T08:33:05.000Z</lastmod>
+    <data>
+        <display>
+        <title>记得刷牙！</title>
+        <pubTime>2017-08-07T08:32:44.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/02/06/%E5%88%A9%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAWordpress/</loc>
+    <lastmod>2017-08-04T08:49:32.000Z</lastmod>
+    <data>
+        <display>
+        <title>利用服务器快速搭建Wordpress</title>
+        <pubTime>2017-02-06T14:17:00.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="生活技能" url="http://apparition957.github.io/categories/%E7%94%9F%E6%B4%BB%E6%8A%80%E8%83%BD/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/08/04/joda-time%E6%BA%90%E7%A0%81%E7%AE%80%E7%95%A5%E5%89%96%E6%9E%90/</loc>
+    <lastmod>2017-08-04T08:48:37.000Z</lastmod>
+    <data>
+        <display>
+        <title>joda-time源码简略剖析.md</title>
+        <pubTime>2017-08-04T08:36:38.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/07/31/Linux%E5%91%BD%E4%BB%A4-mount%E4%B8%8Eumount/</loc>
+    <lastmod>2017-07-31T13:36:19.000Z</lastmod>
+    <data>
+        <display>
+        <title>Linux命令 - mount与umount</title>
+        <pubTime>2017-07-31T13:35:00.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/04/07/Linux%E5%91%BD%E4%BB%A4-netstat/</loc>
+    <lastmod>2017-07-31T13:34:30.000Z</lastmod>
+    <data>
+        <display>
+        <title>Linux命令 - netstat</title>
+        <pubTime>2017-04-07T09:49:54.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术笔记" url="http://apparition957.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/05/18/%E8%B7%9F%E7%9D%80%E8%80%81%E5%B8%88%E5%96%9D%E5%96%9D%E8%8C%B6%E8%81%8A%E8%81%8A%E4%BA%BA%E7%94%9F/</loc>
+    <lastmod>2017-07-31T13:29:21.000Z</lastmod>
+    <data>
+        <display>
+        <title>跟着老师喝喝茶聊聊人生</title>
+        <pubTime>2017-05-18T15:22:24.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="不正常的日常" url="http://apparition957.github.io/categories/%E4%B8%8D%E6%AD%A3%E5%B8%B8%E7%9A%84%E6%97%A5%E5%B8%B8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/05/17/%E3%80%8A%E5%A4%A7%E5%9E%8B%E7%BD%91%E7%AB%99%E7%B3%BB%E7%BB%9F%E4%B8%8EJava%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%E3%80%8B%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2017-07-31T13:29:00.000Z</lastmod>
+    <data>
+        <display>
+        <title>《大型网站系统与Java中间件开发实践》笔记</title>
+        <pubTime>2017-05-17T05:19:43.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术笔记" url="http://apparition957.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/05/14/Cookie%E5%92%8CSession/</loc>
+    <lastmod>2017-07-31T13:28:11.000Z</lastmod>
+    <data>
+        <display>
+        <title>Cookie和Session</title>
+        <pubTime>2017-05-14T11:55:35.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术笔记" url="http://apparition957.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/04/19/JSON%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2017-07-31T13:23:17.000Z</lastmod>
+    <data>
+        <display>
+        <title>JSON笔记</title>
+        <pubTime>2017-04-19T14:29:57.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术笔记" url="http://apparition957.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/04/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/</loc>
+    <lastmod>2017-07-31T13:22:49.000Z</lastmod>
+    <data>
+        <display>
+        <title>数据库连接查询</title>
+        <pubTime>2017-04-14T14:14:53.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="MySQL" url="http://apparition957.github.io/categories/MySQL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/04/14/%E4%BD%BF%E7%94%A8Thymeleaf%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3/</loc>
+    <lastmod>2017-07-31T13:22:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用Thymeleaf遇到的问题及解决</title>
+        <pubTime>2017-04-14T11:44:48.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术笔记" url="http://apparition957.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/04/06/%E6%AD%BB%E9%94%81%E7%9A%84%E6%A6%82%E5%BF%B5/</loc>
+    <lastmod>2017-07-31T13:21:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>死锁的概念</title>
+        <pubTime>2017-04-06T12:20:19.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术笔记" url="http://apparition957.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/29/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F%EF%BC%88Mediator-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T13:21:00.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 中介者模式（Mediator Pattern）</title>
+        <pubTime>2017-03-29T14:08:18.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/29/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F%EF%BC%88Builder-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T13:19:52.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 建造者模式（Builder Pattern）</title>
+        <pubTime>2017-03-29T06:37:41.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/27/SQL-GROUP-BY-%E5%92%8C-HAVING/</loc>
+    <lastmod>2017-07-31T13:18:09.000Z</lastmod>
+    <data>
+        <display>
+        <title>SQL - GROUP BY 和 HAVING</title>
+        <pubTime>2017-03-27T12:16:44.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="MySQL" url="http://apparition957.github.io/categories/MySQL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/27/%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</loc>
+    <lastmod>2017-07-31T13:17:45.000Z</lastmod>
+    <data>
+        <display>
+        <title>正向代理与反向代理</title>
+        <pubTime>2017-03-27T07:14:40.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术笔记" url="http://apparition957.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/25/CAP%E3%80%81ACID%E3%80%81BASE%E7%90%86%E8%A7%A3/</loc>
+    <lastmod>2017-07-31T13:13:25.000Z</lastmod>
+    <data>
+        <display>
+        <title>CAP、ACID、BASE理解</title>
+        <pubTime>2017-03-25T08:31:11.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术笔记" url="http://apparition957.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/18/%E5%A4%A7%E5%9E%8B%E7%BD%91%E7%AB%99%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8C%96%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2017-07-31T13:08:23.000Z</lastmod>
+    <data>
+        <display>
+        <title>大型网站架构演化笔记</title>
+        <pubTime>2017-03-18T13:46:07.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术笔记" url="http://apparition957.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F%EF%BC%88Template-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T13:04:56.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 模板模式（Template Pattern）</title>
+        <pubTime>2017-03-18T13:00:20.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F%EF%BC%88Facade-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T13:03:54.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 外观模式（Facade Pattern）</title>
+        <pubTime>2017-03-17T14:06:39.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%EF%BC%88Adapter-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T13:03:18.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 适配器模式（Adapter Pattern）</title>
+        <pubTime>2017-03-17T10:20:54.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F%EF%BC%88Command-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T13:02:40.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 命令模式（Command Pattern）</title>
+        <pubTime>2017-03-16T15:24:35.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E2%80%93-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%EF%BC%88Singleton-Patttern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T13:02:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 – 单例模式（Singleton Patttern）</title>
+        <pubTime>2017-03-16T04:00:45.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%EF%BC%88Abstract-Factory-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T13:01:05.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 抽象工厂模式（Abstract Factory Pattern）</title>
+        <pubTime>2017-03-15T11:55:17.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F%EF%BC%88Factory-Method-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T12:59:59.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 工厂方法模式（Factory Method Pattern）</title>
+        <pubTime>2017-03-15T03:17:41.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%EF%BC%88Simple-Factory-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T12:58:49.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 简单工厂模式（Simple Factory Pattern）</title>
+        <pubTime>2017-03-14T13:21:08.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</loc>
+    <lastmod>2017-07-31T12:57:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>数据库事务的基本概念</title>
+        <pubTime>2017-03-14T03:01:17.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="MySQL" url="http://apparition957.github.io/categories/MySQL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/13/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%EF%BC%88Observer-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T12:55:01.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 观察者模式（Observer Pattern）</title>
+        <pubTime>2017-03-12T16:22:33.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%EF%BC%88Strategy-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T12:54:03.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 策略模式（Strategy Pattern）</title>
+        <pubTime>2017-03-12T04:36:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E6%A6%82%E8%BF%B0/</loc>
+    <lastmod>2017-07-31T12:50:21.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 概述</title>
+        <pubTime>2017-03-11T16:08:28.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/11/%E8%8C%83%E5%BC%8F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%8F%8D%E8%8C%83%E5%BC%8F%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2017-07-31T12:49:00.000Z</lastmod>
+    <data>
+        <display>
+        <title>范式设计与反范式设计</title>
+        <pubTime>2017-03-11T03:57:56.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="MySQL" url="http://apparition957.github.io/categories/MySQL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/10/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%AD%E8%A8%80%E7%9A%84%E4%BA%94%E5%A4%A7%E5%88%86%E7%B1%BB/</loc>
+    <lastmod>2017-07-31T12:42:00.000Z</lastmod>
+    <data>
+        <display>
+        <title>数据库语言的五大分类</title>
+        <pubTime>2017-03-10T15:34:01.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="MySQL" url="http://apparition957.github.io/categories/MySQL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/09/Eureka%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%BA%E5%88%B6%E5%85%B3%E9%97%AD-%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E7%95%8C%E9%9D%A2%E4%B8%AD%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BE%9D%E7%84%B6%E4%BB%A5UP%E7%8A%B6%E6%80%81%E5%AD%98%E5%9C%A8/</loc>
+    <lastmod>2017-07-31T12:39:08.000Z</lastmod>
+    <data>
+        <display>
+        <title>Eureka客户端强制关闭, 注册中心界面中客户端依然以UP状态存在</title>
+        <pubTime>2017-03-09T12:50:46.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Spring" url="http://apparition957.github.io/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/08/Robbin%E4%B8%AD-No-instances-available-for-XX-%E4%BA%A6%E6%88%96%E8%80%85%E9%81%87%E5%88%B0-NULL-%E9%94%99%E8%AF%AF/</loc>
+    <lastmod>2017-07-31T12:37:56.000Z</lastmod>
+    <data>
+        <display>
+        <title>Robbin中 No instances available for XX 亦或者遇到 NULL 错误</title>
+        <pubTime>2017-03-08T15:06:35.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Spring" url="http://apparition957.github.io/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/07/PO-VO-BO-DTO-DAO-POJO%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/</loc>
+    <lastmod>2017-07-31T12:32:16.000Z</lastmod>
+    <data>
+        <display>
+        <title>PO/VO/BO/DTO/DAO/POJO相关概念</title>
+        <pubTime>2017-03-07T01:38:32.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Spring" url="http://apparition957.github.io/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/06/MySQL%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-%E4%B8%BB%E9%94%AE-%E5%A4%96%E9%94%AE-%E7%B4%A2%E5%BC%95/</loc>
+    <lastmod>2017-07-31T12:26:13.000Z</lastmod>
+    <data>
+        <display>
+        <title>MySQL基本概念 -- 主键/外键/索引</title>
+        <pubTime>2017-03-06T10:06:30.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="MySQL" url="http://apparition957.github.io/categories/MySQL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/02/28/Spring%E6%A1%86%E6%9E%B6%E4%B8%AD-Controller%E7%B1%BB%E4%B8%8B%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC/</loc>
+    <lastmod>2017-07-31T12:24:59.000Z</lastmod>
+    <data>
+        <display>
+        <title>Spring框架中@Controller类下的返回值</title>
+        <pubTime>2017-02-27T16:51:56.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Spring" url="http://apparition957.github.io/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/02/27/Spring%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3/</loc>
+    <lastmod>2017-07-31T12:23:25.000Z</lastmod>
+    <data>
+        <display>
+        <title>Spring框架中的注解</title>
+        <pubTime>2017-02-27T10:33:52.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Spring" url="http://apparition957.github.io/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/07/30/%E3%80%8A%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2017-07-31T12:21:10.000Z</lastmod>
+    <data>
+        <display>
+        <title>《程序员修炼之道》读书笔记</title>
+        <pubTime>2017-07-30T04:52:57.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术笔记" url="http://apparition957.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%EF%BC%88State-Pattern%EF%BC%89/</loc>
+    <lastmod>2017-07-31T01:46:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式笔记 - 状态模式（State Pattern）</title>
+        <pubTime>2017-03-28T01:33:22.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://apparition957.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/07/23/%E6%9C%AA%E9%80%89%E6%8B%A9%E7%9A%84%E8%B7%AF/</loc>
+    <lastmod>2017-07-30T04:40:42.000Z</lastmod>
+    <data>
+        <display>
+        <title>未选择的路</title>
+        <pubTime>2017-07-22T17:59:42.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="不正常的日常" url="http://apparition957.github.io/categories/%E4%B8%8D%E6%AD%A3%E5%B8%B8%E7%9A%84%E6%97%A5%E5%B8%B8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/07/29/Linux-LVM%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/</loc>
+    <lastmod>2017-07-30T04:20:44.000Z</lastmod>
+    <data>
+        <display>
+        <title>Linux LVM磁盘管理</title>
+        <pubTime>2017-07-28T16:34:58.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Linux" url="http://apparition957.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://apparition957.github.io/2017/03/26/%E5%BC%80%E5%AD%A6%E8%BF%91%E6%9C%9F%E6%9C%89%E6%84%9F%E8%80%8C%E5%8F%91%E7%9A%84%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2017-07-30T04:16:04.000Z</lastmod>
+    <data>
+        <display>
+        <title>开学近期有感而发的总结</title>
+        <pubTime>2017-03-26T07:15:07.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="不正常的日常" url="http://apparition957.github.io/categories/%E4%B8%8D%E6%AD%A3%E5%B8%B8%E7%9A%84%E6%97%A5%E5%B8%B8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+    
+</urlset>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="SQL - GROUP BY 和 HAVING"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/03/27/SQL-GROUP-BY-和-HAVING/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> SQL - GROUP BY 和 HAVING - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          SQL - GROUP BY 和 HAVING
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-27
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GROUP-BY"><span class="toc-text">GROUP BY</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GROUP-BY-简介"><span class="toc-text">GROUP BY 简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GROUP-BY-语法"><span class="toc-text">GROUP BY 语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GROUP-BY-使用"><span class="toc-text">GROUP BY 使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GROUP-BY-语句容易出现的错误"><span class="toc-text">GROUP BY 语句容易出现的错误</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HAVING"><span class="toc-text">HAVING</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HAVING-简介"><span class="toc-text">HAVING 简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HAVING-语法"><span class="toc-text">HAVING 语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HAVING-使用"><span class="toc-text">HAVING 使用</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h2 id="GROUP-BY"><a href="#GROUP-BY" class="headerlink" title="GROUP BY"></a>GROUP BY</h2><h4 id="GROUP-BY-简介"><a href="#GROUP-BY-简介" class="headerlink" title="GROUP BY 简介"></a>GROUP BY 简介</h4><p>GROUP BY 语句根据字面上的意思为“根据（by）一定的规则进行分组（group）”。它的主要作用是通过一定的规则将一个数据集划分成若干个小的区域，然后针对若干个小的区域进行数据处理。其常常结合聚合函数（COUNT/SUM）等一起使用。</p>
+<hr>
+<h4 id="GROUP-BY-语法"><a href="#GROUP-BY-语法" class="headerlink" title="GROUP BY 语法"></a>GROUP BY 语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">SELECT column_name, aggregate_function(column_name)</div><div class="line">FROM table_name</div><div class="line">WHERE column_name operator value</div><div class="line">GROUP BY column_name</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="GROUP-BY-使用"><a href="#GROUP-BY-使用" class="headerlink" title="GROUP BY 使用"></a>GROUP BY 使用</h4><ol>
+<li><strong>GROUP BY [EXPERSSIONS]:</strong></li>
+</ol>
+<p>数据集根据表达式中的若干字段将一个数据集划分成不同的分组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">-- 以下例子为，统计某人在全国范围中购买的地产总数</div><div class="line"></div><div class="line">SELECT owner.Name, COUNT(*) AS &apos;购买总数&apos; FROM registration </div><div class="line">LEFT JOIN owner ON owner.PersonID = registration.PersonID</div><div class="line">GROUP BY registration.PersonID</div><div class="line"></div><div class="line">+------+----------+</div><div class="line">| Name | 购买总数 |</div><div class="line">+------+----------+</div><div class="line">| 小明 |        2 |</div><div class="line">| 小红 |        1 |</div><div class="line">| 小刚 |        2 |</div><div class="line">+------+----------+</div></pre></td></tr></table></figure>
+<p>以上可以SQL语句可以解释为“按照房产登记表（regisration）中的身份证（PersonID）将数据集进行分组，然后按照分组来分别统计出各自的记录数量”。</p>
+<ol>
+<li><strong>GROUP BY [EXPERSSIONS] WITH ROLLUP</strong></li>
+</ol>
+<p>指定在结果集内不仅包含由 GROUP BY 提供的正常行，还包含汇总行。按层次结构顺序，从组内的最低级别到最高级别汇总组。组的层次结构取决于指定分组列时所使用的顺序。更改分组列的顺序会影响在结果集内生成的行数。”按层结结构顺序“这段话是指按照 GROUP BY 语句中字段的顺序进行排序，比如 GROUG BY column1，column2， column3，那么这个分组的级别从高到低的顺序是 column1 &gt; column2 &gt; column3。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">-- 以下例子为，统计全国各类型房产的销售面积情况</div><div class="line"></div><div class="line">select ESTATE.EstateCity, ESTATE.EstateType, SUM(ESTATE.PropertyArea) AS &apos;销售面积&apos; FROM ESTATE  </div><div class="line">LEFT JOIN REGISTRATION ON REGISTRATION.EstateID=ESTATE.EstateID </div><div class="line">GROUP BY ESTATE.EstateCity, ESTATE.EstateType WITH ROLLUP</div><div class="line"></div><div class="line">+------------+------------+----------+</div><div class="line">| EstateCity | EstateType | 销售面积 |</div><div class="line">+------------+------------+----------+</div><div class="line">| 北京市     | 住宅       |    71.00 |</div><div class="line">| 北京市     | NULL       |    71.00 |</div><div class="line">| 天津市     | 住宅       |    50.00 |</div><div class="line">| 天津市     | NULL       |    50.00 |</div><div class="line">| 惠州市     | 别墅       |   170.00 |</div><div class="line">| 惠州市     | NULL       |   170.00 |</div><div class="line">| 成都市     | 住宅       |    95.00 |</div><div class="line">| 成都市     | 商铺       |   500.00 |</div><div class="line">| 成都市     | NULL       |   595.00 |</div><div class="line">| NULL       | NULL       |   886.00 |</div><div class="line">+------------+------------+----------+</div></pre></td></tr></table></figure>
+<p>查询结果的第一句、第二句为WITH ROLLUP分析的第一组，可以解释为在北京市中，所有类型的房产总销售面积的总结。而查询结果中的最后一句解释为在全国中，所有类型的房产总销售面积的总结。</p>
+<hr>
+<h4 id="GROUP-BY-语句容易出现的错误"><a href="#GROUP-BY-语句容易出现的错误" class="headerlink" title="GROUP BY 语句容易出现的错误"></a>GROUP BY 语句容易出现的错误</h4><p>通过以下语句利用 GROUP BY 进行查询的时候，会出现错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-- 利用城市进行分类返回查询到的所有数据</div><div class="line"></div><div class="line">select ESTATE.EstateCity, *, SUM(ESTATE.PropertyArea) AS &apos;销售面积&apos; FROM ESTATE  </div><div class="line">LEFT JOIN REGISTRATION ON REGISTRATION.EstateID=ESTATE.EstateID </div><div class="line">GROUP BY ESTATE.EstateCity</div></pre></td></tr></table></figure>
+<p>这是利用 GROUP BY 进行单表查询，抑或者多表查询时需要注意的点。在需要查询的字段中，即在返回集字段中，这些字段要么就要包含在 GROUP BY 后面，作为分组的依据。要么就要被包含在聚合函数（COUNT/SUM等）中。</p>
+<blockquote>
+<p>不同平台出现的错误不同，如SQL SERVER返回的错误为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; 消息 8120，级别 16，状态 1，第 1 行</div><div class="line">&gt; 选择列表中的列 &apos;ESTATE.EstateID&apos; 无效，因为该列没有包含在聚合函数或 GROUP BY 子句中。</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<p>在MySQL中，返回的错误为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; [Err] 1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;*, SUM(ESTATE.PropertyArea) AS &apos;销售面积&apos; FROM ESTATE  </div><div class="line">&gt; LEFT JOIN REGISTRAT&apos; at line 1</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<hr>
+<h2 id="HAVING"><a href="#HAVING" class="headerlink" title="HAVING"></a>HAVING</h2><h4 id="HAVING-简介"><a href="#HAVING-简介" class="headerlink" title="HAVING 简介"></a>HAVING 简介</h4><p>Having 和 GROUP BY 设置条件的方式与 WHERE 和 SELECT 的交互方式类似。WHERE 搜索条件在进行分组操作之前应用。而 HAVING 搜索条件在进行分组操作之后应用。 HAVING 语法与 WHERE 语法类似，但 HAVING 中可以包含聚合函数并可以引用选择列表中显示的任一项。</p>
+<hr>
+<h4 id="HAVING-语法"><a href="#HAVING-语法" class="headerlink" title="HAVING 语法"></a>HAVING 语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">SELECT column_name, aggregate_function(column_name)</div><div class="line">FROM table_name</div><div class="line">WHERE column_name operator value</div><div class="line">GROUP BY column_name</div><div class="line">HAVING aggregate_function(column_name) operator value</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="HAVING-使用"><a href="#HAVING-使用" class="headerlink" title="HAVING 使用"></a>HAVING 使用</h4><p>HAVING 语句一般与GROUP BY搭配使用，没什么特别用法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">-- 以下例子为，统计各地城市中各类住宅的总销售面积小于250平方米</div><div class="line"></div><div class="line">select ESTATE.EstateCity, ESTATE.EstateType, SUM(ESTATE.PropertyArea) AS &apos;销售面积&apos; FROM ESTATE  </div><div class="line">LEFT JOIN REGISTRATION ON REGISTRATION.EstateID=ESTATE.EstateID </div><div class="line">GROUP BY ESTATE.EstateCity, ESTATE.EstateType</div><div class="line">Having SUM(ESTATE.PropertyArea) &lt; 250</div><div class="line"></div><div class="line">+------------+------------+----------+</div><div class="line">| EstateCity | EstateType | 销售面积 |</div><div class="line">+------------+------------+----------+</div><div class="line">| 北京市     | 住宅       |    71.00 |</div><div class="line">| 天津市     | 住宅       |    50.00 |</div><div class="line">| 惠州市     | 别墅       |   170.00 |</div><div class="line">| 成都市     | 住宅       |    95.00 |</div><div class="line">+------------+------------+----------+</div></pre></td></tr></table></figure>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="http://www.cnblogs.com/glaivelee/archive/2010/11/19/1881381.html" target="_blank" rel="external">http://www.cnblogs.com/glaivelee/archive/2010/11/19/1881381.html</a></p>
+<p>[2]<a href="http://blog.csdn.net/qq_26562641/article/details/53301063" target="_blank" rel="external">http://blog.csdn.net/qq_26562641/article/details/53301063</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/03/28/设计模式笔记-状态模式（State-Pattern）/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">设计模式笔记 - 状态模式（State Pattern）</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/03/27/正向代理与反向代理/">
+        <span class="next-text nav-default">正向代理与反向代理</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="Spark - 由 foreach 引发的思考"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2018/04/01/Spark - 由 foreach 引发的思考/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> Spark - 由 foreach 引发的思考 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Spark - 由 foreach 引发的思考
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-04-01
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Shared-Variables"><span class="toc-text">Shared Variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共享变量"><span class="toc-text">共享变量</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <p>废话不说，先贴代码</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> numbers = sc.parallelize(<span class="type">Array</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>))</div><div class="line"><span class="keyword">val</span> map = scala.collection.mutable.<span class="type">Map</span>[<span class="type">Int</span>, <span class="type">Int</span>]()</div><div class="line"></div><div class="line">numbers.foreach(l =&gt; &#123;map.put(l,l)&#125;)</div><div class="line">println(map.size) <span class="comment">// 此时 map 的存储了几个键值对</span></div></pre></td></tr></table></figure>
+<hr>
+<p>首先我们先说个概念 —— <strong>闭包</strong></p>
+<p>闭包是 Scala 中的特性，用通俗易懂的话讲就是函数内部的运算或者说函数返回值可由外部的变量所控制，用个例子解释就是：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> factor = <span class="number">10</span></div><div class="line"><span class="comment">// multiplier 函数的返回值有有两个决定因素，输入参数变量 i 以及外部变量 factor。输入参数变量 i 是由我们调用该函数时决定的，相较于 factor 是可控的，而 factor 则是外部变量所定义，相较于 i 是不可控的</span></div><div class="line"><span class="keyword">val</span> multiplier = (i: <span class="type">Int</span>) =&gt; i * factor </div><div class="line">println(multiplier(<span class="number">1</span>)) <span class="comment">// 10</span></div><div class="line"></div><div class="line">factor = <span class="number">20</span></div><div class="line">println(multiplier(<span class="number">1</span>)) <span class="comment">// 20</span></div></pre></td></tr></table></figure>
+<p>根据上述提及的闭包可知，刚才所写的代码中<code>l =&gt; {map.put(1,1)}</code>其所定义的函数就是一个闭包</p>
+<hr>
+<p>既然标题中提到了 Spark，那就要说明闭包与 Spark 的关系了</p>
+<p>在 Spark 中，用户自定义闭包函数并传递给相应的 RDD 所定义好的方法（如<code>foreach</code>、<code>map</code>）。<strong>Spark 在运行作业时会检查 DAG 中每个 RDD 所涉及的闭包，如是否可序列化、是否引用外部变量等。若存在引用外部变量的情况，则会将它们的副本复制到相应的工作节点上，保证程序运行的一致性</strong></p>
+<blockquote>
+<p>下面是 Spark 文档中解释的：</p>
+<h3 id="Shared-Variables"><a href="#Shared-Variables" class="headerlink" title="Shared Variables"></a>Shared Variables</h3><p>Normally, when a function passed to a Spark operation (such as <code>map</code> or <code>reduce</code>) is executed on a remote cluster node, it works on separate copies of all the variables used in the function. These variables are copied to each machine, and no updates to the variables on the remote machine are propagated back to the driver program. Supporting general, read-write shared variables across tasks would be inefficient. However, Spark does provide two limited types of <em>shared variables</em> for two common usage patterns: broadcast variables and accumulators.</p>
+<h3 id="共享变量"><a href="#共享变量" class="headerlink" title="共享变量"></a>共享变量</h3><p>通常情况下，当有函数传递给在远端集群节点上执行的 Spark 的算子（如<code>map</code>或<code>reduce</code>）时，Spark 会将所有在该函数内部所需要的用到的变量分别复制到相应的节点上。这些副本变量会被复制到每个节点上，且在算子执行结束后这些变量并不会回传给驱动程序（driver program）。</p>
+<p>Normally, when a function passed to a Spark operation (such as <code>map</code> or <code>reduce</code>) is executed on a remote cluster node, it works on separate copies of all the variables used in the function. These variables are copied to each machine, and no updates to the variables on the remote machine are propagated back to the driver program. </p>
+</blockquote>
+<hr>
+<p>总结，如果直接运行一开始所提及的程序时，那么所获得的答案是0，因为我们知道<code>map</code>变量会被拷贝多份至不同的工作节点上，而我们操作的也仅仅只是副本罢了</p>
+<p>从编译器的角度来说，这段代码是一个闭包函数，而其调用了外部变量，代码上没问题。但是从运行结果中，这是错误操作方式，因为 Spark 会将其所调用的外部变量进行拷贝，并复制到相应的工作节点中，而不会对真正的变量产生任何影响</p>
+<p>相应的解决方案有</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> numbers = sc.parallelize(<span class="type">Array</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>))</div><div class="line"><span class="keyword">val</span> map = scala.collection.mutable.<span class="type">Map</span>[<span class="type">Int</span>, <span class="type">Int</span>]()</div><div class="line"></div><div class="line">numbers.collect().foreach(l =&gt; &#123;map.put(l,l)&#125;)</div><div class="line">println(map.size)</div></pre></td></tr></table></figure>
+<hr>
+<p>参考资料：</p>
+<ol>
+<li><a href="http://spark.apache.org/docs/2.1.0/programming-guide.html#shared-variables" target="_blank" rel="external">http://spark.apache.org/docs/2.1.0/programming-guide.html#shared-variables</a></li>
+</ol>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2018/04/14/Spark - take() 算子/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Spark - take() 算子</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2018/03/24/列式存储 - HBase vs Parquet/">
+        <span class="next-text nav-default">列式存储 - HBase vs Parquet</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

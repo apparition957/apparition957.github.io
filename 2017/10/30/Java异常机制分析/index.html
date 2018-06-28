@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="Java异常机制分析"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://apparition957.github.io/2017/10/30/Java异常机制分析/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+  <script id="baidu_analytics">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+
+
+    <title> Java异常机制分析 - APPARITION957 </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">APPARITION957</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">APPARITION957</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Java异常机制分析
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-10-30
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#体系结构"><span class="toc-text">体系结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TRY-CATCH会不会性能消耗"><span class="toc-text">TRY-CATCH会不会性能消耗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优化建议"><span class="toc-text">优化建议</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>异常是指程序在运行期间所发生的错误，如使用了空指针、栈溢出、非法参数等。在程序编写期间，编译器会自动检查代码是否符合规范，并尽可能地帮助程序员将其纠正。但即使是看似正确的代码，也可能会在运行期间抛出一个意想不到的异常。</p>
+<p>Java为此提供了异常处理机制，即在程序运行期间，倘若抛出了异常，则可以以适当的方式进行捕获处理，使得程序能够正常的运作下去。</p>
+<h2 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h2><p><img src="http://on83riher.bkt.clouddn.com/%E5%BC%82%E5%B8%B8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png" alt=""></p>
+<p>在Java中所有的异常类都是从<code>java.lang.Throwable</code>类集成的子类。</p>
+<p>根类<code>Throwable</code>下（仅）有两个重要的子类——<code>Error</code>与<code>Exception</code>。</p>
+<ul>
+<li><code>Error</code>代表运行期间JVM（Java虚拟机）出现的异常，这种异常一般来说是无法处理的。</li>
+<li><code>Exception</code>代表运行期间程序本身的逻辑出现的异常，这种异常一般是程序本身可以处理的。</li>
+</ul>
+<p>其中，<code>Exception</code>可分为两类：运行时异常和检查异常。</p>
+<ul>
+<li>检查异常（CheckedException），是指程序在执行某段代码时，是可以提前知道这段代码是存在潜在异常的，而且<strong>要求程序必须以某种方式来处理</strong>。若不处理这种异常情况时，编译器是不会通过编译的。</li>
+</ul>
+<ul>
+<li>运行时异常（RuntimeException），也称为非检查异常，是指程序在运行期间可能会抛出异常，但不要求程序必须处理该异常。在编译期间，编译器也不会要求用户去处理它。</li>
+</ul>
+<h2 id="TRY-CATCH会不会性能消耗"><a href="#TRY-CATCH会不会性能消耗" class="headerlink" title="TRY-CATCH会不会性能消耗"></a>TRY-CATCH会不会性能消耗</h2><p>当初的自己觉得如果在<code>try-catch</code>块中大量使用循环的话，想当然的认为会消耗大量的性能。但是通过阅读多篇文章后，得出以下结论：</p>
+<ul>
+<li>异常如果没发生，也就不会去查异常表，也就是说你写不写<code>try-catch</code>，也就是有没有这个异常表的问题，如果没有发生异常，写<code>try-catch</code>对性能是木有消耗的，所以不会让程序跑得更慢。</li>
+<li><code>try-catch</code> 的范围大小其实就是异常表中两个值（开始地址和结束地址）的差异而已，也是不会影响性能的。</li>
+</ul>
+<p>具体文章如下所示：</p>
+<p><a href="http://www.cnblogs.com/isline/archive/2010/04/22/1717837.html" target="_blank" rel="external">Try-Catch真的会影响程序性能吗</a></p>
+<p><a href="http://blog.csdn.net/tao_zi7890/article/details/17584813" target="_blank" rel="external">Java上的try catch并不影响性能（转）</a></p>
+<h2 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h2><p>优化建议这一部分是结合了<a href="http://www.cnblogs.com/dolphin0520/p/3769804.html" target="_blank" rel="external">Java异常处理和设计</a>和<a href="https://www.oschina.net/question/12_37141" target="_blank" rel="external">异常处理的 15 个处理原则</a>两文的精华，小弟只能做个低调的搬运工。</p>
+<ul>
+<li>只在必要使用异常的地方才使用异常，不要用异常去控制程序的流程</li>
+</ul>
+<p>即使在上述的说到异常机制不会怎么消耗性能，但这并不代表能够在程序中随处使用<code>try-catch</code>。要在程序中谨慎地使用异常，倘若异常使用过多仍然会很大程度上影响程序的性能。如果在程序中能够用<code>if</code>语句来进行逻辑判断，自然能更清楚地表明出当某个字段处于某个阶段时要进行的逻辑，也可以减少异常的使用，从而避免不必要的异常捕获和处理。</p>
+<ul>
+<li>切忌使用空<code>catch</code>块</li>
+</ul>
+<p>倘若程序在捕获了异常之后什么都不做，相当于你直接隐藏了这个异常，这可能会导致后面的程序逻辑出现不可控的执行结果，这是一种相当不负责任的行为。倘若有这种情况发生，不如改变程序本身的代码逻辑，使其变得更加健壮，并用日志的方式记录其异常的状态，方便日后的更新和维护。</p>
+<ul>
+<li>检查异常与非检查异常的选择</li>
+</ul>
+<p>当你决定要抛出一个自己新定义的异常，你就要决定以什么形式来处理这个异常。</p>
+<p>当有些检查异常对开发人员来说是无法通过合理的手段处理的，例如<code>SQLException</code>，这样就会导致在代码中经常出现的一种情况：逻辑代码很少几行，但是要进行异常捕获和异常处理的代码却有很多行，这会导致逻辑代码阅读起来晦涩难懂，使得代码难以维护。</p>
+<p>在检查异常与非检查异常的选择上面，如果存在该异常情况的出现很普遍，需要特别提醒调用者注意处理的话，就是用检查异常，否则就使用非检查异常。</p>
+<ul>
+<li>注意<code>catch</code>块的顺序</li>
+</ul>
+<p>切忌将捕获父类异常的<code>catch</code>块放置于捕获子类异常<code>catch</code>块前，否则将永远无法到达程序理想的异常处理逻辑状态中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    FileInputStream inputStream = <span class="keyword">new</span> FileInputStream(<span class="string">"d:/a.txt"</span>);</div><div class="line">    <span class="keyword">int</span> ch = inputStream.read();</div><div class="line">    System.out.println(<span class="string">"aaa"</span>);</div><div class="line">    <span class="keyword">return</span> <span class="string">"step1"</span>;</div><div class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">    System.out.println(<span class="string">"io exception"</span>);　　      </div><div class="line">    <span class="keyword">return</span> <span class="string">"step2"</span>;</div><div class="line">&#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</div><div class="line">  	<span class="comment">// 永远到不了这一步，因为catch块是从上到下优先匹配到符合该异常类及其父类</span></div><div class="line">  	<span class="comment">// 由于Exception为FileNotFoundException的父类，所以catch块将在第一次匹配中结束</span></div><div class="line">    System.out.println(<span class="string">"file not found"</span>);　　　　      </div><div class="line">    <span class="keyword">return</span> <span class="string">"step3"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>避免多次在日志信息中记录同一异常</li>
+</ul>
+<p>很多情况下异常都是层层向上抛出，如果在每次向上抛出异常的时候，都记录到日志中，则会导致冗余的异常重复记录在日志中，不仅大量浪费空间，而且很难查找到异常的根源。</p>
+<p>妥当的做法是只在异常最开始发生的地方进行日志信息记录。</p>
+<ul>
+<li>在<code>finally</code>中释放资源</li>
+</ul>
+<p>如果在程序中存在文件读取、网络操作以及数据库操作等，需要在<code>finally</code>块中释放资源。这样不仅使得程序占用的资源更少，也会避免由于资源未及时释放而导致的异常情况。</p>
+<ul>
+<li>不要在<code>finally</code>中使用<code>return</code>语句</li>
+</ul>
+<p>倘若在正常<code>try</code>块中返回值，又或者是，在捕获异常后打算在<code>catch</code>块中返回值的话，切忌在<code>finally</code>块中再返回值，否则<code>finally</code>的返回值将直接取代<code>catch</code>块中的返回值。这不难想象，因为<code>finally</code>块在<code>try-catch</code>执行完后一定会执行的，所以<code>finally</code>中的操作将会正常执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    FileInputStream inputStream = <span class="keyword">new</span> FileInputStream(<span class="string">"d:/a.txt"</span>);</div><div class="line">    <span class="keyword">int</span> ch = inputStream.read();</div><div class="line">    System.out.println(<span class="string">"aaa"</span>);</div><div class="line">    <span class="keyword">return</span> <span class="string">"step1"</span>;</div><div class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">    System.out.println(<span class="string">"io exception"</span>);　　      </div><div class="line">    <span class="keyword">return</span> <span class="string">"step2"</span>;</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">  	System.out.println(<span class="string">"finally end"</span>);　</div><div class="line">  	<span class="comment">// 程序执行到这，会导致最终的返回值是"step3"，而非"step1"，也不会是"step1"</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"step3"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>当方法判断出错该返回时应该抛出异常，而不是返回一些错误值</li>
+</ul>
+<p>因为错误值在程序逻辑中可能会出现难以理解的情况，并且错误值在描述异常的情况并不直观。在文件找不到的时候，应当抛出类似 FileNotFoundException 异常，而不是返回 -1 或者 -2 之类的错误值。</p>
+<hr>
+<p>参考资料</p>
+<p><a href="http://www.cnblogs.com/dolphin0520/p/3769804.html" target="_blank" rel="external">Java异常处理和设计</a></p>
+<p><a href="https://www.oschina.net/question/12_37141" target="_blank" rel="external">异常处理的 15 个处理原则</a></p>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/10/31/堆排序（Heap Sort）/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">堆排序（Heap Sort）</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/10/29/ArrayList与LinkedList的循环效率对比/">
+        <span class="next-text nav-default">ArrayList与LinkedList的循环效率对比</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">jianpeng957</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>
