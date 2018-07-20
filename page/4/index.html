@@ -189,6 +189,64 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2017/10/31/Java关键字-final/">Java关键字 - final</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-10-31
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>在Java中，我们可以通过<code>final</code>来表示某个变量、某个方法，甚至是某个类是“不变的”或“无法改变的”。</p>
+<h2 id="怎么使用final"><a href="#怎么使用final" class="headerlink" title="怎么使用final"></a>怎么使用final</h2><h3 id="final变量"><a href="#final变量" class="headerlink" title="final变量"></a>final变量</h3><p><code>final</code>修饰的变量称之为常量，其主要应用于以下地方：</p>
+<ul>
+<li>编译器常量，永远不可改变。</li>
+<li>运行其初始化时，我们希望它不会被改变。</li>
+</ul>
+<p>对于编译器常量，它在类加载的过程就已经完成了初始化，所以当类加载完成后是不可改变的。而对于运行时变量，也称为空白<code>final</code>，即代表先声明，后赋值这一过程。</p>
+<p>运行时变量可分为基本数据类型与引用数据类型，其中基本数据类型不可变的是内容，而引用数据类型的不可变的是引用，引用所指的对象内容是可变的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> SIZE;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String test = <span class="string">"final can't change"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Test</span><span class="params">(<span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">      	<span class="comment">// 运行期变量，可以根据传递的值来声明不同的常量</span></div><div class="line">        <span class="keyword">this</span>.SIZE = size;</div><div class="line">      	<span class="comment">// 编译器报错，因为test被final修饰，其在编译期间已确定的值，所以不可改变</span></div><div class="line">        <span class="keyword">this</span>.test = <span class="string">"final??"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="final方法"><a href="#final方法" class="headerlink" title="final方法"></a>final方法</h3><p>被<code>final</code>修饰的方法都是不能被继承、更改的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"father can't change"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> Son().hello();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</div><div class="line">  	<span class="comment">// 编译器报错，因为Father类中的hello()被final修饰，所以子类是不能够重写的</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"hhello"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="final参数"><a href="#final参数" class="headerlink" title="final参数"></a>final参数</h3><p>被<code>final</code>修饰的参数都是不可变的，即在函数作用域内，该参数的值都是不可变的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">(<span class="keyword">final</span> String str)</span> </span>&#123;</div><div class="line">	<span class="comment">// 编译出错</span></div><div class="line">  	str = <span class="string">"world"</span>;</div><div class="line">  	System.out.println(str);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="final类"><a href="#final类" class="headerlink" title="final类"></a>final类</h3><p>被<code>final</code>修饰的类是不允许被继承的，所以可视该类为最终类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 编译出错，Father类不可被继承</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="final能提高性能吗？"><a href="#final能提高性能吗？" class="headerlink" title="final能提高性能吗？"></a>final能提高性能吗？</h2><p>基于<a href="https://www.zhihu.com/question/21762917" target="_blank" rel="external">JVM对于声明为final的局部变量（local var）做了哪些性能优化？</a>与<a href="http://codewenda.com/%E5%9C%A8java%E4%B8%AD%E4%BD%BF%E7%94%A8final%E5%85%B3%E9%94%AE%E5%AD%97%E4%BC%9A%E6%8F%90%E9%AB%98%E6%80%A7%E8%83%BD%E5%90%97%EF%BC%9F/" target="_blank" rel="external">在Java中使用final关键字会提高性能吗？</a>两文，可以归纳总结出<code>final</code>关键字并不会从性能上有很大的提升，甚至可以说是没有。反而要求设计者在程序设计中，不要过分追求性能，需要注重的是代码的可读性与可维护性。</p>
+<hr>
+<p>参考资料</p>
+<p><a href="http://www.cnblogs.com/chenssy/p/3428180.html" target="_blank" rel="external">java提高篇(十五)—–关键字final</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2017/10/31/Java关键字-static/">Java关键字 - static</a>
         
       </h1>
@@ -919,87 +977,6 @@
 <li><strong>如果没有充分的理由，不要使用 JavaScript。</strong></li>
 <li><strong>使用客户端的影像地图。</strong></li>
 </ul>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/09/20/BIO-NIO-AIO 三者关系解析/">BIO/NIO/AIO 三者关系解析</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-09-20
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>在 Java 的 I/O 体系架构中，存在三种截然不同的 I/O 模型，分别为 BIO（Block I/O，阻塞型 I/O）、NIO（New I/O，非阻塞型 I/O）以及 AIO（Asynchronous I/O，异步 I/O）。</p>
-<p>下面分析将从基本的术语开始讲解，最后归整讲述不同 I/O 模型的区别。</p>
-<hr>
-<h4 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h4><p>同步与异步关注的是<strong>消息通信机制</strong>。</p>
-<ul>
-<li><strong>同步</strong>是指发送方发出一个 I/O 请求时，在没有得到结果之前，该请求不返回结果。但是一旦请求返回时，就得到了相应的返回值。</li>
-<li><strong>异步</strong>是指发送方发出一个 I/O 请求之后，这个请求便立即返回，该请求没有返回结果。直至请求接收方（即被调用者）通过回调的方式来通知发送方，或者发送方主动询问接收方请求结果。</li>
-</ul>
-<p>举个例子：</p>
-<p>晚上我们需要去饭店预定位置，我们会优先打个电话给酒店来预定位置，当我们被告知饭店位置爆满时需要等待时。在同步的通信机制情况下，我们（发送方）只能默默地够保持通话的方式等待饭店（接收方）来通知我们空余位置的结果，不能够做别的事情。</p>
-<p>而在异步的通信机制情况下，饭店（接收方）提供了特殊的服务，让我们（发送方）预留手机号码（回调方式），等有位置了可以主动通知你，我们就能够单方面切断通信，等待饭店通过我们预留的手机号码来通知我们，或者我们来主动询问饭店位置的空余情况。</p>
-<hr>
-<h4 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h4><p>阻塞与非阻塞关注的是<strong>程序在等待调用结果时的状态</strong>。</p>
-<ul>
-<li><strong>阻塞</strong>是指请求结果返回之前，当前线程会被挂起。请求线程只有在得到结果之后才会返回。此时的线程处于阻塞状态，相当于卡住不动了。</li>
-<li><strong>非阻塞</strong>是指请求结果返回之前，当前线程不会被阻塞，可以处理别的任务。</li>
-</ul>
-<p>同举以上的例子：</p>
-<p>当我们打电话给饭店，被告知饭店位置爆满时需要等待时。在阻塞线程的请求方式下，我们（发送方）只能够保持通讯（阻塞），直至饭店（接收方）通知我们空余位置的结果。</p>
-<p>而在非阻塞线程的请求方式下，我们（发送方）可以单方面挂掉电话，继续去逛街（非阻塞），直至饭店（接收方）通知我们，亦或者我们主动打电话去询问。</p>
-<hr>
-<h4 id="同步-异步与阻塞-非阻塞的区别"><a href="#同步-异步与阻塞-非阻塞的区别" class="headerlink" title="同步/异步与阻塞/非阻塞的区别"></a>同步/异步与阻塞/非阻塞的区别</h4><p>在以上的解释当中，同步/异步与阻塞/非阻塞两者之间的关系十分相似，但是它们却存在本质上的区别。</p>
-<ul>
-<li>同步/异步注重的是<strong>消息的通信机制</strong>，重点在于<strong>消息</strong>本身。</li>
-<li>阻塞/非阻塞注重的是<strong>程序在等待调用结果时的状态</strong>，重点在于<strong>程序</strong>本身。</li>
-</ul>
-<hr>
-<h4 id="BIO"><a href="#BIO" class="headerlink" title="BIO"></a>BIO</h4><p>BIO（Block I/O）为同步阻塞型 I/O。在服务器端中实现模式为<strong>一个连接一个线程</strong>，即客户端有连接请求时，服务器端就会按需启动一个线程来处理。</p>
-<p><img src="http://on83riher.bkt.clouddn.com/BIO.png" alt="BIO"></p>
-<p>如果这个连接不做任何事情时，就造成不必要的线程开销，此时可以通过线程池机制来对于空线程进行回收，但是对于线程的创建与销毁等操作，系统所消耗的资源依然很大。</p>
-<hr>
-<h4 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h4><p>NIO（New I/O）为同步非阻塞型 I/O。在服务器端中实现模式为<strong>一个请求一个线程</strong>，即客户端发送的连接请求都会注册到多路复用器上（Selector），多路复用器轮询到连接有 I/O 请求（Channel）才启动一个线程（Handler）来处理。用户进程也需要时不时地询问 I/O 操作是否就绪。</p>
-<p><img src="http://on83riher.bkt.clouddn.com/NIO.png" alt="NIO"></p>
-<p>在 NIO 的 I/O 模型上，可以仅通过单线程的方式来处理高并发问题。</p>
-<hr>
-<h4 id="AIO"><a href="#AIO" class="headerlink" title="AIO"></a>AIO</h4><p>AIO（Asynchronous I/O）为异步非阻塞型 I/O。在此种模式下，用户进程只需要发起一个IO操作然后便立即返回，待 I/O 操作真正的完成以后，应用程序会得到I/O操作完成的通知，此时用户进程只需要对数据进行处理就好了，不需要进行实际的 I/O 读写操作，因为真正的 I/O 读取或者写入操作已经由内核完成了。    </p>
-<hr>
-<p>参考资料：</p>
-<p><a href="https://www.zhihu.com/question/19732473" target="_blank" rel="external">怎样理解阻塞非阻塞与同步异步的区别？</a></p>
-<p><a href="http://loveshisong.cn/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/2016-06-25-%E5%8D%81%E5%88%86%E9%92%9F%E4%BA%86%E8%A7%A3BIO-NIO-AIO.html" target="_blank" rel="external">十分钟了解BIO、NIO、AIO</a></p>
-<p><a href="http://qindongliang.iteye.com/blog/2018539" target="_blank" rel="external">JAVA 中BIO,NIO,AIO的理解</a></p>
-<p><a href="http://blog.csdn.net/liuhaiabc/article/details/64905654" target="_blank" rel="external">对Java BIO、NIO、AIO 学习</a></p>
 
         
       

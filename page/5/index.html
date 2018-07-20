@@ -189,6 +189,87 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2017/09/20/BIO-NIO-AIO 三者关系解析/">BIO/NIO/AIO 三者关系解析</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-09-20
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>在 Java 的 I/O 体系架构中，存在三种截然不同的 I/O 模型，分别为 BIO（Block I/O，阻塞型 I/O）、NIO（New I/O，非阻塞型 I/O）以及 AIO（Asynchronous I/O，异步 I/O）。</p>
+<p>下面分析将从基本的术语开始讲解，最后归整讲述不同 I/O 模型的区别。</p>
+<hr>
+<h4 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h4><p>同步与异步关注的是<strong>消息通信机制</strong>。</p>
+<ul>
+<li><strong>同步</strong>是指发送方发出一个 I/O 请求时，在没有得到结果之前，该请求不返回结果。但是一旦请求返回时，就得到了相应的返回值。</li>
+<li><strong>异步</strong>是指发送方发出一个 I/O 请求之后，这个请求便立即返回，该请求没有返回结果。直至请求接收方（即被调用者）通过回调的方式来通知发送方，或者发送方主动询问接收方请求结果。</li>
+</ul>
+<p>举个例子：</p>
+<p>晚上我们需要去饭店预定位置，我们会优先打个电话给酒店来预定位置，当我们被告知饭店位置爆满时需要等待时。在同步的通信机制情况下，我们（发送方）只能默默地够保持通话的方式等待饭店（接收方）来通知我们空余位置的结果，不能够做别的事情。</p>
+<p>而在异步的通信机制情况下，饭店（接收方）提供了特殊的服务，让我们（发送方）预留手机号码（回调方式），等有位置了可以主动通知你，我们就能够单方面切断通信，等待饭店通过我们预留的手机号码来通知我们，或者我们来主动询问饭店位置的空余情况。</p>
+<hr>
+<h4 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h4><p>阻塞与非阻塞关注的是<strong>程序在等待调用结果时的状态</strong>。</p>
+<ul>
+<li><strong>阻塞</strong>是指请求结果返回之前，当前线程会被挂起。请求线程只有在得到结果之后才会返回。此时的线程处于阻塞状态，相当于卡住不动了。</li>
+<li><strong>非阻塞</strong>是指请求结果返回之前，当前线程不会被阻塞，可以处理别的任务。</li>
+</ul>
+<p>同举以上的例子：</p>
+<p>当我们打电话给饭店，被告知饭店位置爆满时需要等待时。在阻塞线程的请求方式下，我们（发送方）只能够保持通讯（阻塞），直至饭店（接收方）通知我们空余位置的结果。</p>
+<p>而在非阻塞线程的请求方式下，我们（发送方）可以单方面挂掉电话，继续去逛街（非阻塞），直至饭店（接收方）通知我们，亦或者我们主动打电话去询问。</p>
+<hr>
+<h4 id="同步-异步与阻塞-非阻塞的区别"><a href="#同步-异步与阻塞-非阻塞的区别" class="headerlink" title="同步/异步与阻塞/非阻塞的区别"></a>同步/异步与阻塞/非阻塞的区别</h4><p>在以上的解释当中，同步/异步与阻塞/非阻塞两者之间的关系十分相似，但是它们却存在本质上的区别。</p>
+<ul>
+<li>同步/异步注重的是<strong>消息的通信机制</strong>，重点在于<strong>消息</strong>本身。</li>
+<li>阻塞/非阻塞注重的是<strong>程序在等待调用结果时的状态</strong>，重点在于<strong>程序</strong>本身。</li>
+</ul>
+<hr>
+<h4 id="BIO"><a href="#BIO" class="headerlink" title="BIO"></a>BIO</h4><p>BIO（Block I/O）为同步阻塞型 I/O。在服务器端中实现模式为<strong>一个连接一个线程</strong>，即客户端有连接请求时，服务器端就会按需启动一个线程来处理。</p>
+<p><img src="http://on83riher.bkt.clouddn.com/BIO.png" alt="BIO"></p>
+<p>如果这个连接不做任何事情时，就造成不必要的线程开销，此时可以通过线程池机制来对于空线程进行回收，但是对于线程的创建与销毁等操作，系统所消耗的资源依然很大。</p>
+<hr>
+<h4 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h4><p>NIO（New I/O）为同步非阻塞型 I/O。在服务器端中实现模式为<strong>一个请求一个线程</strong>，即客户端发送的连接请求都会注册到多路复用器上（Selector），多路复用器轮询到连接有 I/O 请求（Channel）才启动一个线程（Handler）来处理。用户进程也需要时不时地询问 I/O 操作是否就绪。</p>
+<p><img src="http://on83riher.bkt.clouddn.com/NIO.png" alt="NIO"></p>
+<p>在 NIO 的 I/O 模型上，可以仅通过单线程的方式来处理高并发问题。</p>
+<hr>
+<h4 id="AIO"><a href="#AIO" class="headerlink" title="AIO"></a>AIO</h4><p>AIO（Asynchronous I/O）为异步非阻塞型 I/O。在此种模式下，用户进程只需要发起一个IO操作然后便立即返回，待 I/O 操作真正的完成以后，应用程序会得到I/O操作完成的通知，此时用户进程只需要对数据进行处理就好了，不需要进行实际的 I/O 读写操作，因为真正的 I/O 读取或者写入操作已经由内核完成了。    </p>
+<hr>
+<p>参考资料：</p>
+<p><a href="https://www.zhihu.com/question/19732473" target="_blank" rel="external">怎样理解阻塞非阻塞与同步异步的区别？</a></p>
+<p><a href="http://loveshisong.cn/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/2016-06-25-%E5%8D%81%E5%88%86%E9%92%9F%E4%BA%86%E8%A7%A3BIO-NIO-AIO.html" target="_blank" rel="external">十分钟了解BIO、NIO、AIO</a></p>
+<p><a href="http://qindongliang.iteye.com/blog/2018539" target="_blank" rel="external">JAVA 中BIO,NIO,AIO的理解</a></p>
+<p><a href="http://blog.csdn.net/liuhaiabc/article/details/64905654" target="_blank" rel="external">对Java BIO、NIO、AIO 学习</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2017/09/07/Android 源码分析资料归纳/">Android 源码分析资料归纳</a>
         
       </h1>
@@ -962,74 +1043,6 @@
 <p>[2] <a href="https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E5.88.9B.E5.BB.BA.E7.89.A9.E7.90.86.E5.8D.B7.EF.BC.88PV.EF.BC.89" target="_blank" rel="external">https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E5.88.9B.E5.BB.BA.E7.89.A9.E7.90.86.E5.8D.B7.EF.BC.88PV.EF.BC.89</a></p>
 <p>[3] <a href="http://www.cnblogs.com/gaojun/archive/2012/08/22/2650229.html" target="_blank" rel="external">http://www.cnblogs.com/gaojun/archive/2012/08/22/2650229.html</a></p>
 <p>[4] <a href="http://www.cnblogs.com/xiaoluo501395377/archive/2013/05/22/3093405.html" target="_blank" rel="external">http://www.cnblogs.com/xiaoluo501395377/archive/2013/05/22/3093405.html</a></p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/07/23/未选择的路/">未选择的路</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-07-23
-        </span>
-        
-          <div class="post-category">
-            
-              <a href="/categories/不正常的日常/">不正常的日常</a>
-            
-          </div>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <blockquote>
-<p>—— 罗伯特·弗罗斯特（美）</p>
-</blockquote>
-<p>黄色的林子里有两条路，</p>
-<p>很遗憾我无法同时选择两者</p>
-<p>身在旅途的我久久站立</p>
-<p>对着其中一条极目眺望</p>
-<p>直到它蜿蜒拐进远处的树丛。</p>
-<p>我选择了另外的一条，天经地义，</p>
-<p>也许更为诱人</p>
-<p>因为它充满荆棘，需要开括；</p>
-<p>然而这样的路过</p>
-<p>并未引起太大的改变。</p>
-<p>那天清晨这两条小路一起静卧在</p>
-<p>无人踩过的树叶丛中</p>
-<p>哦，我把另一条路留给了明天！</p>
-<p>明知路连着路，</p>
-<p>我不知是否该回头。</p>
-<p>我将轻轻叹息，叙述这一切</p>
-<p>许多许多年以后：</p>
-<p>树林里有两条路，我——</p>
-<p>选择了行人稀少的那一条</p>
-<p>它改变了我的一生。</p>
 
         
       
