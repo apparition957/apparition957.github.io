@@ -189,6 +189,86 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2017/11/11/《深入理解Java虚拟机》读书笔记 - 线程安全与锁优化/">《深入理解Java虚拟机》读书笔记 - 线程安全与锁优化</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-11
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <blockquote>
+<p>此篇为《深入理解Java虚拟机》第十三章13.2部分的读书笔记</p>
+</blockquote>
+<h2 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h2><blockquote>
+<p>对于线程安全较合适的定义为：当多个线程访问一个对象时，如果不用考虑这些线程在运行时环境下的调度和交替执行，也不需要进行额外的同步，或者在调用方法进行任何其他的协调操作，调用这个对象的行为都可以获得正确的结果，那这个对象是线程安全的。</p>
+</blockquote>
+<h3 id="Java-语言中的线程安全"><a href="#Java-语言中的线程安全" class="headerlink" title="Java 语言中的线程安全"></a>Java 语言中的线程安全</h3><p>按照线程安全的“安全程度”由强至弱来排序，我们可以将 Java 语言中各种操作共享的数据分为以下5类：不可变、线程绝对安全、相对线程安全、线程兼容和线程对立。</p>
+<ul>
+<li>不可变</li>
+</ul>
+<p><strong>在 Java 中不可变（Immutable）的对象一定是线程安全的，无论是对象的方法实现还是方法的调用者，都不需要再采用任何的线程安全保障措施。</strong>如果共享数据是一个基本数据类型，那么只要在定义时使用 final 关键字修饰它就可以保证它的不可变性；如果共享数据是一个对象，那就需要保证对象的行为不会对其状态产生任何影响，如 String。</p>
+<ul>
+<li>绝对线程安全</li>
+</ul>
+<p>在 Java 中要求一个类如同开头的定义一般，不管运行环境如何，调用者都不需要任何额外的同步措施。<strong>这种做法虽然是安全可用的，但是这往往都会付出很大的、甚至是不切实际的代价。</strong></p>
+<ul>
+<li>相对线程安全</li>
+</ul>
+<p><strong>相对的线程安全就是我们通常意义上的所讲的线程安全，它需要保证对这个对象单独的操作是线程安全的，我们在调用的时候不需要额外的保证措施，但是对于一些特定顺序的连续调用，就可能需要在调用端使用额外的同步手段保证调用的正确性。</strong>例如 Vector、Hashtable、Collections.synchronizedCollection() 方法包装的集合等。</p>
+<blockquote>
+<p>特别说明，Vector 内部函数都使用 synchronized 关键字修饰，看上去很安全，但如果调用者的操作不当，仍会出现不可避免的错误。即在查询一个元素的时候，某个线程就已经将这个元素删除了，那就会抛出 ArrayIndexOutOfBoundsException 异常。</p>
+</blockquote>
+<ul>
+<li>线程兼容</li>
+</ul>
+<p><strong>线程兼容是指对象本身并不是线程安全的，但是可以通过在调用端正确地使用同步手段来保证对象在并发环境下中可以安全使用。</strong>例如 Java API 中大部分的类都属于线程兼容，如与前面 Vector、Hashtable 内部所使用的就是 ArrayList 和 HashMap 等。</p>
+<ul>
+<li>线程对立</li>
+</ul>
+<p><strong>线程对立是指无论调用端是否采用了同步措施，都无法在多线程环境中并发使用的代码。</strong>由于 Java 语言天生具备多线程特性，线程对立这种排斥多线程的代码是很少出现的，而且通常是有害的，应当尽量避免。比如 Thread 类中的 suspend() 和 resume() 方法，suspend() 试图中断线程，resume() 试图恢复线程，如果并发进行的话，会存在很大的死锁风险，所以这两个方法已被抛弃（@Depreacted）使用。</p>
+<h3 id="线程安全的实现方法"><a href="#线程安全的实现方法" class="headerlink" title="线程安全的实现方法"></a>线程安全的实现方法</h3><blockquote>
+<p>P390</p>
+</blockquote>
+<h2 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h2><p>自 JDK1.5之后，HotSpot 虚拟机针对多线程并发花了十分的精力，去实现各种锁优化技术，如适应性自选（Adaptive Spinning）、锁清除（Lock Elimination）、锁粗化（Lock Coarsening）、轻量级锁（Lightweight Locking）和偏向锁（Biased Locking）等。</p>
+<h3 id="自旋锁与自适应自旋"><a href="#自旋锁与自适应自旋" class="headerlink" title="自旋锁与自适应自旋"></a>自旋锁与自适应自旋</h3><p>在线程互斥同步的时候，由于需要实现线程互斥，被阻塞线程需要由运行态转入阻塞态，而挂起线程和恢复线程的操作都需要从用户态转入到内核态中完成，这些操作给系统的并发性能带来了很大的压力。而往往线程并发时，线程共享数据的锁定状态只会持续很短的一段时间，为了这段时间选择去挂起和恢复线程是不值得的。</p>
+<p><strong>那么就引出了自旋锁的作用：如果在同一时刻中有两个以上的线程并行执行，我们可以让后面请求锁的线程“稍等一下”，但不放弃处理器的执行时间，看看持有锁的线程是否很快地就会释放锁。但持有锁的线程依旧不放弃锁，那么为了最大化降低 CPU 的消耗，将正在自旋等待的线程使用传统的方式进行挂起阻塞等待。上面所述中，为了让线程等待，我们只需要让线程执行一个忙循环（自旋）即可。</strong></p>
+<p>而在 JDK1.6中引入了自适应的自旋锁。自适应意味着自旋的时间不再固定，而是由前一次在同一个锁上的自旋时间及锁的拥有者的状态来决定。</p>
+<h3 id="锁消除"><a href="#锁消除" class="headerlink" title="锁消除"></a>锁消除</h3><p><strong>锁消除是指虚拟机即时编译器在运行时，对一些代码上要求同步，但是被检测到不可能存在共享数据竞争的锁进行消除。</strong>锁消除的主要判定依据来源于逃逸分析的数据支持。</p>
+<h3 id="锁粗化"><a href="#锁粗化" class="headerlink" title="锁粗化"></a>锁粗化</h3><p><strong>锁粗化是指虚拟机探测到有这样一串零碎的操作都对同一个对象加锁，那将会把加锁同步的范围扩展（粗化）到整个操作序列的外部。</strong>例如，在 for 循环中进行对字符串拼接的任务进行加锁，那么锁粗化就会将这一操作外提至 for 循环外。</p>
+<h3 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h3><p><strong>轻量级锁是相对于传统的锁机制操作而言的，它的本意是在没有多线程竞争的前提下，减少传统的重量级锁同步代码所带来的性能消耗。</strong>轻量级锁本质上是一种乐观锁的实现。</p>
+<h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><p><strong>偏向锁是指在无竞争情况下，这个锁会偏向于第一个获得它的线程，如果在接下来的执行过程中，该锁没有被其他线程获取，则持有偏向锁的线程将永远不需要再进行同步。</strong>如果轻量级锁是在无竞争情况下使用 CAS 操作去消除同步的互斥量，那么偏向锁就是在无竞争的情况下，把整个同步都消除掉，连 CAS 操作都不需要。</p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2017/11/06/从输入 URL 到页面加载完成的过程中都发生了什么事情/">从输入 URL 到页面加载完成的过程中都发生了什么事情?</a>
         
       </h1>
@@ -921,64 +1001,6 @@
 <h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是 Java 虚拟机规范中定义的内存区域。但是这部分内存也会被频繁地使用。</p>
 <p>在 JDK1.4中新加入了 NIO（New Input/Output）类，引入了一种基于通道（Channel）与缓冲区（ Buffer）的 I/O 方式，<strong>它可以使用 Native 函数库直接分配堆外内存，然后通过一个存储在 Java 队中的 DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在 Java 堆和 Native 堆中来回复制数据。</strong></p>
 <p>显然，本机直接内存的分配不会受到 Java 堆大小的限制，但是，既然是内存，肯定还是会受本机总内存大小以及处理器寻址空间的限制。</p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/10/31/Java抽象类与接口/">Java抽象类与接口</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-10-31
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>抽象类是用来捕捉子类的通用特性的。它不能被实例化，只能被用作子类的超类。可以将抽象类当做是被用来创建继承层级里子类的模板。</p>
-<p>接口是抽象方法的集合。如果一个类实现了某个接口，那么它就继承了这个接口的所有抽象方法，并需要确保这些方法全部实现，这就像是契约模式一般。接口只是一种形式，接口自身不能做任何事情。</p>
-<p>在Java中，一个类只能够继承一个抽象类，但是一个类可以同时实现多个接口。</p>
-<h2 id="设计思想"><a href="#设计思想" class="headerlink" title="设计思想"></a>设计思想</h2><p>从概念上，可知抽象类与接口所设计的目的是不一样的 —— <strong>接口是对动作的抽象，而抽象类是对根源的抽象</strong>。</p>
-<p>举个例子而言，在这个世界上存在很多不同的车，跑车、轿车、货车等，那么对于抽象类而言，我们就需要从这些车中提取它们的公共部分，设计出一个更高级别的抽象类——四轮车。</p>
-<p>但轿车与货车同为四轮车，但是普遍轿车都存在着自动驾驶功能，如果货车需要自动驾驶功能的话，那么对于接口而言，可以把自动驾驶功能所需的这些方法抽象成接口——自动驾驶。</p>
-<h2 id="如何选择"><a href="#如何选择" class="headerlink" title="如何选择"></a>如何选择</h2><p>从程序设计中，如何选择抽象类与接口？从我的观点而言，在程序设计中我们需要考虑的是高度抽象化以及程序可扩展性。</p>
-<p>因为在Java中只能够继承一个父类，所以定义抽象类的代价比较高。即在程序设计中，需要从自下至上，综合分析所有子类中的共同点，高度抽象化成父类（这里可以联想Object，即使不是抽象类，但它却由始至终贯穿整个java体系）。</p>
-<p>但相比于抽象类而言，接口所付出的代价相对的低很多，可扩展性也大大提高了，因为类可以实现多个接口，因此每个接口你只需要将特定的动作抽象到这个接口即可。</p>
-<p>举个例子，如<code>LinkedList</code>的继承体系一般。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
-<ul>
-<li>抽象类的角度。<code>LinkedList</code>继承自<code>AbstractSequentialList</code>，这说明了<code>LinkedList</code>属于链表这种数据结构的继承体系中，它继承了所有链表的基本操作。</li>
-<li>接口的角度。<code>LinkedList</code>实现了<code>Deque</code>接口，这表明了即使是链表，也能够实现双端队列的功能，使程序调用者可以将<code>LinkedList</code>同等视为队列使用。</li>
-</ul>
-<hr>
-<p>参考资料</p>
-<p><a href="https://www.zhihu.com/question/20149818/answer/153188511" target="_blank" rel="external">接口和抽象类有什么区别？</a></p>
-<p><a href="http://www.importnew.com/12399.html" target="_blank" rel="external">Java抽象类与接口的区别</a></p>
 
         
       

@@ -189,6 +189,94 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2017/07/29/Linux-LVM磁盘管理/">Linux LVM磁盘管理</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-07-29
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/Linux/">Linux</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h1 id="Linux-LVM磁盘管理"><a href="#Linux-LVM磁盘管理" class="headerlink" title="Linux LVM磁盘管理"></a>Linux LVM磁盘管理</h1><h5 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h5><blockquote>
+<p>LVM（Logical Volume Manager，逻辑卷管理器）是一种可用在 Linux 内核的逻辑分卷管理器，可用于管理磁盘驱动器或其他类似的大容量存储设备</p>
+</blockquote>
+<p>在传统 Linux 环境下，磁盘分区是直接与文件目录（filesystem）直接相互挂载的。倘若用户需要对文件目录的容量进行伸缩的话，通常做法有两种：一是新增磁盘分区，二是对原有的磁盘分区进行划分。无论是上述哪一种做法，都会对原有的磁盘分区产生影响，亦或某些文件损坏，亦或磁盘损坏。</p>
+<p>为了更加方便用户对磁盘分区进行操作，LVM 为计算机提供了更高层次的磁盘存储方式。原理如下所示：LVM 将一个或多个磁盘的分区在逻辑上集合，相当于一个整体的、容量大的磁盘，以便用来使用。当磁盘分区空间不足时，可以继续将其他的磁盘的分区加入其中。</p>
+<p><img src="http://on83riher.bkt.clouddn.com/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86-%E6%A6%82%E5%BF%B5.png" alt=""></p>
+<p>与传统的磁盘管理相比，LVM 更富有弹性：</p>
+<ul>
+<li>使用卷组（VG），使众多硬盘空间看起来像一个大硬盘</li>
+<li>使用逻辑卷（LV），可以创建跨越众多硬盘空间的分区</li>
+<li>可以创建小的逻辑卷（LV），在空间不足时再动态调整它的大小</li>
+<li>在调整逻辑卷（LV）大小时可以不用考虑逻辑卷在硬盘上的位置，不用担心没有可用的连续空间</li>
+<li>可以在线（online）对逻辑卷（LV）和卷组（VG）进行创建、删除、调整大小等操作。LVM上的文件系统也需要重新调整大小，某些文件系统也支持这样的在线操作</li>
+<li>无需重新启动服务，就可以将服务中用到的逻辑卷（LV）在线（online）/动态（live）迁移至别的硬盘上</li>
+<li>允许创建快照，可以保存文件系统的备份，同时使服务的下线时间（downtime）降低到最小</li>
+</ul>
+<hr>
+<h5 id="相关于-LVM-的几个重要名词："><a href="#相关于-LVM-的几个重要名词：" class="headerlink" title="相关于 LVM 的几个重要名词："></a>相关于 LVM 的几个重要名词：</h5><ul>
+<li><p><strong>Physical Volume，PV， 物理卷</strong></p>
+<p>可以在上面建立卷组的媒介，可以是硬盘分区，也可以是硬盘本身或者回环文件（loopback file）。物理卷包括一个特殊的 header，其余部分被切割为一块块物理区域（physical extends）</p>
+</li>
+<li><p><strong>Volume Group，VG，卷组</strong></p>
+<p>将一组物理卷收集为一个管理单元。卷组可以视为一个由若干个物理卷组合而成的“磁盘”。卷组同时也能够包含若干个逻辑卷（logical volume）</p>
+</li>
+<li><p><strong>Logical Volume，LV，逻辑卷</strong></p>
+<p>一种特殊的虚拟分区，从属于卷组，可以由若干块物理区域构成。</p>
+</li>
+<li><p><strong>Physical Extent，PE，物理区域</strong></p>
+<p>硬盘可供指派给逻辑卷的最小单位（通常为4MB）</p>
+</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86-%E8%AF%A6%E6%83%85.png" alt=""></p>
+<hr>
+<h5 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h5><h4 id="Physical-Volume，物理卷相关操作"><a href="#Physical-Volume，物理卷相关操作" class="headerlink" title="Physical Volume，物理卷相关操作"></a>Physical Volume，物理卷相关操作</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 维护命令</div><div class="line"><span class="meta">#</span> pvscan # 在系统中的所有磁盘中搜索已存在的物理卷</div><div class="line"><span class="meta">#</span> pvdisplay [&lt;物理卷&gt;] # 显示 全部/指定 物理卷的属性信息</div><div class="line"><span class="meta">#</span> pvs # pvdisplay 简约版，仅能得到物理卷的概要信息</div><div class="line"><span class="meta">#</span> pvchange [-x &#123;y|n&#125;] [-u] # 用于指定物理卷的 PE 是否允许分配或重新生成物理卷的 UUID</div><div class="line"><span class="meta">#</span> pvmove &lt;源物理卷&gt; [&lt;目的物理卷&gt;] # 将同一 VG 下的 PV 内容进行迁移，若不指定目的物理卷则由 LVM 决定</div><div class="line"></div><div class="line"><span class="meta">#</span> 创建与删除命令</div><div class="line"><span class="meta">#</span> pvcreate &lt;设备名&gt; # 用于在磁盘或磁盘分区上创建物理卷初始化信息，以便对该物理卷进行操作</div><div class="line"><span class="meta">#</span> pvremove &lt;物理卷&gt; [-d][-f][-y] # 删除物理卷</div></pre></td></tr></table></figure>
+<h4 id="Volume-Group，卷组相关操作"><a href="#Volume-Group，卷组相关操作" class="headerlink" title="Volume Group，卷组相关操作"></a>Volume Group，卷组相关操作</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 维护命令</div><div class="line"><span class="meta">#</span> vgscan # 在系统中搜索所有已存在的 vg</div><div class="line"><span class="meta">#</span> vgck &lt;卷组&gt; # 用于检查卷组中卷组描述区域信息的一致性</div><div class="line"><span class="meta">#</span> vgdisplay [&lt;卷组&gt;] # 显示 全部/指定 卷组的属性信息</div><div class="line"><span class="meta">#</span> vgrename &lt;旧卷组名&gt; &lt;新卷组名&gt; # 卷组重命名</div><div class="line"><span class="meta">#</span> vgchange [-a &#123;y|n&#125;] [-x &#123;y|n&#125;] # 用于指定卷组是否允许分配或者卷组容量是否可伸缩</div><div class="line"></div><div class="line"><span class="meta">#</span> 创建与删除命令</div><div class="line"><span class="meta">#</span> vgcreate &lt;卷组&gt; # 用于创建 LVM 卷组</div><div class="line"><span class="meta">#</span> vgremove &lt;卷组&gt; # 用于删除 LVM 卷组</div><div class="line"></div><div class="line"><span class="meta">#</span> 扩充与缩小命令</div><div class="line"><span class="meta">#</span> vgextend &lt;卷组&gt; &lt;物理卷&gt; # 向卷组中添加物理卷来增加卷组的容量</div><div class="line"><span class="meta">#</span> vgreduce &lt;卷组&gt; &lt;物理卷&gt; # 向卷组中删除物理卷来减小卷组的容量</div><div class="line"></div><div class="line"><span class="meta">#</span> 合并与拆分命令</div><div class="line"><span class="meta">#</span> vgmerge &lt;目的卷组&gt; &lt;源卷组&gt; # 将源卷组合并至目的卷组，要求两个卷组的物理区域大小相等且源卷组是非活动的(inactive)</div><div class="line"><span class="meta">#</span> vgsplit &lt;源卷组&gt; &lt;目的卷组&gt; &lt;源物理卷&gt; # 将源卷组的源物理卷拆分到目的卷组</div><div class="line"><span class="meta">#</span> vgexport &lt;卷组&gt; # 用于输出卷组，将非活动的(inactive)的卷组导出，可用于其他系统中使用</div><div class="line"><span class="meta">#</span> vgimport &lt;卷组&gt; &lt;物理卷&gt; # 用于输入卷组</div><div class="line"></div><div class="line"><span class="meta">#</span> 备份与恢复命令</div><div class="line"><span class="meta">#</span> vgcfgbackup &lt;卷组&gt; # 备份卷组的元信息至 /etc/lvml/backup 目录中</div><div class="line"><span class="meta">#</span> vgcfgrestore &lt;卷组&gt; # 从备份文件中恢复指定卷组</div></pre></td></tr></table></figure>
+<h4 id="Logical-Volume，逻辑卷相关操作"><a href="#Logical-Volume，逻辑卷相关操作" class="headerlink" title="Logical Volume，逻辑卷相关操作"></a>Logical Volume，逻辑卷相关操作</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 维护命令</div><div class="line"><span class="meta">#</span> lvscan # 在系统中搜索所有已存在的 lv</div><div class="line"><span class="meta">#</span> lvdisplay [&lt;逻辑卷&gt;] # 显示 全部/指定 逻辑卷的属性信息</div><div class="line"><span class="meta">#</span> lvrename &#123;&lt;卷组&gt; &lt;旧逻辑卷名&gt; &lt;新逻辑卷名&gt; | &lt;旧逻辑卷路径名&gt; &lt;新逻辑卷路径名&gt;&#125;</div><div class="line"><span class="meta">#</span> lvchange # 更改逻辑卷的属性</div><div class="line"></div><div class="line"><span class="meta">#</span> 创建与删除命令</div><div class="line"><span class="meta">#</span> lvcreate &lt;逻辑卷&gt; &lt;卷组&gt; # 用于创建卷组中的逻辑卷</div><div class="line"><span class="meta">#</span> lvremove &lt;逻辑卷&gt; &lt;卷组&gt; # 用于删除卷组中的逻辑卷</div><div class="line"></div><div class="line"><span class="meta">#</span> 扩充与缩小命令</div><div class="line"><span class="meta">#</span> lvextend -L +&lt;增量&gt; &lt;逻辑卷&gt; # 根据增量对逻辑卷容量进行扩充</div><div class="line"><span class="meta">#</span> lvreduce -L -&lt;减量&gt; &lt;逻辑卷&gt; # 根据减量对逻辑卷容量进行缩小</div></pre></td></tr></table></figure>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="https://jingyan.baidu.com/article/fedf0737772d2835ac897790.html" target="_blank" rel="external">https://jingyan.baidu.com/article/fedf0737772d2835ac897790.html</a></p>
+<p>[2] <a href="https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E5.88.9B.E5.BB.BA.E7.89.A9.E7.90.86.E5.8D.B7.EF.BC.88PV.EF.BC.89" target="_blank" rel="external">https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E5.88.9B.E5.BB.BA.E7.89.A9.E7.90.86.E5.8D.B7.EF.BC.88PV.EF.BC.89</a></p>
+<p>[3] <a href="http://www.cnblogs.com/gaojun/archive/2012/08/22/2650229.html" target="_blank" rel="external">http://www.cnblogs.com/gaojun/archive/2012/08/22/2650229.html</a></p>
+<p>[4] <a href="http://www.cnblogs.com/xiaoluo501395377/archive/2013/05/22/3093405.html" target="_blank" rel="external">http://www.cnblogs.com/xiaoluo501395377/archive/2013/05/22/3093405.html</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2017/07/23/未选择的路/">未选择的路</a>
         
       </h1>
@@ -926,90 +1014,6 @@
 <li><strong>解除死锁。</strong>当检测到系统中已发生死锁时，就采取相应措施，将进程从死锁状态中释放。常用的方法是撤销一些进程，强制回收它们的资源，将它们分配给已处于阻塞状态的进程，使其能够继续运行。</li>
 </ol>
 <p><strong>上述的四种方法，从（1）到（4）对死锁的防范程度逐渐减弱，但相对应的是对资源利用率的提高，以及进程因资源因素而阻塞的频率下降（即并发程度提高）。</strong></p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/03/29/设计模式笔记-中介者模式（Mediator-Pattern）/">设计模式笔记 - 中介者模式（Mediator Pattern）</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-03-29
-        </span>
-        
-          <div class="post-category">
-            
-              <a href="/categories/设计模式/">设计模式</a>
-            
-          </div>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><blockquote>
-<p>中介者模式（Mediator Pattern）用一个中介对象来封装一系列的对象交互，中介者使各对象不需要显式地相互引用，从而使耦合松散，而且可以独立地改变它们之间的交互。</p>
-<p>中介者模式又称为调停者模式，它是一种对象行为型模式。</p>
-</blockquote>
-<hr>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>中介者模式包含如下角色：</p>
-<ul>
-<li>Mediator - 抽象中介者</li>
-<li>ConcreteMediator - 具体中介者</li>
-<li>Colleague - 抽象同事类</li>
-<li>ConcreteColleague - 具体同事类</li>
-</ul>
-<p><img src="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F.JPG" alt="img"></p>
-<hr>
-<h4 id="模式实例"><a href="#模式实例" class="headerlink" title="模式实例"></a>模式实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * 本例为建立一个虚拟聊天室。允许会员通过该聊天室进行信息交流，普通会员（Common Member）可以给其他会员发</div><div class="line"> * 送文本信息，钻石会员（Diamond Member）除了可以发送文本消息外，还可以发送图片。</div><div class="line"> */</div><div class="line">// Mediator - 抽象中介者</div><div class="line">public abstract class AbstractChatroom &#123;</div><div class="line">  	private List&lt;Member&gt; members;</div><div class="line">  </div><div class="line">  	public AbstractChatroom() &#123;</div><div class="line">      	this.members = new ArrayList&lt;Member&gt;();</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void register(Member member) &#123;</div><div class="line">      	this.members.add(member);</div><div class="line">  	&#125;</div><div class="line">  	</div><div class="line">  	public List&lt;Member&gt; getMembers() &#123;</div><div class="line">  		return this.members;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public abstract void sendText(String text);</div><div class="line">  	public abstract void sendImage(Photo photo);</div><div class="line">&#125; </div><div class="line"></div><div class="line">// ConcreteMediator - 具体中介者</div><div class="line">public class ChatGroup extends AbstractChatroom &#123;</div><div class="line">  	public void register(Member member) &#123;</div><div class="line">      	super.register(member);</div><div class="line">      	member.setChatroom(this);</div><div class="line">  	&#125;</div><div class="line">	</div><div class="line">  	public void sendText(String text) &#123;</div><div class="line">  		List&lt;Member&gt; members = getMembers();</div><div class="line">  		</div><div class="line">    	for (Member member: members) &#123;</div><div class="line">          	member.receiveText(text);</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">  	public void sendImage(Photo photo) &#123;</div><div class="line">  		List&lt;Member&gt; members = getMembers();</div><div class="line">  		</div><div class="line">      	for (Member member: members) &#123;</div><div class="line">          	member.receiveImage(photo);</div><div class="line">    	&#125;</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Colleague - 抽象同事类</div><div class="line">public abstract class Member &#123;</div><div class="line">  	private String name;</div><div class="line">  	private AbstractChatroom chatroom;</div><div class="line">  </div><div class="line">  	public Member(String name) &#123;</div><div class="line">      	this.name = name;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void setChatroom(AbstractChatroom chatroom) &#123;</div><div class="line">      	this.chatroom = chatroom;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public AbstractChatroom getChatroom() &#123;</div><div class="line">      	return this.chatroom;</div><div class="line">  	&#125;</div><div class="line">  	</div><div class="line">  	public void receiveImage(Photo photo) &#123;</div><div class="line">      	System.out.println(name + &quot; receive photo: &quot; + photo.getName());</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void receiveText(String text) &#123;</div><div class="line">      	System.out.println(name + &quot; receive text: &quot; + text);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void sendImage(Photo photo) &#123;</div><div class="line">      	throw new IllegalStateException(&quot;you don&apos;t have an access&quot;);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void sendText(String text) &#123;</div><div class="line">      	this.chatroom.sendText(text);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// ConcreteColleague - 具体同事类</div><div class="line">// 普通会员</div><div class="line">public class CommonMember extends Member &#123;</div><div class="line">  	public CommonMember(String name) &#123;</div><div class="line">      	super(name);</div><div class="line">  	&#125;</div><div class="line">  	</div><div class="line">  	public void sendText(String text) &#123;</div><div class="line">      	getChatroom().sendText(text);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 钻石会员</div><div class="line">public class DiamondMember extends Member &#123;</div><div class="line">  	public DiamondMember(String name) &#123;</div><div class="line">  		super(name);</div><div class="line">  	&#125;</div><div class="line">  	</div><div class="line">  	public void sendText(String text) &#123;</div><div class="line">      	getChatroom().sendText(text);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void sendImage(Photo photo) &#123;</div><div class="line">      	getChatroom().sendImage(photo);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 测试类</div><div class="line">public class Text &#123;</div><div class="line">  	public static void main(String[] args) &#123;</div><div class="line">      	AbstractChatroom chatroom = new ChatGroup();</div><div class="line">      	Member common = new CommonMember(&quot;Peter&quot;);</div><div class="line">      	Member diamond = new DiamondMember(&quot;Mary&quot;);</div><div class="line">      </div><div class="line">      	chatroom.register(common);</div><div class="line">      	chatroom.register(diamond);</div><div class="line">      	</div><div class="line">      	common.sendText(&quot;Hello&quot;);</div><div class="line">      	diamond.sendImage(new Photo(&quot;Cool&quot;));</div><div class="line">      	</div><div class="line">      	System.out.println(&quot;END&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
-<li>中介者模式可以使对象之间的关系数量急剧减少。</li>
-<li>通过引入中介者对象，可以将系统的网状结构变成以中介者为中心的星型结构，中介者承担了中转作用和协调作用。中介者是中介者模式的核心，它对整个系统进行控制和协调，简化了对象之间的交互，还可以对对象间的交互进行进一步的控制。</li>
-</ul>
-<p><strong>中介者模式的优点：</strong></p>
-<ul>
-<li>简化对象之间的引用关系，降低对象间的耦合。</li>
-<li>集中式管理，以中介者为中心，协调各对象之间的关系。</li>
-</ul>
-<p><strong>中介者模式的缺点：</strong></p>
-<ul>
-<li>在具体中介者类中包含了同事之间的交互细节，增加了具体中介者的复杂度，如果系统中具有太多的同时，会使得系统变得难以维护。</li>
-</ul>
-<hr>
-<h4 id="适用环境"><a href="#适用环境" class="headerlink" title="适用环境"></a>适用环境</h4><p>在以下情况下可以使用中介者模式：</p>
-<ul>
-<li>系统中对象之间存在复杂的引用关系，产生的相互依赖关系结构混乱且难以理解。</li>
-<li>一个对象由于引用了其他很多对象并且直接和这些对象通信，即耦合程度大，导致难以复用该对象。</li>
-</ul>
-<hr>
-<hr>
-<p>参考资料：</p>
-<p>[1] <a href="https://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/mediator.html" target="_blank" rel="external">https://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/mediator.html</a></p>
 
         
       

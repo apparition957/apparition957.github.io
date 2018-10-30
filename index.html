@@ -189,6 +189,70 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2018/10/30/Motan 系列-目录/">Motan 系列 - 目录</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-10-30
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <blockquote>
+<p>其实本来想写 Dubbo 的，奈何时间和个人能力都不足以让我从头到尾把 Dubbo 看一遍，所以转而深入理解 Motan 这一小而美的 RPC 框架。</p>
+</blockquote>
+<p>下面是近期想要开始写的 Motan 源码分析系列文章（先自己把坑挖好，后期慢慢把坑填上吧）。</p>
+<ol>
+<li>Motan 系列-总体设计</li>
+<li>Motan 系列-额外知识-SPI 机制</li>
+<li>Motan 系列-额外知识-Spring 事件机制</li>
+<li>Motan 系列-服务提供者-如何提供服务</li>
+<li>Motan 系列-服务提供者-如何响应服务</li>
+<li>Motan 系列-服务消费者-如何连接服务</li>
+<li>Motan 系列-服务消费者-如何消费服务</li>
+<li>Motan 系列-注册中心设计</li>
+<li>Motan 系列-其他特性-心跳机制</li>
+<li>Motan 系列-其他特性-Shutdown 机制</li>
+<li>Motan 系列-其他特性-异步调用</li>
+<li>…..</li>
+</ol>
+<hr>
+<p>以下参考的文章都是在我学习 Motan 的时候提供了很大的帮助，十分感谢他们能写出这么棒的文章。</p>
+<ol>
+<li><a href="http://kriszhang.com/motan-rpc-impl/" target="_blank" rel="external">从motan看RPC框架设计</a></li>
+<li><a href="https://fdx321.github.io/2017/07/19/%E3%80%90Motan%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E3%80%911-%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84/" target="_blank" rel="external">Motan源码学习</a></li>
+<li><a href="http://blog.yannxia.top/2018/06/30/java/motan/motan/" target="_blank" rel="external">Motan源码分析</a></li>
+</ol>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2018/07/20/在小米实习的180天/">在小米实习的180天</a>
         
       </h1>
@@ -653,71 +717,6 @@
 <h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><p>废话不多，先贴源码</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">  * Take the first num elements of the RDD. It works by first scanning one partition, and use the results from that partition to estimate the number of additional partitions needed to satisfy the limit.</span></div><div class="line"><span class="comment">  *</span></div><div class="line"><span class="comment">  * @note This method should only be used if the resulting array is expected to be small, as all the data is loaded into the driver's memory.</span></div><div class="line"><span class="comment">  * 此方法被使用时期望目标数组的大小比较小，即其数组中所有数据都能够存储在 driver 的内存当中。这里的函数解释当中提及到了处理的数据量应当较小，但是没说如果处理了比较大的数据时会怎么样，还得看看继续往下看</span></div><div class="line"><span class="comment">  *</span></div><div class="line"><span class="comment">  * @note Due to complications in the internal implementation, this method will raise</span></div><div class="line"><span class="comment">  * an exception if called on an RDD of `Nothing` or `Null`.</span></div><div class="line"><span class="comment">  */</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">take</span></span>(num: <span class="type">Int</span>): <span class="type">Array</span>[<span class="type">T</span>] = withScope &#123;</div><div class="line">  <span class="comment">// scaleUpFactor 字面意思是扩增因子，看到这里我们可以结合上图的例子，不难看出分区的扩增是按照一定的倍数增长的</span></div><div class="line">  <span class="keyword">val</span> scaleUpFactor = <span class="type">Math</span>.max(conf.getInt(<span class="string">"spark.rdd.limit.scaleUpFactor"</span>, <span class="number">4</span>), <span class="number">2</span>)</div><div class="line">  <span class="keyword">if</span> (num == <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">new</span> <span class="type">Array</span>[<span class="type">T</span>](<span class="number">0</span>)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">val</span> buf = <span class="keyword">new</span> <span class="type">ArrayBuffer</span>[<span class="type">T</span>]</div><div class="line">    <span class="keyword">val</span> totalParts = <span class="keyword">this</span>.partitions.length</div><div class="line">    <span class="keyword">var</span> partsScanned = <span class="number">0</span></div><div class="line">    </div><div class="line">    <span class="comment">// 这个循环是为什么 take 失败会进行重试的关键</span></div><div class="line">    <span class="keyword">while</span> (buf.size &lt; num &amp;&amp; partsScanned &lt; totalParts) &#123;</div><div class="line">      <span class="comment">// The number of partitions to try in this iteration. It is ok for this number to be</span></div><div class="line">      <span class="comment">// greater than totalParts because we actually cap it at totalParts in runJob.</span></div><div class="line">      <span class="comment">// numPartsToTry - 此次循环迭代的分区个数，默认为1。</span></div><div class="line">      <span class="keyword">var</span> numPartsToTry = <span class="number">1</span>L</div><div class="line">      <span class="keyword">val</span> left = num - buf.size</div><div class="line">      <span class="keyword">if</span> (partsScanned &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="comment">// If we didn't find any rows after the previous iteration, quadruple and retry.</span></div><div class="line">        <span class="comment">// Otherwise, interpolate the number of partitions we need to try, but overestimate</span></div><div class="line">        <span class="comment">// it by 50%. We also cap the estimation in the end.</span></div><div class="line">        <span class="comment">// 重点！当在上一次迭代当中，我们没有找到任何满足条件的 row 时(至少是不满足指定数量时)，有规律的重试(quadruple and retry，翻译水平有限)</span></div><div class="line">        <span class="keyword">if</span> (buf.isEmpty) &#123;</div><div class="line">          numPartsToTry = partsScanned * scaleUpFactor</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">          <span class="comment">// As left &gt; 0, numPartsToTry is always &gt;= 1</span></div><div class="line">          numPartsToTry = <span class="type">Math</span>.ceil(<span class="number">1.5</span> * left * partsScanned / buf.size).toInt</div><div class="line">          numPartsToTry = <span class="type">Math</span>.min(numPartsToTry, partsScanned * scaleUpFactor)</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="keyword">val</span> p = partsScanned.until(math.min(partsScanned + numPartsToTry, totalParts).toInt)</div><div class="line">      <span class="keyword">val</span> res = sc.runJob(<span class="keyword">this</span>, (it: <span class="type">Iterator</span>[<span class="type">T</span>]) =&gt; it.take(left).toArray, p)</div><div class="line"></div><div class="line">      <span class="comment">// 每一次循环迭代都会获取新的数据加到 buf 当中，所以并不是每一次重试都是从头对数据进行遍历，那这样会没完没了</span></div><div class="line">      res.foreach(buf ++= _.take(num - buf.size))</div><div class="line">      partsScanned += p.size</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 这里才是我们最终的结果</span></div><div class="line">    buf.toArray</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><code>take()</code>算子使用的场景是当数据量规模较小的情况，亦或者说搭配<code>filter()</code>时，<code>filter()</code>能够较快的筛选出数据来。</p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2018/04/01/Spark - 由 foreach 引发的思考/">Spark - 由 foreach 引发的思考</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-04-01
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>废话不说，先贴代码</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> numbers = sc.parallelize(<span class="type">Array</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>))</div><div class="line"><span class="keyword">val</span> map = scala.collection.mutable.<span class="type">Map</span>[<span class="type">Int</span>, <span class="type">Int</span>]()</div><div class="line"></div><div class="line">numbers.foreach(l =&gt; &#123;map.put(l,l)&#125;)</div><div class="line">println(map.size) <span class="comment">// 此时 map 的存储了几个键值对</span></div></pre></td></tr></table></figure>
-<hr>
-<p>首先我们先说个概念 —— <strong>闭包</strong></p>
-<p>闭包是 Scala 中的特性，用通俗易懂的话讲就是函数内部的运算或者说函数返回值可由外部的变量所控制，用个例子解释就是：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> factor = <span class="number">10</span></div><div class="line"><span class="comment">// multiplier 函数的返回值有有两个决定因素，输入参数变量 i 以及外部变量 factor。输入参数变量 i 是由我们调用该函数时决定的，相较于 factor 是可控的，而 factor 则是外部变量所定义，相较于 i 是不可控的</span></div><div class="line"><span class="keyword">val</span> multiplier = (i: <span class="type">Int</span>) =&gt; i * factor </div><div class="line">println(multiplier(<span class="number">1</span>)) <span class="comment">// 10</span></div><div class="line"></div><div class="line">factor = <span class="number">20</span></div><div class="line">println(multiplier(<span class="number">1</span>)) <span class="comment">// 20</span></div></pre></td></tr></table></figure>
-<p>根据上述提及的闭包可知，刚才所写的代码中<code>l =&gt; {map.put(1,1)}</code>其所定义的函数就是一个闭包</p>
-<hr>
-<p>既然标题中提到了 Spark，那就要说明闭包与 Spark 的关系了</p>
-<p>在 Spark 中，用户自定义闭包函数并传递给相应的 RDD 所定义好的方法（如<code>foreach</code>、<code>map</code>）。<strong>Spark 在运行作业时会检查 DAG 中每个 RDD 所涉及的闭包，如是否可序列化、是否引用外部变量等。若存在引用外部变量的情况，则会将它们的副本复制到相应的工作节点上，保证程序运行的一致性</strong></p>
-<blockquote>
-<p>下面是 Spark 文档中解释的：</p>
-<h3 id="Shared-Variables"><a href="#Shared-Variables" class="headerlink" title="Shared Variables"></a>Shared Variables</h3><p>Normally, when a function passed to a Spark operation (such as <code>map</code> or <code>reduce</code>) is executed on a remote cluster node, it works on separate copies of all the variables used in the function. These variables are copied to each machine, and no updates to the variables on the remote machine are propagated back to the driver program. Supporting general, read-write shared variables across tasks would be inefficient. However, Spark does provide two limited types of <em>shared variables</em> for two common usage patterns: broadcast variables and accumulators.</p>
-<h3 id="共享变量"><a href="#共享变量" class="headerlink" title="共享变量"></a>共享变量</h3><p>通常情况下，当有函数传递给在远端集群节点上执行的 Spark 的算子（如<code>map</code>或<code>reduce</code>）时，Spark 会将所有在该函数内部所需要的用到的变量分别复制到相应的节点上。这些副本变量会被复制到每个节点上，且在算子执行结束后这些变量并不会回传给驱动程序（driver program）。</p>
-<p>Normally, when a function passed to a Spark operation (such as <code>map</code> or <code>reduce</code>) is executed on a remote cluster node, it works on separate copies of all the variables used in the function. These variables are copied to each machine, and no updates to the variables on the remote machine are propagated back to the driver program. </p>
-</blockquote>
-<hr>
-<p>总结，如果直接运行一开始所提及的程序时，那么所获得的答案是0，因为我们知道<code>map</code>变量会被拷贝多份至不同的工作节点上，而我们操作的也仅仅只是副本罢了</p>
-<p>从编译器的角度来说，这段代码是一个闭包函数，而其调用了外部变量，代码上没问题。但是从运行结果中，这是错误操作方式，因为 Spark 会将其所调用的外部变量进行拷贝，并复制到相应的工作节点中，而不会对真正的变量产生任何影响</p>
-<p>相应的解决方案有</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> numbers = sc.parallelize(<span class="type">Array</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>))</div><div class="line"><span class="keyword">val</span> map = scala.collection.mutable.<span class="type">Map</span>[<span class="type">Int</span>, <span class="type">Int</span>]()</div><div class="line"></div><div class="line">numbers.collect().foreach(l =&gt; &#123;map.put(l,l)&#125;)</div><div class="line">println(map.size)</div></pre></td></tr></table></figure>
-<hr>
-<p>参考资料：</p>
-<ol>
-<li><a href="http://spark.apache.org/docs/2.1.0/programming-guide.html#shared-variables" target="_blank" rel="external">http://spark.apache.org/docs/2.1.0/programming-guide.html#shared-variables</a></li>
-</ol>
 
         
       

@@ -189,6 +189,90 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2017/03/29/设计模式笔记-中介者模式（Mediator-Pattern）/">设计模式笔记 - 中介者模式（Mediator Pattern）</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-29
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/设计模式/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><blockquote>
+<p>中介者模式（Mediator Pattern）用一个中介对象来封装一系列的对象交互，中介者使各对象不需要显式地相互引用，从而使耦合松散，而且可以独立地改变它们之间的交互。</p>
+<p>中介者模式又称为调停者模式，它是一种对象行为型模式。</p>
+</blockquote>
+<hr>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>中介者模式包含如下角色：</p>
+<ul>
+<li>Mediator - 抽象中介者</li>
+<li>ConcreteMediator - 具体中介者</li>
+<li>Colleague - 抽象同事类</li>
+<li>ConcreteColleague - 具体同事类</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F.JPG" alt="img"></p>
+<hr>
+<h4 id="模式实例"><a href="#模式实例" class="headerlink" title="模式实例"></a>模式实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * 本例为建立一个虚拟聊天室。允许会员通过该聊天室进行信息交流，普通会员（Common Member）可以给其他会员发</div><div class="line"> * 送文本信息，钻石会员（Diamond Member）除了可以发送文本消息外，还可以发送图片。</div><div class="line"> */</div><div class="line">// Mediator - 抽象中介者</div><div class="line">public abstract class AbstractChatroom &#123;</div><div class="line">  	private List&lt;Member&gt; members;</div><div class="line">  </div><div class="line">  	public AbstractChatroom() &#123;</div><div class="line">      	this.members = new ArrayList&lt;Member&gt;();</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void register(Member member) &#123;</div><div class="line">      	this.members.add(member);</div><div class="line">  	&#125;</div><div class="line">  	</div><div class="line">  	public List&lt;Member&gt; getMembers() &#123;</div><div class="line">  		return this.members;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public abstract void sendText(String text);</div><div class="line">  	public abstract void sendImage(Photo photo);</div><div class="line">&#125; </div><div class="line"></div><div class="line">// ConcreteMediator - 具体中介者</div><div class="line">public class ChatGroup extends AbstractChatroom &#123;</div><div class="line">  	public void register(Member member) &#123;</div><div class="line">      	super.register(member);</div><div class="line">      	member.setChatroom(this);</div><div class="line">  	&#125;</div><div class="line">	</div><div class="line">  	public void sendText(String text) &#123;</div><div class="line">  		List&lt;Member&gt; members = getMembers();</div><div class="line">  		</div><div class="line">    	for (Member member: members) &#123;</div><div class="line">          	member.receiveText(text);</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">  	public void sendImage(Photo photo) &#123;</div><div class="line">  		List&lt;Member&gt; members = getMembers();</div><div class="line">  		</div><div class="line">      	for (Member member: members) &#123;</div><div class="line">          	member.receiveImage(photo);</div><div class="line">    	&#125;</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Colleague - 抽象同事类</div><div class="line">public abstract class Member &#123;</div><div class="line">  	private String name;</div><div class="line">  	private AbstractChatroom chatroom;</div><div class="line">  </div><div class="line">  	public Member(String name) &#123;</div><div class="line">      	this.name = name;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void setChatroom(AbstractChatroom chatroom) &#123;</div><div class="line">      	this.chatroom = chatroom;</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public AbstractChatroom getChatroom() &#123;</div><div class="line">      	return this.chatroom;</div><div class="line">  	&#125;</div><div class="line">  	</div><div class="line">  	public void receiveImage(Photo photo) &#123;</div><div class="line">      	System.out.println(name + &quot; receive photo: &quot; + photo.getName());</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void receiveText(String text) &#123;</div><div class="line">      	System.out.println(name + &quot; receive text: &quot; + text);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void sendImage(Photo photo) &#123;</div><div class="line">      	throw new IllegalStateException(&quot;you don&apos;t have an access&quot;);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void sendText(String text) &#123;</div><div class="line">      	this.chatroom.sendText(text);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// ConcreteColleague - 具体同事类</div><div class="line">// 普通会员</div><div class="line">public class CommonMember extends Member &#123;</div><div class="line">  	public CommonMember(String name) &#123;</div><div class="line">      	super(name);</div><div class="line">  	&#125;</div><div class="line">  	</div><div class="line">  	public void sendText(String text) &#123;</div><div class="line">      	getChatroom().sendText(text);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 钻石会员</div><div class="line">public class DiamondMember extends Member &#123;</div><div class="line">  	public DiamondMember(String name) &#123;</div><div class="line">  		super(name);</div><div class="line">  	&#125;</div><div class="line">  	</div><div class="line">  	public void sendText(String text) &#123;</div><div class="line">      	getChatroom().sendText(text);</div><div class="line">  	&#125;</div><div class="line">  </div><div class="line">  	public void sendImage(Photo photo) &#123;</div><div class="line">      	getChatroom().sendImage(photo);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 测试类</div><div class="line">public class Text &#123;</div><div class="line">  	public static void main(String[] args) &#123;</div><div class="line">      	AbstractChatroom chatroom = new ChatGroup();</div><div class="line">      	Member common = new CommonMember(&quot;Peter&quot;);</div><div class="line">      	Member diamond = new DiamondMember(&quot;Mary&quot;);</div><div class="line">      </div><div class="line">      	chatroom.register(common);</div><div class="line">      	chatroom.register(diamond);</div><div class="line">      	</div><div class="line">      	common.sendText(&quot;Hello&quot;);</div><div class="line">      	diamond.sendImage(new Photo(&quot;Cool&quot;));</div><div class="line">      	</div><div class="line">      	System.out.println(&quot;END&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
+<li>中介者模式可以使对象之间的关系数量急剧减少。</li>
+<li>通过引入中介者对象，可以将系统的网状结构变成以中介者为中心的星型结构，中介者承担了中转作用和协调作用。中介者是中介者模式的核心，它对整个系统进行控制和协调，简化了对象之间的交互，还可以对对象间的交互进行进一步的控制。</li>
+</ul>
+<p><strong>中介者模式的优点：</strong></p>
+<ul>
+<li>简化对象之间的引用关系，降低对象间的耦合。</li>
+<li>集中式管理，以中介者为中心，协调各对象之间的关系。</li>
+</ul>
+<p><strong>中介者模式的缺点：</strong></p>
+<ul>
+<li>在具体中介者类中包含了同事之间的交互细节，增加了具体中介者的复杂度，如果系统中具有太多的同时，会使得系统变得难以维护。</li>
+</ul>
+<hr>
+<h4 id="适用环境"><a href="#适用环境" class="headerlink" title="适用环境"></a>适用环境</h4><p>在以下情况下可以使用中介者模式：</p>
+<ul>
+<li>系统中对象之间存在复杂的引用关系，产生的相互依赖关系结构混乱且难以理解。</li>
+<li>一个对象由于引用了其他很多对象并且直接和这些对象通信，即耦合程度大，导致难以复用该对象。</li>
+</ul>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="https://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/mediator.html" target="_blank" rel="external">https://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/mediator.html</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2017/03/29/设计模式笔记-建造者模式（Builder-Pattern）/">设计模式笔记 - 建造者模式（Builder Pattern）</a>
         
       </h1>
@@ -1046,88 +1130,6 @@
 <li><strong>使用钩子的真正目的</strong>钩子可以让子类实现算法中可选的部分，换种角度来说，在钩子对于子类的实现并不重要的时候，子类可以对此置之不理。钩子的另外一个用法，是让子类能够有机会对模板方法中某些即将发生的（或刚刚发生的）步骤做出反应。</li>
 <li><strong>策略模式与模板模式的区别</strong>策略模式与模板模式的思想是封装算法。但策略模式的侧重点在于使用组合，实现算法的替换，而模板模式的侧重点使用继承，实现算法框架的某些细节。</li>
 </ul>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/03/17/设计模式笔记-外观模式（Facade-Pattern）/">设计模式笔记 - 外观模式（Facade Pattern）</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-03-17
-        </span>
-        
-          <div class="post-category">
-            
-              <a href="/categories/设计模式/">设计模式</a>
-            
-          </div>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><blockquote>
-<p>外观模式（Facade Pattern）：外部与一个子系统的通信必须通过一个统一的外观对象进行，为子系统中的一组接口提供一个一致的界面，外观模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
-</blockquote>
-<hr>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>外观模式包含如下角色：</p>
-<ul>
-<li>Facade：外观角色</li>
-<li>SubSystem：子系统角色</li>
-</ul>
-<p><img src="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F.JPG" alt="img"></p>
-<hr>
-<h4 id="模式实例"><a href="#模式实例" class="headerlink" title="模式实例"></a>模式实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * 此例通过外观模式设计的门面，整合了三个子系统的接口并依次调用。</div><div class="line"> */</div><div class="line">// SubSystem - 子系统角色</div><div class="line">// 子系统A</div><div class="line">public class SystemA &#123;</div><div class="line">  	</div><div class="line">  	public void operationA() &#123;</div><div class="line">      	System.out.println(&quot;This is operationA!&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 子系统B</div><div class="line">public class SystemB &#123;</div><div class="line">  	</div><div class="line">  	public void operationB() &#123;</div><div class="line">      	System.out.println(&quot;This is operationB!&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 子系统C                                               </div><div class="line">public class SystemC &#123;</div><div class="line">  	</div><div class="line">  	public void operationC() &#123;</div><div class="line">      	System.out.println(&quot;This is operationC!&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 外观角色</div><div class="line">public class Facade &#123;</div><div class="line">  	SystemA systemA = new SystemA();</div><div class="line">  	SystemB systemB = new SystemB();</div><div class="line">  	SystemC systemC = new SystemC();</div><div class="line">  </div><div class="line">  	public void warpOperation() &#123;</div><div class="line">      	systemA.operationA();</div><div class="line">      	systemB.operationB();</div><div class="line">      	systemC.operationC();</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Client - 客户端类</div><div class="line">public class Client &#123;</div><div class="line">  	public static void main(String[] args) &#123;</div><div class="line">      	Facade facade = new Facade();</div><div class="line">      	facade.warpOperation();</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
-<li>根据“单一职责原则”，在软件中将一个系统划分为若干个子系统有利于降低整个系统的复杂性，一个常见的设计目标是使子系统间的通信与互相依赖关系达到最小，而达到该目标的途径之一就是引入一个外观对象，它为子系统的访问提供了一个简单而单一的接口。</li>
-<li>外观模式要求一个子系统的外部与其内部的通信通过一个统一的外观对象进行，外观类将客户端与子系统的内部复杂性分隔开，使得客户端只需要与外观对象打交道，无需关注内部复杂的细节，提高客户的使用体验。</li>
-</ul>
-<p><strong>外观模式的优点：</strong></p>
-<ul>
-<li>对客户屏蔽了子系统的组件，减少客户处理的对象数目，也使得子系统使用起来更加容易。</li>
-<li>同时也封装了子系统内部细节，降低了客户与子系统之间的耦合。</li>
-<li>外观模式只是提供了一个访问子系统的统一入口，但是并不影响用户直接操作子系统（如果允许的情况下）。</li>
-</ul>
-<p><strong>外观模式的缺点：</strong></p>
-<ul>
-<li>不能很好地限制客户使用子系统类，如果对客户过多的访问子系统类，则会间接增加了客户与子系统类的耦合程度，减少了灵活性。</li>
-<li>在不引入抽象外观类的情况下，增加新的子系统可能需要修改外观类或客户端源代码，违背了“开闭原则”。</li>
-</ul>
-<hr>
-<h4 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h4><ul>
-<li>不要通过继承外观类在子系统中加入新的行为。因为外观模式的本质在于为子系统提供一个集中化的、更加简化的接口，而不是向子系统中添加新的行为，而导致增加系统的复杂度。</li>
-<li>外观模式最大的缺点在于违背了“开闭原则”，当增加新的子系统或者移除子系统时需要修改外观类，可以通过引入抽象外观类在一定程度上解决该问题，客户端针对抽象外观类进行编程。对于新的业务需求，不修改原有外观类，而对应增加一个新的具体外观类，由新的具体外观类来关联新的子系统对象，同时通过修改配置文件来达到不修改源代码并更换外观类的目的。</li>
-</ul>
-<hr>
-<hr>
-<p>参考资料：</p>
-<p>[1] <a href="https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/facade.html" target="_blank" rel="external">https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/facade.html</a></p>
 
         
       
