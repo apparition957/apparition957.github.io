@@ -110,7 +110,7 @@
         <li class="mobile-menu-item">
           
           
-            Home
+            首页
           
         </li>
       </a>
@@ -119,7 +119,7 @@
         <li class="mobile-menu-item">
           
           
-            Archives
+            归档
           
         </li>
       </a>
@@ -128,7 +128,7 @@
         <li class="mobile-menu-item">
           
           
-            About
+            关于
           
         </li>
       </a>
@@ -149,7 +149,7 @@
           <a class="menu-item-link" href="/">
             
             
-              Home
+              首页
             
           </a>
         </li>
@@ -158,7 +158,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              Archives
+              归档
             
           </a>
         </li>
@@ -167,7 +167,7 @@
           <a class="menu-item-link" href="/about">
             
             
-              About
+              关于
             
           </a>
         </li>
@@ -183,6 +183,116 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts">
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/10/29/LinkedList 源码分析/">LinkedList 源码分析</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-10-29
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h2 id="结构体系"><a href="#结构体系" class="headerlink" title="结构体系"></a>结构体系</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
+<p><code>LinkedList</code>继承自<code>AbstractSequentialList</code>，并同时实现了<code>List</code>、<code>Deque</code>、<code>Cloneable</code>与<code>Serializable</code>接口。从继承体系上与接口上，可以看出<code>LinkedList</code>不仅仅是<strong>双向链表</strong>而已，它可以同时被当做<strong>双向队列</strong>进行操作。</p>
+<p>为什么是双向链表呢？后面一小节将会解释。</p>
+<h2 id="常量与重要成员"><a href="#常量与重要成员" class="headerlink" title="常量与重要成员"></a>常量与重要成员</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 记录链表上实际装载的节点个数</span></div><div class="line"><span class="keyword">transient</span> <span class="keyword">int</span> size = <span class="number">0</span>;</div><div class="line"><span class="comment">// 指向链表头部的指针</span></div><div class="line"><span class="keyword">transient</span> Node&lt;E&gt; first;</div><div class="line"><span class="comment">// 指向链表尾部的指针</span></div><div class="line"><span class="keyword">transient</span> Node&lt;E&gt; last;</div></pre></td></tr></table></figure>
+<p>在成员变量中，我们可以看到链表所承载的节点是<code>Node</code>，下面看看<code>Node</code>是怎么构成的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">    E item; <span class="comment">// 节点上承载的值</span></div><div class="line">    Node&lt;E&gt; next; <span class="comment">// 指向前一个节点</span></div><div class="line">    Node&lt;E&gt; prev; <span class="comment">// 指向后一个节点</span></div><div class="line"></div><div class="line">    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;</div><div class="line">        <span class="keyword">this</span>.item = element;</div><div class="line">        <span class="keyword">this</span>.next = next;</div><div class="line">        <span class="keyword">this</span>.prev = prev;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从<code>Node</code>中，不难看出<code>LinkedList</code>就是一个双向链表的集合，如下所示。</p>
+<p><img src="http://on83riher.bkt.clouddn.com/%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8.png" alt=""></p>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">LinkedList</span><span class="params">()</span> </span>&#123;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">LinkedList</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>();</div><div class="line">    addAll(c);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>LinkedList</code>的构造函数可以说是很简约了，毕竟内部不像<code>ArrayList</code>里面还有个数组作支撑，只需头/尾指针即可。</p>
+<h2 id="基本操作-node"><a href="#基本操作-node" class="headerlink" title="基本操作 - node()"></a>基本操作 - node()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 在LinkedList中，在某些需要在指定节点中进行操作的时候，是怎么通过索引下标的形式找到指定节点的呢</span></div><div class="line"><span class="comment">// LinkedList内部提供了node()方法来实现这一目标。顺便一提node()内部充分使用了头尾节点的好处，将遍历范围缩减到size/2内</span></div><div class="line"><span class="function">Node&lt;E&gt; <span class="title">node</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">    <span class="comment">// assert isElementIndex(index);</span></div><div class="line">	</div><div class="line">  	<span class="comment">// 若index &gt; size/2</span></div><div class="line">    <span class="keyword">if</span> (index &lt; (size &gt;&gt; <span class="number">1</span>)) &#123;</div><div class="line">        Node&lt;E&gt; x = first;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; index; i++)</div><div class="line">            x = x.next;</div><div class="line">        <span class="keyword">return</span> x;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        Node&lt;E&gt; x = last;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = size - <span class="number">1</span>; i &gt; index; i--)</div><div class="line">            x = x.prev;</div><div class="line">        <span class="keyword">return</span> x;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="添加操作-add"><a href="#添加操作-add" class="headerlink" title="添加操作 - add()"></a>添加操作 - add()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    linkLast(e);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</div><div class="line">    checkPositionIndex(index);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (index == size)</div><div class="line">      linkLast(element);</div><div class="line">    <span class="keyword">else</span></div><div class="line">      linkBefore(element, node(index));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的<code>add()</code>方法均调用了<code>link*（）</code>字样的方法，其实这是<code>LinkedList</code>内部用于对链表的中<strong>单个节点</strong>的操作。相对应的<code>remove()</code>方法也会调用<code>unlink*()</code>字样的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 作为头节点链接到链表中</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">linkFirst</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; f = first;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(<span class="keyword">null</span>, e, f);</div><div class="line">    first = newNode;</div><div class="line">  	<span class="comment">// 若f为null, 则表明链表为空</span></div><div class="line">    <span class="keyword">if</span> (f == <span class="keyword">null</span>)</div><div class="line">        last = newNode;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        f.prev = newNode;</div><div class="line">    size++;</div><div class="line">    modCount++;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 作为尾节点链接到链表中</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">linkLast</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; l = last;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(l, e, <span class="keyword">null</span>);</div><div class="line">    last = newNode;</div><div class="line">  	<span class="comment">// 若l为null, 则表明链表为空</span></div><div class="line">    <span class="keyword">if</span> (l == <span class="keyword">null</span>)</div><div class="line">        first = newNode;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        l.next = newNode;</div><div class="line">    size++;</div><div class="line">    modCount++;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 将新节点插在指定节点前</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">linkBefore</span><span class="params">(E e, Node&lt;E&gt; succ)</span> </span>&#123;</div><div class="line">    <span class="comment">// assert succ != null;</span></div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; pred = succ.prev;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(pred, e, succ);</div><div class="line">    succ.prev = newNode;</div><div class="line">    <span class="keyword">if</span> (pred == <span class="keyword">null</span>)</div><div class="line">        first = newNode;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        pred.next = newNode;</div><div class="line">    size++;</div><div class="line">    modCount++;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>LinkedList</code>也提供了将一组数据添加入链表中的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</div><div class="line">  	<span class="comment">// 默认从尾节点后插入</span></div><div class="line">  	<span class="keyword">return</span> addAll(size, c);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(<span class="keyword">int</span> index, Collection&lt;? extends E&gt; c)</span> </span>&#123;</div><div class="line">    checkPositionIndex(index);</div><div class="line"></div><div class="line">    Object[] a = c.toArray();</div><div class="line">    <span class="keyword">int</span> numNew = a.length;</div><div class="line">    <span class="keyword">if</span> (numNew == <span class="number">0</span>)</div><div class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"></div><div class="line">    Node&lt;E&gt; pred, succ;</div><div class="line">  	<span class="comment">// 若指定位置就是尾节点时</span></div><div class="line">    <span class="keyword">if</span> (index == size) &#123;</div><div class="line">      succ = <span class="keyword">null</span>;</div><div class="line">      pred = last;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      succ = node(index);</div><div class="line">      pred = succ.prev;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (Object o : a) &#123;</div><div class="line">      <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>) E e = (E) o;</div><div class="line">      Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(pred, e, <span class="keyword">null</span>);</div><div class="line">      <span class="comment">// 确保头节点始终不为空</span></div><div class="line">      <span class="keyword">if</span> (pred == <span class="keyword">null</span>)</div><div class="line">      	first = newNode;</div><div class="line">      <span class="keyword">else</span></div><div class="line">        pred.next = newNode;</div><div class="line">      pred = newNode;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  	<span class="comment">// 确保尾节点不为空</span></div><div class="line">    <span class="keyword">if</span> (succ == <span class="keyword">null</span>) &#123;</div><div class="line">      last = pred;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      pred.next = succ;</div><div class="line">      succ.prev = pred;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    size += numNew;</div><div class="line">    modCount++;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="删除操作-remove"><a href="#删除操作-remove" class="headerlink" title="删除操作 - remove()"></a>删除操作 - remove()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> removeFirst();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">    checkElementIndex(index);</div><div class="line">    <span class="keyword">return</span> unlink(node(index));</div><div class="line">&#125;</div><div class="line">    </div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeFirst</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; f = first;</div><div class="line">    <span class="keyword">if</span> (f == <span class="keyword">null</span>)</div><div class="line">    	<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">    <span class="keyword">return</span> unlinkFirst(f);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeLast</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">final</span> Node&lt;E&gt; l = last;</div><div class="line">	<span class="keyword">if</span> (l == <span class="keyword">null</span>)</div><div class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">	<span class="keyword">return</span> unlinkLast(l);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>remove()</code>如同<code>add()</code>一样，使用着功能截然相反的<code>unlink*()</code>方法，但逻辑处理难度上较大与<code>link*()</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 删除非空头节点</span></div><div class="line"><span class="function"><span class="keyword">private</span> E <span class="title">unlinkFirst</span><span class="params">(Node&lt;E&gt; f)</span> </span>&#123;</div><div class="line">    <span class="comment">// assert f == first &amp;&amp; f != null;</span></div><div class="line">    <span class="keyword">final</span> E element = f.item;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; next = f.next;</div><div class="line">    f.item = <span class="keyword">null</span>;</div><div class="line">    f.next = <span class="keyword">null</span>; <span class="comment">// 方便GC进行垃圾回收</span></div><div class="line">    first = next;</div><div class="line">  	<span class="comment">// 若链表中只有单个节点</span></div><div class="line">    <span class="keyword">if</span> (next == <span class="keyword">null</span>)</div><div class="line">        last = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        next.prev = <span class="keyword">null</span>;</div><div class="line">    size--;</div><div class="line">    modCount++;</div><div class="line">    <span class="keyword">return</span> element;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 删除非空尾节点</span></div><div class="line"><span class="function"><span class="keyword">private</span> E <span class="title">unlinkLast</span><span class="params">(Node&lt;E&gt; l)</span> </span>&#123;</div><div class="line">    <span class="comment">// assert l == last &amp;&amp; l != null;</span></div><div class="line">    <span class="keyword">final</span> E element = l.item;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; prev = l.prev;</div><div class="line">    l.item = <span class="keyword">null</span>;</div><div class="line">    l.prev = <span class="keyword">null</span>; <span class="comment">// 方便GC进行垃圾回收</span></div><div class="line">    last = prev;</div><div class="line">  	<span class="comment">// 若链表中只有单个节点</span></div><div class="line">    <span class="keyword">if</span> (prev == <span class="keyword">null</span>)</div><div class="line">        first = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        prev.next = <span class="keyword">null</span>;</div><div class="line">    size--;</div><div class="line">    modCount++;</div><div class="line">    <span class="keyword">return</span> element;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 删除指定节点</span></div><div class="line"><span class="function">E <span class="title">unlink</span><span class="params">(Node&lt;E&gt; x)</span> </span>&#123;</div><div class="line">    <span class="comment">// assert x != null;</span></div><div class="line">    <span class="keyword">final</span> E element = x.item;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; next = x.next;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; prev = x.prev;</div><div class="line"></div><div class="line">  	<span class="comment">// 若prev指向的上一个节点为空，那么该节点为头节点</span></div><div class="line">    <span class="keyword">if</span> (prev == <span class="keyword">null</span>) &#123;</div><div class="line">        first = next;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        prev.next = next;</div><div class="line">        x.prev = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  	<span class="comment">// 若next指向的下一个节点为空，那么该节点为尾节点</span></div><div class="line">    <span class="keyword">if</span> (next == <span class="keyword">null</span>) &#123;</div><div class="line">        last = prev;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        next.prev = prev;</div><div class="line">        x.next = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    x.item = <span class="keyword">null</span>;</div><div class="line">    size--;</div><div class="line">    modCount++;</div><div class="line">    <span class="keyword">return</span> element;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>remove()</code>操作中还提供了根据给定值删除指定节点的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">    <span class="comment">// 若给定值为null</span></div><div class="line">    <span class="keyword">if</span> (o == <span class="keyword">null</span>) &#123;</div><div class="line">    	<span class="comment">// 在这里就不能缩减范围提高效率了，只能老实的进行从头遍历到尾</span></div><div class="line">        <span class="keyword">for</span> (Node&lt;E&gt; x = first; x != <span class="keyword">null</span>; x = x.next) &#123;</div><div class="line">            <span class="keyword">if</span> (x.item == <span class="keyword">null</span>) &#123;</div><div class="line">              	unlink(x);</div><div class="line">              	<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">for</span> (Node&lt;E&gt; x = first; x != <span class="keyword">null</span>; x = x.next) &#123;</div><div class="line">            <span class="keyword">if</span> (o.equals(x.item)) &#123;</div><div class="line">              	unlink(x);</div><div class="line">              	<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="查询操作-get"><a href="#查询操作-get" class="headerlink" title="查询操作 - get()"></a>查询操作 - get()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">    checkElementIndex(index);</div><div class="line">    <span class="keyword">return</span> node(index).item;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">getFirst</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">final</span> Node&lt;E&gt; f = first;</div><div class="line">	<span class="keyword">if</span> (f == <span class="keyword">null</span>)</div><div class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">	<span class="keyword">return</span> f.item;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">getLast</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">final</span> Node&lt;E&gt; l = last;</div><div class="line">	<span class="keyword">if</span> (l == <span class="keyword">null</span>)</div><div class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">	<span class="keyword">return</span> l.item;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="修改操作-set"><a href="#修改操作-set" class="headerlink" title="修改操作 - set()"></a>修改操作 - set()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</div><div class="line">    checkElementIndex(index);</div><div class="line">    Node&lt;E&gt; x = node(index);</div><div class="line">    E oldVal = x.item;</div><div class="line">    x.item = element;</div><div class="line">    <span class="keyword">return</span> oldVal;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="实现了Deque接口的相关操作"><a href="#实现了Deque接口的相关操作" class="headerlink" title="实现了Deque接口的相关操作"></a>实现了Deque接口的相关操作</h2><p>别忘了，LinkedList实现了Deque接口，这说明操作LinkedList也可以像操作双向队列一样。如同<code>*first()</code>以及<code>*last()</code>这种操作也属于Deque要求实现的，下面将列出别的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">peek</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; f = first;</div><div class="line">    <span class="keyword">return</span> (f == <span class="keyword">null</span>) ? <span class="keyword">null</span> : f.item;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">poll</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">final</span> Node&lt;E&gt; f = first;</div><div class="line">	<span class="keyword">return</span> (f == <span class="keyword">null</span>) ? <span class="keyword">null</span> : unlinkFirst(f);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/10/28/Map-Entry 使用解析/">Map.Entry 使用解析</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-10-28
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><code>Map.Entry</code>是<code>Map</code>声明的一个内部接口，此接口为泛型，定义为<code>Entry&lt;K,V&gt;</code>。它可用于 表示Map中的一个键值对。</p>
+<p>在<code>Map</code>提供的<code>EntrySet()</code>返回的是<code>Set&lt;Map.Entry&lt;K,V&gt;&gt;</code>，是一个<code>Set</code>集合，刺激和类型是<code>Map.Entry</code>。相较于<code>Map</code>所提供的另一个方法<code>keySet()</code>，它所提供的以<code>key</code>值为数据的<code>Set</code>集合。</p>
+<h2 id="使用以及对比"><a href="#使用以及对比" class="headerlink" title="使用以及对比"></a>使用以及对比</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// keySet()循环遍历</span></div><div class="line"><span class="keyword">for</span> (Object key: map.keySet()) &#123;</div><div class="line">    Object key = key;</div><div class="line">  	Object value = map.get(key);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// entrySet()循环遍历</span></div><div class="line"><span class="keyword">for</span> (Map.Entry&lt;Object, Object&gt; entry: map.entrySet()) &#123;</div><div class="line">    Object = entry.getKey();</div><div class="line">  	Object = entry.getValue();</div><div class="line">  	<span class="comment">// entry.setValue()</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以上两种方式中，相较于<code>keySet()</code>遍历<code>Map</code>，<code>entrySet()</code>能够更加清晰的显示<code>Map</code>内部的数据结构，同时<code>entrySet()</code>提供了用于修改<code>Map</code>的值。</p>
+<hr>
+<p>参考链接</p>
+<p><a href="http://www.cnblogs.com/ningvsban/archive/2013/05/06/3062217.html" target="_blank" rel="external">Map.Entry使用详解</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
     
       
   <article class="post">
@@ -890,112 +1000,6 @@
   </article>
 
     
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/08/05/移位操作符/">移位操作符</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-08-05
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <blockquote>
-<p>移位运算符就是在二进制的基础上对数学进行平移。按照平移的方向和填充数字的规则分为三种：&lt;&lt;（左移）、&gt;&gt;（右移）、&gt;&gt;&gt;（无符号右移）。</p>
-</blockquote>
-<p>Java 中的移位运算符也有三种：</p>
-<ul>
-<li><code>&lt;&lt;</code> - 左移运算符</li>
-<li><code>&gt;&gt;</code> - 右移运算符</li>
-<li><code>&gt;&gt;&gt;</code> - 无符号右移运算符</li>
-</ul>
-<hr>
-<h3 id="代码展示"><a href="#代码展示" class="headerlink" title="代码展示"></a>代码展示</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 左移运算符</span></div><div class="line"><span class="keyword">int</span> a = <span class="number">10</span>; <span class="comment">// 二进制 - 1010</span></div><div class="line">a &lt;&lt; <span class="number">1</span>; 	<span class="comment">// 二进制 - 10100 - 相当于乘于 2^1</span></div><div class="line"></div><div class="line"><span class="comment">// 右移运算符</span></div><div class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</div><div class="line">a &gt;&gt; <span class="number">1</span>; 	<span class="comment">// 二进制 - 101 - 相当于除于 2^1</span></div><div class="line"></div><div class="line"><span class="comment">// 无符号右移运算符 - 分两种情况：非负数与负数</span></div><div class="line"><span class="comment">// 非负数</span></div><div class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</div><div class="line">a &gt;&gt; <span class="number">1</span>; 	<span class="comment">// 二进制 - 101 - 相当于除于 2^1</span></div><div class="line"></div><div class="line"><span class="comment">// 负数</span></div><div class="line"><span class="keyword">int</span> a = -<span class="number">10</span>; <span class="comment">// 二进制 - 11111111111111111111111111110110 - 负数在高位填补1</span></div><div class="line">a &gt;&gt; <span class="number">1</span>; 	 <span class="comment">// 二进制 - 01111111111111111111111111111011 - 十进制 - 2147483643</span></div></pre></td></tr></table></figure>
-<p>以上代码中，十进制转换为二进制中，为什么<code>int a = -10</code>的二进制数的总长度为<strong>32</strong>呢。这取决于数据类型，在 java 中，基本数据类型<code>int</code>是4个字节，即32位。如果将数据类型<code>int</code>改变为<code>long</code>，结果则完全不同。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">long</span> a = -<span class="number">10</span>;</div><div class="line">a &gt;&gt; <span class="number">1</span>; 	 <span class="comment">// 十进制 - 9223372036854775803</span></div></pre></td></tr></table></figure>
-<hr>
-<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><ul>
-<li>移位运算是直接基于二进制对数值进行操作，主要目的是节约内存，运算时间比算术运算符更加快。</li>
-</ul>
-<hr>
-<hr>
-<p>参考资料：</p>
-<ol>
-<li><a href="https://baike.baidu.com/item/%E7%A7%BB%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6" target="_blank" rel="external">https://baike.baidu.com/item/%E7%A7%BB%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6</a></li>
-<li><a href="http://www.cnblogs.com/hongten/p/hongten_java_yiweiyunsuangfu.html" target="_blank" rel="external">http://www.cnblogs.com/hongten/p/hongten_java_yiweiyunsuangfu.html</a></li>
-</ol>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/08/04/joda-time源码简略剖析/">joda-time源码简略剖析.md</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-08-04
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>最近查看了 Java 中有关于日期/时间处理的 API，发现了 <code>Joda-time</code> 这一款被众人广泛使用的开源库，花了一个下午，研究了内部的架构解析，画了下草图（真草图），内部的有些计算解析涉及到位处理，有些难以消化。</p>
-<ul>
-<li><img src="http://on83riher.bkt.clouddn.com/joda-time%E6%BA%90%E7%A0%81%E5%9B%BE.JPG" alt=""></li>
-</ul>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
   </section>
 
   
@@ -1003,12 +1007,12 @@
     
       <a class="prev" href="/page/4/">
         <i class="iconfont icon-left"></i>
-        <span class="prev-text">Prev</span>
+        <span class="prev-text">上一页</span>
       </a>
     
     
       <a class="next" href="/page/6/">
-        <span class="next-text">Next</span>
+        <span class="next-text">下一页</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -1062,11 +1066,11 @@
 
 <div class="copyright">
   <span class="power-by">
-    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
   </span>
   <span class="division">|</span>
   <span class="theme-info">
-    Theme - 
+    主题 - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 

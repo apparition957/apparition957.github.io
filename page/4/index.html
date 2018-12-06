@@ -110,7 +110,7 @@
         <li class="mobile-menu-item">
           
           
-            Home
+            首页
           
         </li>
       </a>
@@ -119,7 +119,7 @@
         <li class="mobile-menu-item">
           
           
-            Archives
+            归档
           
         </li>
       </a>
@@ -128,7 +128,7 @@
         <li class="mobile-menu-item">
           
           
-            About
+            关于
           
         </li>
       </a>
@@ -149,7 +149,7 @@
           <a class="menu-item-link" href="/">
             
             
-              Home
+              首页
             
           </a>
         </li>
@@ -158,7 +158,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              Archives
+              归档
             
           </a>
         </li>
@@ -167,7 +167,7 @@
           <a class="menu-item-link" href="/about">
             
             
-              About
+              关于
             
           </a>
         </li>
@@ -183,6 +183,179 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts">
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/03/《深入理解Java虚拟机》读书笔记 - 垃圾回收机制/">《深入理解Java虚拟机》读书笔记 - 垃圾回收机制</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-03
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <blockquote>
+<p>此篇为《深入理解Java虚拟机》第三章3.1、3.2、3.3部分的读书笔记</p>
+</blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><strong>在垃圾收集（Garbage Collection，GC）中，我们需要考虑以下三个问题：</strong></p>
+<ul>
+<li><strong>哪些内存需要回收？</strong></li>
+<li><strong>什么时候回收？</strong></li>
+<li><strong>如何回收？</strong></li>
+</ul>
+<p>经过半个多世纪的发展，目前内存的动态分配与内存回收技术已经相当成熟，一切看起来都进入“自动化”时代，那为什么我们还要去了解 GC 和内存分配呢？答案很简单：当需要排查各种内存溢出、内存泄漏问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，我们就需要对这些“自动化”的技术实施必要的监控和调节。</p>
+<h2 id="对象已死吗"><a href="#对象已死吗" class="headerlink" title="对象已死吗"></a>对象已死吗</h2><p>在堆里面存放着 Java 世界中几乎所有的对象实例，垃圾收集器在对堆进行垃圾回收前，第一件事情就是要确定这些对象之中哪些还“存活”着，哪些已经“死去”（即不可能再被任何途径使用的对象）。</p>
+<h3 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h3><p><strong>引用计数算法是指：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器为0的对象就是不可能再被使用的。</strong></p>
+<p>客观地说，引用计数算法（Reference Counting）的实现简单，判定效率也很高，在大部分情况下它都是一个不错的算法，但是，至少在主流的 Java 虚拟机里面没有选用引用计数拳算法来管理内存，其中主要的原因是<strong>它很难解决对象之间互相循环引用的问题</strong>。</p>
+<p>举个例子，若 Java 堆上同时存在 objA 和 objB 两个对象，两个对象中都有字段 instance，赋值令 objA.instance = objB 以及 objB.instance = objA，除此之外，这两个对象再无任何引用，实际上这两个对象已经不可能再被访问，但是它们因为互相引用着对方，导致它们的引用计数不为0，于是引用计数算法无法通知 GC 收集器来回收它们。</p>
+<h3 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h3><p><strong>可达性分析算法是指：通过一系列的称为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链（Reference Chain），当一个对象到 GC Roots 没有任何引用链相连（用图论的话来说，就是从 GC Roots 到这个对象不可达）时，则证明此对象是不可用的。</strong>如下图所示，对象 object5、object6、object7虽然互相有关联，但是它们到 GC Roots 是不可达的，所以它们将会被判定为是可回收对象。</p>
+<p><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95.png" alt=""><br></div><br>在 Java 语言中，可作为 GC Roots 的对象包括下面几种：</p>
+<ul>
+<li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中 JNI（即一般说的 Native 方法）引用的对象</li>
+</ul>
+<h3 id="再谈引用"><a href="#再谈引用" class="headerlink" title="再谈引用"></a>再谈引用</h3><p>无论是通过引用计数算法判断对象的引用数量，还是通过可达性分析算法判断对象的引用链是否可达，判定对象是都存活都与“引用”有关。<strong>对于对象“引用”的准确定义，希望通过这种方式来描述：当内存空间还足够时，则能保留在内存之中；如果内存空间在进行垃圾收集之后还是非常紧张，则可以抛弃这些对象。</strong>很多系统的缓存功能都符合这样的应用场景。</p>
+<p>在 JDK1.2之后，Java 对引用的概念进行了补充，将引用以下四类，并且这四种引用强度自上到下依次减弱。</p>
+<ul>
+<li><strong>强引用（Strong Reference）。</strong>强引用就是指在程序之中普遍存在的，类似“Object obj = new Object()”这类的引用，只要强引用还存在，垃圾收集器永远不会回收掉被引用的对象。</li>
+<li><strong>软引用（Soft Reference）。</strong>软引用是用来描述一些还有用但并非必需的对象。对于软引用关联的对象，在系统将要发生内存溢出异常之前，将会把这些对象列进回收范围之中进行第二次回收。如果这次回收还没有足够的内存，才会抛出内存溢出的异常。</li>
+<li><strong>弱引用（Weak Reference）。</strong>弱引用也是用来描述非必需对象的，但是它的强度比软引用更弱一些，被弱引用的对象只能生存到下一次垃圾收集发生之前。当垃圾收集器工作时，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。</li>
+<li><strong>虚引用（Phantom Reference）。</strong>虚引用也称为幽灵引用，它是最弱的一种引用关系。一个对象是否有虚引用的存在，完全不会对其生存时间构成影响，也无法通过虚引用来取得一个对象实例。为一个对象设置虚引用关联的唯一目的就是能在这个对象被收集器回收时收到一个系统通知。</li>
+</ul>
+<h3 id="生存还是死亡"><a href="#生存还是死亡" class="headerlink" title="生存还是死亡"></a>生存还是死亡</h3><p>即使在可达性分析算法中不可达的对象，也并非是“非死不可”的，这时候它们暂时处于“缓刑”阶段，<strong>要真正宣告一个对象死亡，至少要经历两次标记过程</strong>：如果对象在进行可达性分析之后，发现没有与 GC Roots 相连接的引用链，那么它将会被第一次标记并且进行一次筛选，筛选的条件是此对象是否有必要执行 finalize() 方法。当对象没有覆盖 finalize() 方法，或者 finalize() 方法已经被虚拟机调用过，虚拟机将这两次情况都视为“没有必要执行”。</p>
+<p>如果这个对象被判定为有必要执行 finalize() 方法，那么这个对象将会放置在一个叫做 F-Queue 的队列之中，并在稍后由一个由虚拟机自动建立的、低优先级的 Finalizer 线程去执行它。这个所谓的“执行”是指虚拟机会触发这个方法，但并不承诺会等待它运行结束，这样做的原因是，如果一个对象在 finalize() 方法中执行缓慢，或者发生了死循环，将很可能会导致 F-Queue 队列中的其他对象永久处于等待状态，甚至导致整个内存回收系统崩溃。</p>
+<p> finalize() 方法是对象逃脱死亡命运的最后一次机会，稍后 GC 会对 F-Queue 中的对象进行第二次小规模的标记，如果对象要在 finalize() 中成功拯救自己——只要重新与引用链上的任何一个对象建立关联即可，譬如把自己（this 关键字）赋值给某个类变量或者对象的成员变量，那在第二次标记时它将被移除出“即将回收”的集合；如果对象这时候还没有逃脱，那基本上它就真的就被回收了。</p>
+<blockquote>
+<p>任何一个对象的 finalize() 方法都只会被系统自动调用一次，如果面临第二次回收，那么它的 finalize()方法将不会被调用。</p>
+<p>对于 finalize() 方法，应该尽可能避免使用，因为这个 Java 在较早之前对于 C/C++程序员的妥协，最主要的原因是它的运行代价高昂，不确定性大，无法保证各个对象的调用顺序。所以了解它的概念，在实际使用上忽略它的存在即可。</p>
+</blockquote>
+<h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><h3 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><p><strong>最基础的收集算法是“标记-清除”（Mark-Sweep）算法，如同它的名字一样，算法分为“标记”和“清除“两个阶段：首先标记处所有需要回收的对象，在标记完成后，统一回收所有被标记的对象（标记过程参考上一小节）。</strong>之所以说它是最基础的收集算法，是因为后续的收集算法都是基于这种思路并对其不足进行改进而得到的。</p>
+<p>它的主要不足有两个：</p>
+<ul>
+<li>一个是效率问题，标记和清除两个过程的效率并不高</li>
+<li>一个是空间问题，标记清楚之后会产生大量不连续的内存碎片，空间碎片太多可能会导致以后在程序运行过程中需要分配较大的对象时，无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。<br><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95.png" alt=""><br></div><h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3></li>
+</ul>
+<p><strong>为了解决效率问题，一种称为”复制“（Copying）的收集算法出现了，他将可用内存按容量划分为大小相等的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次清理掉。这样使得每次都是对整个半区进行内存回收，内存分配时也就不用考虑内存碎片等复杂情况，只要移动堆顶指针，按顺序分配即可，实现简单，运行高效。</strong>只是这种算法的代价是将内存缩小为原来的一半，分配可能过高了。</p>
+<p><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95.png" alt=""><br></div><br>按照 IBM 的研究表明，新生代中的对象98%都是”朝生夕死“的。所以内存分配的常见做法是：将内存分为一块较大的 Eden 空间和两块较小的 Survivor 空间，每次使用 Eden 和其中一块 Survivor。当回收时，将 Eden 和 Survivor 中还存活着的对象一次性复制到另外一块 Survivor 空间上，最后清理掉 Eden 和刚才用过的 Survivor 空间。</p>
+<p> 在 HotSpot 虚拟机中，默认 Eden 和 Survivor 的大小比例为8：1，也就是每次新生代中可用内存空间为整个新生代容量的90%（80%+10%），只有10%的内存会被”浪费“。在 GC 回收过程中，若未使用的那块 Survivor 空间不够时，需要依赖其他内存（老年代）进行分配担保（Handle Promotion）（具体规则取决于垃圾收集器）。</p>
+<h3 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h3><p>复制收集算法在对象存活率较高时就要进行较多的复制操作，效率将会变低。更关键的是，如果不想浪费50%的空间，就需要额外的空间进行分配担保，以应对被使用的内存中所有对象都100%存活的极端情况，所以在老年代一般不能直接选用这种算法。</p>
+<p><strong>根据老年代的特点，顺应有了”标记-整理“算法，其过程与”标记-清除“算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</strong></p>
+<p><div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E7%AE%97%E6%B3%95.png" alt=""><br></div></p>
+<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>当前商业虚拟机的垃圾收集都采用”分代收集“（Generational Collection）算法，<strong>这种算法是根据对象的存活周期的不同将内存划分为几块，一般是把 Java 堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。</strong></p>
+<ul>
+<li>在新生代中，每次垃圾收集时都发现有大批对象死去，只有少量存活，那就选用复制算法，只需要付出少量存活对象的复制成本</li>
+<li>在老年代中，因为对象存活率高，没有额外的空间对它进行分配担保，就必须使用”标记-清理“或”标记-整理“算法来进行回收</li>
+</ul>
+<h2 id="GC日志中的术语"><a href="#GC日志中的术语" class="headerlink" title="GC日志中的术语"></a>GC日志中的术语</h2><ul>
+<li><strong>Minor GC</strong> 指发生在新生代的垃圾收集动作，非常频繁，速度较快。</li>
+<li><strong>Major GC</strong>（通常与 Full GC 是等价de ）指发生发生在整个 GC 堆中的垃圾收集动作，频次较少，一般由多次 Minor GC 后，内存空间仍不满足程序运行时调用。</li>
+</ul>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/02/《深入理解Java虚拟机》读书笔记 - Java对象/">《深入理解Java虚拟机》读书笔记 - Java对象</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-02
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <blockquote>
+<p>此篇为《深入理解Java虚拟机》第二章2.3部分的读书笔记</p>
+</blockquote>
+<h2 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h2><p>Java 是一门面向对象的编程语言，在 Java 程序运行过程中无时无刻都有对象被创建出来。在语言层面上，创建对象通常仅仅是一个 new 关键字而已，而在虚拟机中，对象（仅限于普通 Java 对象，不包括数组和 Class 对象等）的创建又是怎样一个过程呢？</p>
+<ol>
+<li>虚拟机遇到一条 new 指令时，<strong>首先将去检查这个指令的参数是否能在常量池中定位到一个类的符号引用</strong>，并且检查这个符号引用代表的类是否已经被加载、解析和初始化过。如果没有，那必须先执行相应的类加载过程。</li>
+<li><strong>在类加载检查通过后，接下来虚拟机将为新生对象分配内存。</strong>对象所需内存的大小在类加载完成后便可以完全确定，为对象分配空间的任务等同于把一块确定大小的内存从 Java 堆中划分出来。具体堆的内存如何划分以及怎么分配堆中的内存者这取决于虚拟机所采用的垃圾收集器是否带有压缩整理功能决定。</li>
+<li>除如何划分可用空间之外，还有另外一个<strong>需要考虑的问题是对象创建在虚拟机中是非常频繁的行为</strong>，即使是仅仅修改一个指针所指向的位置，在并发情况下也并不是线程安全的，可能出现正在给对象 A 分配内存，指针还没来得及修改，对象 B 又同时使用了原来的指针分配内存的情况。解决这个问题有两种方案：<ol>
+<li>一种是对分配内存空间的动作进行同步处理——实际上虚拟机采用 CAS + 失败重试的方式来保证更新操作的原子性；</li>
+<li>另一种把内存分配动作按照线程划分在不同的空间中进行，即每个线程在 Java 堆中预先分配一小块内存，称之为本地线程分配缓冲（Thread Local Allocation Buffer, TLAB）。哪个线程需要分配内存，就在哪个线程的 TLAB 上分配，只有 TLAB 用完并分配新的 TLAB 时，才需要同步锁定。</li>
+</ol>
+</li>
+<li><strong>内存分配完成后，虚拟机需要将分配到的内存空间都初始化为零值（不包括对象头）</strong>，如果使用了 TLAB，这一工作过程也可以提前至 TLAB 分配时进行。这一步操作保证了对象的实例字段在 Java 代码中可以不赋初始值就直接使用，程序能访问到这些字段的数据类型所对应的零值。</li>
+<li><strong>接下来，虚拟机要对对象进行必要的设置</strong>，例如这个对象是哪个类的实例、如何才能找到类的元数据信息、对象的哈希码、对象的 GC 分代年龄等信息。这些信息都存放在对象的对象头之中。根据虚拟机当前的运行状态的不同，如是否启用偏向锁等，对象头会有不同的设置方式。</li>
+</ol>
+<p>在上面工作都完成之后，从虚拟机的视角来看，一个新的对象已经产生了，但从 Java 程序的视角来看，对象创建才刚刚开始——<code>&lt;init&gt;</code>方法还没有执行，所有的字段都还为零。<strong>所以，一般来说，执行 new 指令之后会接着执行<code>&lt;init&gt;</code>方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象才算完全产生出来。</strong></p>
+<h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><p>在 HotSpot 虚拟机中，对象在内存中存储的布局可以分为3个区域：对象头（Header）、实例数据（Instance Data）和对其补充（Padding）。</p>
+<ul>
+<li><p><strong>对象头。</strong>对象头可以分为以下两部分信息：</p>
+<ul>
+<li>用于存储对象自身运行时数据，如哈希码（HashCode）、GC 分代年龄、锁状态标志、线程持有的锁、偏向线程 ID、偏向时间戳等。</li>
+<li>类型指针，即对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是哪个类的实例。另外，如果对象是一个 Java 数组，那在对象头中还必须有一块用于记录数组长度的数据，因为虚拟机可以通过普通 Java 对象的元数据信息来确定 Java 对象的大小，但是从数据的元数据中却无法确定数组的大小。</li>
+</ul>
+<div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E5%AF%B9%E8%B1%A1%E5%A4%B4.png" alt=""><br></div>
+</li>
+<li><p><strong>实例数据</strong></p>
+<p>实例数据部分是对象真正存储的有效信息，也是在程序代码中所定义的各种类型的字段内容。无论是从父类继承下来的，还是在子类中定义的，都需要记录下来。</p>
+</li>
+<li><p><strong>对齐补充</strong></p>
+<p>对齐补充并不是必然存在的，也没有特别的含义，它仅仅起着占位符的作用。由于 HotSpot VM 的自动内存管理系统要求对象起始地址必须是8字节的整数倍，换句话说，就是对象的大小必须是8字节的整数倍。</p>
+</li>
+</ul>
+<h2 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h2><p>建立对象是为了使用对象，我们的 Java 程序需要通过栈上的 renference 数据来操作堆上的具体对象。由于 reference 类型在 Java 虚拟机规范中只规定了一个指向对象的引用，并没有定义这个引用应该通过何种方式去定位、访问堆中的对象的具体位置，所以对象访问的方式也是取决于虚拟机实现而决定的。目前主流的访问方式有使用句柄和直接指针两种。</p>
+<ul>
+<li><strong>如果使用句柄访问的话，那么 Java 堆中将会划分出一块内存来作为句柄池，reference 中存储的就是对象的句柄地址，而句柄中包含了对象实例数据与类型数据各自的具体地址信息。</strong>其最大好处在于 reference 中存储的是稳定的句柄地址，在对象移动（垃圾收集时移动对象是非常普遍的行为）时只会改变句柄中的实例数据指针，而 refernece 本身不需要修改。<div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E5%8F%A5%E6%9F%84%E8%AE%BF%E9%97%AE.png" alt=""><br></div></li>
+<li><strong>如果使用直接指针访问（HotSpot 采取方式），那么 Java 堆对象的布局就必须考虑如何放置访问类型数据的相关信息，而 reference 中存储的直接就是对象地址。</strong>其最大好处在于速度相较于句柄访问更快，它节省了一次指针定位的时间开销，由于对象的访问在 Java 中非常频繁，因此这类开销积少成多后也是一项非常可观的执行成本。<div align="center"><br><img src="http://on83riher.bkt.clouddn.com/%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE.png" alt=""><br></div></li>
+</ul>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
     
       
   <article class="post">
@@ -727,116 +900,6 @@
   </article>
 
     
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/10/29/LinkedList 源码分析/">LinkedList 源码分析</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-10-29
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <h2 id="结构体系"><a href="#结构体系" class="headerlink" title="结构体系"></a>结构体系</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
-<p><code>LinkedList</code>继承自<code>AbstractSequentialList</code>，并同时实现了<code>List</code>、<code>Deque</code>、<code>Cloneable</code>与<code>Serializable</code>接口。从继承体系上与接口上，可以看出<code>LinkedList</code>不仅仅是<strong>双向链表</strong>而已，它可以同时被当做<strong>双向队列</strong>进行操作。</p>
-<p>为什么是双向链表呢？后面一小节将会解释。</p>
-<h2 id="常量与重要成员"><a href="#常量与重要成员" class="headerlink" title="常量与重要成员"></a>常量与重要成员</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 记录链表上实际装载的节点个数</span></div><div class="line"><span class="keyword">transient</span> <span class="keyword">int</span> size = <span class="number">0</span>;</div><div class="line"><span class="comment">// 指向链表头部的指针</span></div><div class="line"><span class="keyword">transient</span> Node&lt;E&gt; first;</div><div class="line"><span class="comment">// 指向链表尾部的指针</span></div><div class="line"><span class="keyword">transient</span> Node&lt;E&gt; last;</div></pre></td></tr></table></figure>
-<p>在成员变量中，我们可以看到链表所承载的节点是<code>Node</code>，下面看看<code>Node</code>是怎么构成的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">    E item; <span class="comment">// 节点上承载的值</span></div><div class="line">    Node&lt;E&gt; next; <span class="comment">// 指向前一个节点</span></div><div class="line">    Node&lt;E&gt; prev; <span class="comment">// 指向后一个节点</span></div><div class="line"></div><div class="line">    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;</div><div class="line">        <span class="keyword">this</span>.item = element;</div><div class="line">        <span class="keyword">this</span>.next = next;</div><div class="line">        <span class="keyword">this</span>.prev = prev;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>从<code>Node</code>中，不难看出<code>LinkedList</code>就是一个双向链表的集合，如下所示。</p>
-<p><img src="http://on83riher.bkt.clouddn.com/%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8.png" alt=""></p>
-<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">LinkedList</span><span class="params">()</span> </span>&#123;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">LinkedList</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>();</div><div class="line">    addAll(c);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>LinkedList</code>的构造函数可以说是很简约了，毕竟内部不像<code>ArrayList</code>里面还有个数组作支撑，只需头/尾指针即可。</p>
-<h2 id="基本操作-node"><a href="#基本操作-node" class="headerlink" title="基本操作 - node()"></a>基本操作 - node()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 在LinkedList中，在某些需要在指定节点中进行操作的时候，是怎么通过索引下标的形式找到指定节点的呢</span></div><div class="line"><span class="comment">// LinkedList内部提供了node()方法来实现这一目标。顺便一提node()内部充分使用了头尾节点的好处，将遍历范围缩减到size/2内</span></div><div class="line"><span class="function">Node&lt;E&gt; <span class="title">node</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">    <span class="comment">// assert isElementIndex(index);</span></div><div class="line">	</div><div class="line">  	<span class="comment">// 若index &gt; size/2</span></div><div class="line">    <span class="keyword">if</span> (index &lt; (size &gt;&gt; <span class="number">1</span>)) &#123;</div><div class="line">        Node&lt;E&gt; x = first;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; index; i++)</div><div class="line">            x = x.next;</div><div class="line">        <span class="keyword">return</span> x;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        Node&lt;E&gt; x = last;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = size - <span class="number">1</span>; i &gt; index; i--)</div><div class="line">            x = x.prev;</div><div class="line">        <span class="keyword">return</span> x;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="添加操作-add"><a href="#添加操作-add" class="headerlink" title="添加操作 - add()"></a>添加操作 - add()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    linkLast(e);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</div><div class="line">    checkPositionIndex(index);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (index == size)</div><div class="line">      linkLast(element);</div><div class="line">    <span class="keyword">else</span></div><div class="line">      linkBefore(element, node(index));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面的<code>add()</code>方法均调用了<code>link*（）</code>字样的方法，其实这是<code>LinkedList</code>内部用于对链表的中<strong>单个节点</strong>的操作。相对应的<code>remove()</code>方法也会调用<code>unlink*()</code>字样的方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 作为头节点链接到链表中</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">linkFirst</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; f = first;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(<span class="keyword">null</span>, e, f);</div><div class="line">    first = newNode;</div><div class="line">  	<span class="comment">// 若f为null, 则表明链表为空</span></div><div class="line">    <span class="keyword">if</span> (f == <span class="keyword">null</span>)</div><div class="line">        last = newNode;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        f.prev = newNode;</div><div class="line">    size++;</div><div class="line">    modCount++;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 作为尾节点链接到链表中</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">linkLast</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; l = last;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(l, e, <span class="keyword">null</span>);</div><div class="line">    last = newNode;</div><div class="line">  	<span class="comment">// 若l为null, 则表明链表为空</span></div><div class="line">    <span class="keyword">if</span> (l == <span class="keyword">null</span>)</div><div class="line">        first = newNode;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        l.next = newNode;</div><div class="line">    size++;</div><div class="line">    modCount++;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 将新节点插在指定节点前</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">linkBefore</span><span class="params">(E e, Node&lt;E&gt; succ)</span> </span>&#123;</div><div class="line">    <span class="comment">// assert succ != null;</span></div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; pred = succ.prev;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(pred, e, succ);</div><div class="line">    succ.prev = newNode;</div><div class="line">    <span class="keyword">if</span> (pred == <span class="keyword">null</span>)</div><div class="line">        first = newNode;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        pred.next = newNode;</div><div class="line">    size++;</div><div class="line">    modCount++;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>LinkedList</code>也提供了将一组数据添加入链表中的方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</div><div class="line">  	<span class="comment">// 默认从尾节点后插入</span></div><div class="line">  	<span class="keyword">return</span> addAll(size, c);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(<span class="keyword">int</span> index, Collection&lt;? extends E&gt; c)</span> </span>&#123;</div><div class="line">    checkPositionIndex(index);</div><div class="line"></div><div class="line">    Object[] a = c.toArray();</div><div class="line">    <span class="keyword">int</span> numNew = a.length;</div><div class="line">    <span class="keyword">if</span> (numNew == <span class="number">0</span>)</div><div class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"></div><div class="line">    Node&lt;E&gt; pred, succ;</div><div class="line">  	<span class="comment">// 若指定位置就是尾节点时</span></div><div class="line">    <span class="keyword">if</span> (index == size) &#123;</div><div class="line">      succ = <span class="keyword">null</span>;</div><div class="line">      pred = last;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      succ = node(index);</div><div class="line">      pred = succ.prev;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (Object o : a) &#123;</div><div class="line">      <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>) E e = (E) o;</div><div class="line">      Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(pred, e, <span class="keyword">null</span>);</div><div class="line">      <span class="comment">// 确保头节点始终不为空</span></div><div class="line">      <span class="keyword">if</span> (pred == <span class="keyword">null</span>)</div><div class="line">      	first = newNode;</div><div class="line">      <span class="keyword">else</span></div><div class="line">        pred.next = newNode;</div><div class="line">      pred = newNode;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  	<span class="comment">// 确保尾节点不为空</span></div><div class="line">    <span class="keyword">if</span> (succ == <span class="keyword">null</span>) &#123;</div><div class="line">      last = pred;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      pred.next = succ;</div><div class="line">      succ.prev = pred;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    size += numNew;</div><div class="line">    modCount++;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="删除操作-remove"><a href="#删除操作-remove" class="headerlink" title="删除操作 - remove()"></a>删除操作 - remove()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> removeFirst();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">    checkElementIndex(index);</div><div class="line">    <span class="keyword">return</span> unlink(node(index));</div><div class="line">&#125;</div><div class="line">    </div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeFirst</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; f = first;</div><div class="line">    <span class="keyword">if</span> (f == <span class="keyword">null</span>)</div><div class="line">    	<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">    <span class="keyword">return</span> unlinkFirst(f);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeLast</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">final</span> Node&lt;E&gt; l = last;</div><div class="line">	<span class="keyword">if</span> (l == <span class="keyword">null</span>)</div><div class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">	<span class="keyword">return</span> unlinkLast(l);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>remove()</code>如同<code>add()</code>一样，使用着功能截然相反的<code>unlink*()</code>方法，但逻辑处理难度上较大与<code>link*()</code>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 删除非空头节点</span></div><div class="line"><span class="function"><span class="keyword">private</span> E <span class="title">unlinkFirst</span><span class="params">(Node&lt;E&gt; f)</span> </span>&#123;</div><div class="line">    <span class="comment">// assert f == first &amp;&amp; f != null;</span></div><div class="line">    <span class="keyword">final</span> E element = f.item;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; next = f.next;</div><div class="line">    f.item = <span class="keyword">null</span>;</div><div class="line">    f.next = <span class="keyword">null</span>; <span class="comment">// 方便GC进行垃圾回收</span></div><div class="line">    first = next;</div><div class="line">  	<span class="comment">// 若链表中只有单个节点</span></div><div class="line">    <span class="keyword">if</span> (next == <span class="keyword">null</span>)</div><div class="line">        last = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        next.prev = <span class="keyword">null</span>;</div><div class="line">    size--;</div><div class="line">    modCount++;</div><div class="line">    <span class="keyword">return</span> element;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 删除非空尾节点</span></div><div class="line"><span class="function"><span class="keyword">private</span> E <span class="title">unlinkLast</span><span class="params">(Node&lt;E&gt; l)</span> </span>&#123;</div><div class="line">    <span class="comment">// assert l == last &amp;&amp; l != null;</span></div><div class="line">    <span class="keyword">final</span> E element = l.item;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; prev = l.prev;</div><div class="line">    l.item = <span class="keyword">null</span>;</div><div class="line">    l.prev = <span class="keyword">null</span>; <span class="comment">// 方便GC进行垃圾回收</span></div><div class="line">    last = prev;</div><div class="line">  	<span class="comment">// 若链表中只有单个节点</span></div><div class="line">    <span class="keyword">if</span> (prev == <span class="keyword">null</span>)</div><div class="line">        first = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        prev.next = <span class="keyword">null</span>;</div><div class="line">    size--;</div><div class="line">    modCount++;</div><div class="line">    <span class="keyword">return</span> element;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 删除指定节点</span></div><div class="line"><span class="function">E <span class="title">unlink</span><span class="params">(Node&lt;E&gt; x)</span> </span>&#123;</div><div class="line">    <span class="comment">// assert x != null;</span></div><div class="line">    <span class="keyword">final</span> E element = x.item;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; next = x.next;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; prev = x.prev;</div><div class="line"></div><div class="line">  	<span class="comment">// 若prev指向的上一个节点为空，那么该节点为头节点</span></div><div class="line">    <span class="keyword">if</span> (prev == <span class="keyword">null</span>) &#123;</div><div class="line">        first = next;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        prev.next = next;</div><div class="line">        x.prev = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  	<span class="comment">// 若next指向的下一个节点为空，那么该节点为尾节点</span></div><div class="line">    <span class="keyword">if</span> (next == <span class="keyword">null</span>) &#123;</div><div class="line">        last = prev;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        next.prev = prev;</div><div class="line">        x.next = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    x.item = <span class="keyword">null</span>;</div><div class="line">    size--;</div><div class="line">    modCount++;</div><div class="line">    <span class="keyword">return</span> element;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>remove()</code>操作中还提供了根据给定值删除指定节点的方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">    <span class="comment">// 若给定值为null</span></div><div class="line">    <span class="keyword">if</span> (o == <span class="keyword">null</span>) &#123;</div><div class="line">    	<span class="comment">// 在这里就不能缩减范围提高效率了，只能老实的进行从头遍历到尾</span></div><div class="line">        <span class="keyword">for</span> (Node&lt;E&gt; x = first; x != <span class="keyword">null</span>; x = x.next) &#123;</div><div class="line">            <span class="keyword">if</span> (x.item == <span class="keyword">null</span>) &#123;</div><div class="line">              	unlink(x);</div><div class="line">              	<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">for</span> (Node&lt;E&gt; x = first; x != <span class="keyword">null</span>; x = x.next) &#123;</div><div class="line">            <span class="keyword">if</span> (o.equals(x.item)) &#123;</div><div class="line">              	unlink(x);</div><div class="line">              	<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="查询操作-get"><a href="#查询操作-get" class="headerlink" title="查询操作 - get()"></a>查询操作 - get()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">    checkElementIndex(index);</div><div class="line">    <span class="keyword">return</span> node(index).item;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">getFirst</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">final</span> Node&lt;E&gt; f = first;</div><div class="line">	<span class="keyword">if</span> (f == <span class="keyword">null</span>)</div><div class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">	<span class="keyword">return</span> f.item;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">getLast</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">final</span> Node&lt;E&gt; l = last;</div><div class="line">	<span class="keyword">if</span> (l == <span class="keyword">null</span>)</div><div class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">	<span class="keyword">return</span> l.item;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="修改操作-set"><a href="#修改操作-set" class="headerlink" title="修改操作 - set()"></a>修改操作 - set()</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</div><div class="line">    checkElementIndex(index);</div><div class="line">    Node&lt;E&gt; x = node(index);</div><div class="line">    E oldVal = x.item;</div><div class="line">    x.item = element;</div><div class="line">    <span class="keyword">return</span> oldVal;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="实现了Deque接口的相关操作"><a href="#实现了Deque接口的相关操作" class="headerlink" title="实现了Deque接口的相关操作"></a>实现了Deque接口的相关操作</h2><p>别忘了，LinkedList实现了Deque接口，这说明操作LinkedList也可以像操作双向队列一样。如同<code>*first()</code>以及<code>*last()</code>这种操作也属于Deque要求实现的，下面将列出别的方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">peek</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> Node&lt;E&gt; f = first;</div><div class="line">    <span class="keyword">return</span> (f == <span class="keyword">null</span>) ? <span class="keyword">null</span> : f.item;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">poll</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">final</span> Node&lt;E&gt; f = first;</div><div class="line">	<span class="keyword">return</span> (f == <span class="keyword">null</span>) ? <span class="keyword">null</span> : unlinkFirst(f);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/10/28/Map-Entry 使用解析/">Map.Entry 使用解析</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-10-28
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><code>Map.Entry</code>是<code>Map</code>声明的一个内部接口，此接口为泛型，定义为<code>Entry&lt;K,V&gt;</code>。它可用于 表示Map中的一个键值对。</p>
-<p>在<code>Map</code>提供的<code>EntrySet()</code>返回的是<code>Set&lt;Map.Entry&lt;K,V&gt;&gt;</code>，是一个<code>Set</code>集合，刺激和类型是<code>Map.Entry</code>。相较于<code>Map</code>所提供的另一个方法<code>keySet()</code>，它所提供的以<code>key</code>值为数据的<code>Set</code>集合。</p>
-<h2 id="使用以及对比"><a href="#使用以及对比" class="headerlink" title="使用以及对比"></a>使用以及对比</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// keySet()循环遍历</span></div><div class="line"><span class="keyword">for</span> (Object key: map.keySet()) &#123;</div><div class="line">    Object key = key;</div><div class="line">  	Object value = map.get(key);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// entrySet()循环遍历</span></div><div class="line"><span class="keyword">for</span> (Map.Entry&lt;Object, Object&gt; entry: map.entrySet()) &#123;</div><div class="line">    Object = entry.getKey();</div><div class="line">  	Object = entry.getValue();</div><div class="line">  	<span class="comment">// entry.setValue()</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>以上两种方式中，相较于<code>keySet()</code>遍历<code>Map</code>，<code>entrySet()</code>能够更加清晰的显示<code>Map</code>内部的数据结构，同时<code>entrySet()</code>提供了用于修改<code>Map</code>的值。</p>
-<hr>
-<p>参考链接</p>
-<p><a href="http://www.cnblogs.com/ningvsban/archive/2013/05/06/3062217.html" target="_blank" rel="external">Map.Entry使用详解</a></p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
   </section>
 
   
@@ -844,12 +907,12 @@
     
       <a class="prev" href="/page/3/">
         <i class="iconfont icon-left"></i>
-        <span class="prev-text">Prev</span>
+        <span class="prev-text">上一页</span>
       </a>
     
     
       <a class="next" href="/page/5/">
-        <span class="next-text">Next</span>
+        <span class="next-text">下一页</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -903,11 +966,11 @@
 
 <div class="copyright">
   <span class="power-by">
-    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
   </span>
   <span class="division">|</span>
   <span class="theme-info">
-    Theme - 
+    主题 - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 

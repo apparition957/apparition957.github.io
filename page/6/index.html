@@ -110,7 +110,7 @@
         <li class="mobile-menu-item">
           
           
-            Home
+            首页
           
         </li>
       </a>
@@ -119,7 +119,7 @@
         <li class="mobile-menu-item">
           
           
-            Archives
+            归档
           
         </li>
       </a>
@@ -128,7 +128,7 @@
         <li class="mobile-menu-item">
           
           
-            About
+            关于
           
         </li>
       </a>
@@ -149,7 +149,7 @@
           <a class="menu-item-link" href="/">
             
             
-              Home
+              首页
             
           </a>
         </li>
@@ -158,7 +158,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              Archives
+              归档
             
           </a>
         </li>
@@ -167,7 +167,7 @@
           <a class="menu-item-link" href="/about">
             
             
-              About
+              关于
             
           </a>
         </li>
@@ -183,6 +183,112 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts">
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/08/05/移位操作符/">移位操作符</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-08-05
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <blockquote>
+<p>移位运算符就是在二进制的基础上对数学进行平移。按照平移的方向和填充数字的规则分为三种：&lt;&lt;（左移）、&gt;&gt;（右移）、&gt;&gt;&gt;（无符号右移）。</p>
+</blockquote>
+<p>Java 中的移位运算符也有三种：</p>
+<ul>
+<li><code>&lt;&lt;</code> - 左移运算符</li>
+<li><code>&gt;&gt;</code> - 右移运算符</li>
+<li><code>&gt;&gt;&gt;</code> - 无符号右移运算符</li>
+</ul>
+<hr>
+<h3 id="代码展示"><a href="#代码展示" class="headerlink" title="代码展示"></a>代码展示</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 左移运算符</span></div><div class="line"><span class="keyword">int</span> a = <span class="number">10</span>; <span class="comment">// 二进制 - 1010</span></div><div class="line">a &lt;&lt; <span class="number">1</span>; 	<span class="comment">// 二进制 - 10100 - 相当于乘于 2^1</span></div><div class="line"></div><div class="line"><span class="comment">// 右移运算符</span></div><div class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</div><div class="line">a &gt;&gt; <span class="number">1</span>; 	<span class="comment">// 二进制 - 101 - 相当于除于 2^1</span></div><div class="line"></div><div class="line"><span class="comment">// 无符号右移运算符 - 分两种情况：非负数与负数</span></div><div class="line"><span class="comment">// 非负数</span></div><div class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</div><div class="line">a &gt;&gt; <span class="number">1</span>; 	<span class="comment">// 二进制 - 101 - 相当于除于 2^1</span></div><div class="line"></div><div class="line"><span class="comment">// 负数</span></div><div class="line"><span class="keyword">int</span> a = -<span class="number">10</span>; <span class="comment">// 二进制 - 11111111111111111111111111110110 - 负数在高位填补1</span></div><div class="line">a &gt;&gt; <span class="number">1</span>; 	 <span class="comment">// 二进制 - 01111111111111111111111111111011 - 十进制 - 2147483643</span></div></pre></td></tr></table></figure>
+<p>以上代码中，十进制转换为二进制中，为什么<code>int a = -10</code>的二进制数的总长度为<strong>32</strong>呢。这取决于数据类型，在 java 中，基本数据类型<code>int</code>是4个字节，即32位。如果将数据类型<code>int</code>改变为<code>long</code>，结果则完全不同。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">long</span> a = -<span class="number">10</span>;</div><div class="line">a &gt;&gt; <span class="number">1</span>; 	 <span class="comment">// 十进制 - 9223372036854775803</span></div></pre></td></tr></table></figure>
+<hr>
+<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><ul>
+<li>移位运算是直接基于二进制对数值进行操作，主要目的是节约内存，运算时间比算术运算符更加快。</li>
+</ul>
+<hr>
+<hr>
+<p>参考资料：</p>
+<ol>
+<li><a href="https://baike.baidu.com/item/%E7%A7%BB%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6" target="_blank" rel="external">https://baike.baidu.com/item/%E7%A7%BB%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6</a></li>
+<li><a href="http://www.cnblogs.com/hongten/p/hongten_java_yiweiyunsuangfu.html" target="_blank" rel="external">http://www.cnblogs.com/hongten/p/hongten_java_yiweiyunsuangfu.html</a></li>
+</ol>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/08/04/joda-time源码简略剖析/">joda-time源码简略剖析.md</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-08-04
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>最近查看了 Java 中有关于日期/时间处理的 API，发现了 <code>Joda-time</code> 这一款被众人广泛使用的开源库，花了一个下午，研究了内部的架构解析，画了下草图（真草图），内部的有些计算解析涉及到位处理，有些难以消化。</p>
+<ul>
+<li><img src="http://on83riher.bkt.clouddn.com/joda-time%E6%BA%90%E7%A0%81%E5%9B%BE.JPG" alt=""></li>
+</ul>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
     
       
   <article class="post">
@@ -976,146 +1082,6 @@
   </article>
 
     
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/04/14/数据库连接查询/">数据库连接查询</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-04-14
-        </span>
-        
-          <div class="post-category">
-            
-              <a href="/categories/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>操作数据库当中，常常涉及多表查询。而在进行多表查询操作时，SQL提供了不同的表与表之间的连接方式，来获取用户所需的数据。</p>
-<p>以下我们将主要围绕以下两个表进行数据库的多表查询操作：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&gt; -- 雇员表</div><div class="line">&gt; select * from employee;</div><div class="line">+----+------+---------------+</div><div class="line">| id | name | department_id |</div><div class="line">+----+------+---------------+</div><div class="line">|  1 | 张三 |             1 |</div><div class="line">|  2 | 李四 |             1 |</div><div class="line">|  3 | 王五 |             2 |</div><div class="line">|  4 | 赵六 |             2 |</div><div class="line">|  5 | 郑七 |             3 |</div><div class="line">+----+------+---------------+</div><div class="line"></div><div class="line">&gt; -- 部门表</div><div class="line">&gt; select * from department;</div><div class="line">+----+--------+</div><div class="line">| id | name   |</div><div class="line">+----+--------+</div><div class="line">|  1 | 技术部 |</div><div class="line">|  2 | 技术部 |</div><div class="line">|  3 | 工程部 |</div><div class="line">+----+--------+</div></pre></td></tr></table></figure>
-<hr>
-<ul>
-<li>内连接（INNER JOIN）</li>
-</ul>
-<p>内连接使用比较运算符根据每个表共有的列的值匹配两个表中的行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&gt; -- 由于雇员表中郑七没有与部门表中任何一行匹配，即在返回的数据不会显示</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; INNER JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
-<ul>
-<li>左外连接（LEFT JOIN）</li>
-</ul>
-<p>左向外连接的结果集包括LEFT OUTER子句中指定的左表的所有行，而不仅仅是连接列所匹配的行。如果左表的某行在右表中没有匹配行，则在相关联的结果集行中右表的所有选择列表列均为空值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt; -- 左外连接会根据左表中的所有内容与右表进行匹配，即使右表不匹配也会显示所有数据</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; LEFT JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">|        5 | 郑七     | NULL     |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
-<ul>
-<li>右外连接（RIGHT JOIN）</li>
-</ul>
-<p>右向外连接是左向外连接的反向连接。将返回右表的所有行。如果右表的某行在左表中没有匹配行，则将为左表返回空值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt; -- 与左外连接完全相反</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; RIGHT JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">|     NULL | NULL     | 工程部   |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
-<ul>
-<li>全外连接（FULL JOIN）</li>
-</ul>
-<p>完整外部连接返回左表和右表中的所有行。当某行在另一个表中没有匹配行时，则另一个表的选择列表列包含空值。如果表之间有匹配行，则整个结果集行包含基表的数据值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&gt; -- MYSQL不支持全外连接，这个例子为手写例子</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; FULL JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">|        5 | 郑七     | NULL     |</div><div class="line">|     NULL | NULL     | 工程部   |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
-<hr>
-<p>参考资料：</p>
-<p>[1] <a href="http://www.cnblogs.com/devilmsg/archive/2009/03/24/1420543.html" target="_blank" rel="external">http://www.cnblogs.com/devilmsg/archive/2009/03/24/1420543.html</a></p>
-<p>[2] <a href="http://www.cnblogs.com/youzhangjin/archive/2009/05/22/1486982.html" target="_blank" rel="external">http://www.cnblogs.com/youzhangjin/archive/2009/05/22/1486982.html</a></p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/04/14/使用Thymeleaf遇到的问题及解决/">使用Thymeleaf遇到的问题及解决</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-04-14
-        </span>
-        
-          <div class="post-category">
-            
-              <a href="/categories/技术笔记/">技术笔记</a>
-            
-          </div>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <ol>
-<li><strong>**使用th:each时，无法作用于循环最开始处获取循环体。</strong></li>
-</ol>
-<p>虽然像大多数的循环中都是无法在循环开始处就获得循环体，但仍有时候，根据某些框架的特性，需要在开始处进行属性设置。</p>
-<p>以下示例中，想要在每次循环中在 tr 中根据 user 中的值 ${user.id} 设置 rel属性。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 以下方式不会有用，也不会报错 --&gt;</div><div class="line">&lt;tbody&gt;</div><div class="line">	&lt;tr th:each=&quot;user: $&#123;users&#125;&quot; rel=&quot;$&#123;user.id&#125;&quot; &gt;</div><div class="line">		&lt;td th:text=&quot;$&#123;user.id&#125;&quot;&gt;&lt;/td&gt;</div><div class="line">		&lt;td th:text=&quot;$&#123;user.username&#125;&quot;&gt;&lt;/td&gt;</div><div class="line">		&lt;td th:text=&quot;$&#123;user.password&#125;&quot;&gt;&lt;/td&gt;</div><div class="line">	&lt;/tr&gt;</div><div class="line">&lt;/tbody&gt;</div></pre></td></tr></table></figure>
-<p> 如果想要必须设置的话，就需要在后期利用JS代码手动实现。</p>
-<hr>
-<ol>
-<li><strong>thymeleaf 提供的自定义属性设置在大多数时候不会有效。</strong></li>
-</ol>
-<p>在官方提供的例子中，用户在使用 thymeleaf 时可以对自定义属性来进行赋值。以下为官方示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;!-- </div><div class="line">	Thymeleaf offers a default attribute processor that allows us to </div><div class="line">    set the value of any attribute, even if no specific th:* processor </div><div class="line">    has been defined for it at the Standard Dialect.</div><div class="line">--&gt;</div><div class="line"></div><div class="line">&lt;!-- So something like: --&gt;</div><div class="line">&lt;span th:whatever=&quot;$&#123;user.name&#125;&quot;&gt;...&lt;/span&gt;</div><div class="line"></div><div class="line">&lt;-- Will result in: --&gt;</div><div class="line">&lt;span whatever=&quot;John Apricot&quot;&gt;...&lt;/span&gt;</div></pre></td></tr></table></figure>
-<p>但在实际使用过程中，这个特性不尽人意，从后台获取的值有时无法利用上面的方式作用到页面中。</p>
-<p>有个可取的，稳定的解决方法如下所示：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 利用 th:attr 将需要自定义属性写在里面 --&gt;</div><div class="line">&lt;span th:attr=&quot;whatever=$&#123;user.name&#125;, another=$&#123;user.age&#125;&quot;&gt;...&lt;/span&gt;</div><div class="line"></div><div class="line">&lt;!-- 实际效果 --&gt;</div><div class="line">&lt;span whatever=&quot;John Apricot&quot; another=&quot;23&quot;&gt;...&lt;/span&gt;</div></pre></td></tr></table></figure>
-<hr>
-<ol>
-<li><strong>设置表单中的action属性时，注意花括号的引用</strong></li>
-</ol>
-<p>在设置URL地址时，thymeleaf 推荐使用<code>@</code>符号：<code>@{...}</code>。</p>
-<p>以下示例指明了需要注意的地方：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- Will produce &apos;/gtvg/order/details?orderId=3&apos; --&gt;</div><div class="line">&lt;a href=&quot;details.html&quot; th:href=&quot;@&#123;/order/details(orderId=$&#123;o.id&#125;)&#125;&quot;&gt;view&lt;/a&gt;</div><div class="line"></div><div class="line">&lt;!-- Will produce &apos;/gtvg/order/3/details&apos; --&gt;</div><div class="line">&lt;a href=&quot;details.html&quot; th:href=&quot;@&#123;/order/&#123;orderId&#125;/details(orderId=$&#123;o.id&#125;)&#125;&quot;&gt;view&lt;/a&gt;</div></pre></td></tr></table></figure>
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
   </section>
 
   
@@ -1123,12 +1089,12 @@
     
       <a class="prev" href="/page/5/">
         <i class="iconfont icon-left"></i>
-        <span class="prev-text">Prev</span>
+        <span class="prev-text">上一页</span>
       </a>
     
     
       <a class="next" href="/page/7/">
-        <span class="next-text">Next</span>
+        <span class="next-text">下一页</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -1182,11 +1148,11 @@
 
 <div class="copyright">
   <span class="power-by">
-    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
   </span>
   <span class="division">|</span>
   <span class="theme-info">
-    Theme - 
+    主题 - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 

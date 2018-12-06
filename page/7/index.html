@@ -110,7 +110,7 @@
         <li class="mobile-menu-item">
           
           
-            Home
+            首页
           
         </li>
       </a>
@@ -119,7 +119,7 @@
         <li class="mobile-menu-item">
           
           
-            Archives
+            归档
           
         </li>
       </a>
@@ -128,7 +128,7 @@
         <li class="mobile-menu-item">
           
           
-            About
+            关于
           
         </li>
       </a>
@@ -149,7 +149,7 @@
           <a class="menu-item-link" href="/">
             
             
-              Home
+              首页
             
           </a>
         </li>
@@ -158,7 +158,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              Archives
+              归档
             
           </a>
         </li>
@@ -167,7 +167,7 @@
           <a class="menu-item-link" href="/about">
             
             
-              About
+              关于
             
           </a>
         </li>
@@ -183,6 +183,146 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts">
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/04/14/数据库连接查询/">数据库连接查询</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-04-14
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>操作数据库当中，常常涉及多表查询。而在进行多表查询操作时，SQL提供了不同的表与表之间的连接方式，来获取用户所需的数据。</p>
+<p>以下我们将主要围绕以下两个表进行数据库的多表查询操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&gt; -- 雇员表</div><div class="line">&gt; select * from employee;</div><div class="line">+----+------+---------------+</div><div class="line">| id | name | department_id |</div><div class="line">+----+------+---------------+</div><div class="line">|  1 | 张三 |             1 |</div><div class="line">|  2 | 李四 |             1 |</div><div class="line">|  3 | 王五 |             2 |</div><div class="line">|  4 | 赵六 |             2 |</div><div class="line">|  5 | 郑七 |             3 |</div><div class="line">+----+------+---------------+</div><div class="line"></div><div class="line">&gt; -- 部门表</div><div class="line">&gt; select * from department;</div><div class="line">+----+--------+</div><div class="line">| id | name   |</div><div class="line">+----+--------+</div><div class="line">|  1 | 技术部 |</div><div class="line">|  2 | 技术部 |</div><div class="line">|  3 | 工程部 |</div><div class="line">+----+--------+</div></pre></td></tr></table></figure>
+<hr>
+<ul>
+<li>内连接（INNER JOIN）</li>
+</ul>
+<p>内连接使用比较运算符根据每个表共有的列的值匹配两个表中的行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&gt; -- 由于雇员表中郑七没有与部门表中任何一行匹配，即在返回的数据不会显示</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; INNER JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
+<ul>
+<li>左外连接（LEFT JOIN）</li>
+</ul>
+<p>左向外连接的结果集包括LEFT OUTER子句中指定的左表的所有行，而不仅仅是连接列所匹配的行。如果左表的某行在右表中没有匹配行，则在相关联的结果集行中右表的所有选择列表列均为空值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt; -- 左外连接会根据左表中的所有内容与右表进行匹配，即使右表不匹配也会显示所有数据</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; LEFT JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">|        5 | 郑七     | NULL     |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
+<ul>
+<li>右外连接（RIGHT JOIN）</li>
+</ul>
+<p>右向外连接是左向外连接的反向连接。将返回右表的所有行。如果右表的某行在左表中没有匹配行，则将为左表返回空值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt; -- 与左外连接完全相反</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; RIGHT JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">|     NULL | NULL     | 工程部   |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
+<ul>
+<li>全外连接（FULL JOIN）</li>
+</ul>
+<p>完整外部连接返回左表和右表中的所有行。当某行在另一个表中没有匹配行时，则另一个表的选择列表列包含空值。如果表之间有匹配行，则整个结果集行包含基表的数据值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&gt; -- MYSQL不支持全外连接，这个例子为手写例子</div><div class="line">&gt; SELECT e.id AS &apos;员工编号&apos;, e. NAME AS &apos;员工名称&apos;, d. NAME AS &apos;所属部门&apos;</div><div class="line">&gt; FROM employee AS e</div><div class="line">&gt; FULL JOIN department AS d ON e.department_id = d.id;</div><div class="line">+----------+----------+----------+</div><div class="line">| 员工编号 | 员工名称 | 所属部门 |</div><div class="line">+----------+----------+----------+</div><div class="line">|        1 | 张三     | 技术部   |</div><div class="line">|        2 | 李四     | 技术部   |</div><div class="line">|        3 | 王五     | 市场部   |</div><div class="line">|        4 | 赵六     | 市场部   |</div><div class="line">|        5 | 郑七     | NULL     |</div><div class="line">|     NULL | NULL     | 工程部   |</div><div class="line">+----------+----------+----------+</div></pre></td></tr></table></figure>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="http://www.cnblogs.com/devilmsg/archive/2009/03/24/1420543.html" target="_blank" rel="external">http://www.cnblogs.com/devilmsg/archive/2009/03/24/1420543.html</a></p>
+<p>[2] <a href="http://www.cnblogs.com/youzhangjin/archive/2009/05/22/1486982.html" target="_blank" rel="external">http://www.cnblogs.com/youzhangjin/archive/2009/05/22/1486982.html</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/04/14/使用Thymeleaf遇到的问题及解决/">使用Thymeleaf遇到的问题及解决</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-04-14
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/技术笔记/">技术笔记</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <ol>
+<li><strong>**使用th:each时，无法作用于循环最开始处获取循环体。</strong></li>
+</ol>
+<p>虽然像大多数的循环中都是无法在循环开始处就获得循环体，但仍有时候，根据某些框架的特性，需要在开始处进行属性设置。</p>
+<p>以下示例中，想要在每次循环中在 tr 中根据 user 中的值 ${user.id} 设置 rel属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 以下方式不会有用，也不会报错 --&gt;</div><div class="line">&lt;tbody&gt;</div><div class="line">	&lt;tr th:each=&quot;user: $&#123;users&#125;&quot; rel=&quot;$&#123;user.id&#125;&quot; &gt;</div><div class="line">		&lt;td th:text=&quot;$&#123;user.id&#125;&quot;&gt;&lt;/td&gt;</div><div class="line">		&lt;td th:text=&quot;$&#123;user.username&#125;&quot;&gt;&lt;/td&gt;</div><div class="line">		&lt;td th:text=&quot;$&#123;user.password&#125;&quot;&gt;&lt;/td&gt;</div><div class="line">	&lt;/tr&gt;</div><div class="line">&lt;/tbody&gt;</div></pre></td></tr></table></figure>
+<p> 如果想要必须设置的话，就需要在后期利用JS代码手动实现。</p>
+<hr>
+<ol>
+<li><strong>thymeleaf 提供的自定义属性设置在大多数时候不会有效。</strong></li>
+</ol>
+<p>在官方提供的例子中，用户在使用 thymeleaf 时可以对自定义属性来进行赋值。以下为官方示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;!-- </div><div class="line">	Thymeleaf offers a default attribute processor that allows us to </div><div class="line">    set the value of any attribute, even if no specific th:* processor </div><div class="line">    has been defined for it at the Standard Dialect.</div><div class="line">--&gt;</div><div class="line"></div><div class="line">&lt;!-- So something like: --&gt;</div><div class="line">&lt;span th:whatever=&quot;$&#123;user.name&#125;&quot;&gt;...&lt;/span&gt;</div><div class="line"></div><div class="line">&lt;-- Will result in: --&gt;</div><div class="line">&lt;span whatever=&quot;John Apricot&quot;&gt;...&lt;/span&gt;</div></pre></td></tr></table></figure>
+<p>但在实际使用过程中，这个特性不尽人意，从后台获取的值有时无法利用上面的方式作用到页面中。</p>
+<p>有个可取的，稳定的解决方法如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 利用 th:attr 将需要自定义属性写在里面 --&gt;</div><div class="line">&lt;span th:attr=&quot;whatever=$&#123;user.name&#125;, another=$&#123;user.age&#125;&quot;&gt;...&lt;/span&gt;</div><div class="line"></div><div class="line">&lt;!-- 实际效果 --&gt;</div><div class="line">&lt;span whatever=&quot;John Apricot&quot; another=&quot;23&quot;&gt;...&lt;/span&gt;</div></pre></td></tr></table></figure>
+<hr>
+<ol>
+<li><strong>设置表单中的action属性时，注意花括号的引用</strong></li>
+</ol>
+<p>在设置URL地址时，thymeleaf 推荐使用<code>@</code>符号：<code>@{...}</code>。</p>
+<p>以下示例指明了需要注意的地方：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- Will produce &apos;/gtvg/order/details?orderId=3&apos; --&gt;</div><div class="line">&lt;a href=&quot;details.html&quot; th:href=&quot;@&#123;/order/details(orderId=$&#123;o.id&#125;)&#125;&quot;&gt;view&lt;/a&gt;</div><div class="line"></div><div class="line">&lt;!-- Will produce &apos;/gtvg/order/3/details&apos; --&gt;</div><div class="line">&lt;a href=&quot;details.html&quot; th:href=&quot;@&#123;/order/&#123;orderId&#125;/details(orderId=$&#123;o.id&#125;)&#125;&quot;&gt;view&lt;/a&gt;</div></pre></td></tr></table></figure>
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
     
       
   <article class="post">
@@ -913,221 +1053,6 @@
   </article>
 
     
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/03/25/CAP、ACID、BASE理解/">CAP、ACID、BASE理解</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-03-25
-        </span>
-        
-          <div class="post-category">
-            
-              <a href="/categories/技术笔记/">技术笔记</a>
-            
-          </div>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <h1 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h1><p><strong>CAP原则又称CAP定理，指的是一个分布式系统中，Consistency（一致性）、Availabiliy（可用性）、Partition Tolerance（分区容错性），三者不可兼得。</strong></p>
-<p><img src="http://on83riher.bkt.clouddn.com/faedab64034f78f0f0cc46267f310a55b2191c1b.jpg" alt="img"></p>
-<p>CAP理论将分布式系统的三个特性进行了系统归纳：</p>
-<ul>
-<li><strong>一致性（C）：在分布式系统中的所有数据备份，在同一时刻是否为同样的值。即同样数据在分布式系统中所有地方都是被复制成相同。</strong><br>对于分布式的存储系统中，一份数据往往会复制多份并存放在不同的主机上。一致性保证了对于客户对一份数据的操作的同时，其他数据也会相应进行同样的操作，而不会出现同一份数据在不同的主机上会有不同的副本的情况。</li>
-<li><strong>可用性（A）：在集群中的一部分节点故障后，集群整体是否还能响应客户端的读写要求。即所有在分布式系统活跃的节点都能够处理操作且能响应查询。</strong><br>对于客户的操作，系统能够在部分节点故障（不可用）的情况下，仍然能够响应客户的操作并作出相关的数据修改。</li>
-<li><strong>分区容错性（P）：是否允许数据的分区，即是否允许集群中的节点之间不进行通信。即除全部网络节点全部故障以外，所有子节点集合的故障都不允许导致整个系统不正确响应。即使部分的组件不可用，施加的操作也可以完成。</strong><br>在两个不同地方的存储节点由于某种原因，无法进行正常连接时，需要有一套完整的容错机制来保证数据的可操作。</li>
-</ul>
-<p>一个数据存储系统不可能同时满足上述三个特性，只能同时满足其两个特性。如下所示：</p>
-<ul>
-<li><strong>CA - 满足数据的一致性和高可用性，但没有可扩展性。</strong></li>
-<li><strong>CP - 满足数据的一致性和分区性。但当节点达到一定数目时，性能（也即可用性）就会下降很快，并且节点之间的网络开销还在，需要实时同步各节点之间的数据。</strong></li>
-<li><strong>AP - 满足数据的高可用性和分区性，但在数据一致性方面会用牺牲，各节点的之间数据无法立即做到同步更新，但能保存数据的最终一致性。</strong></li>
-</ul>
-<p>在软件架构设计过程中，往往倾向于构建高可用、数据高度一致且具备扩展性的大型软件工程项目，但基于以上分析可知，我们无法同时满足三个特点。尤其在于进行分布式架构设计时，必须做出取舍。而对于分布式数据系统，分区容忍性是基本要求，否则就失去了价值。因此设计分布式数据系统，就是在一致性和可用性之间取一个平衡。对于大多数web应用，其实并不需要强一致性，因此牺牲一致性而换取高可用性，是目前多数分布式数据库产品的方向。</p>
-<hr>
-<hr>
-<h1 id=""><a href="#" class="headerlink" title=" "></a> </h1><h1 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h1><p>传统关系型数据库系统的事务特点可以囊括为ACID：</p>
-<ul>
-<li><strong>Atomic（原子性）：整个事务当中的所有操作，要么全部执行，要么全部不执行，不可能停滞在中间某个阶段。当事务在执行过程中发生错误时，会进行回滚（rollback）到事务最初状态，数据不会受到影响。</strong></li>
-<li><strong>Consistent（一致性）：在事务开始之前和事务开始之后，数据库的完整性约束没有被破坏</strong></li>
-<li><strong>Isolated（隔离性）：两个事务的执行是互不干扰的。</strong></li>
-<li><strong>Durable（持久性）：在事务完成以后，该事务对数据库所有的更改是永久的，不可恢复的。</strong></li>
-</ul>
-<p>在传统数据库系统中，事务的ACID保证了数据库的高度一致性。比如在银行转账系统中，转账就是一个事务，从原账户扣除金额，以及向目标账户添加金额，两个操作总结为一个原子化的逻辑操作，不可拆分。</p>
-<p>但在分布式操作系统中，ACID或许就是一个很好的选择，ACID的要求是数据的高度一致性。比如在大型的图书网站购买图书，每当用户进行购书并完成付款时，数据库系统就会锁住相关的数据库进行数据的修改（相关书本数量减少）。当数据修改完成后，其他用户都会看到该图书的库存减少了。以上操作，并不允许同一时间有两个或两个以上的用户进行图书的购买，不利于数据的高并发处理。基于以上例子，我们知道ACID放弃了系统的性能（P），进而保证数据的高度一致（C）。</p>
-<hr>
-<hr>
-<h1 id="-1"><a href="#-1" class="headerlink" title=" "></a> </h1><h1 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h1><p><strong>BASE是站在ACID的对立面，与其截然不同的设计思想。</strong>BASE有以下三个特点：</p>
-<ul>
-<li><strong>Basically Availablilty（基本可用性）：指在分布式系统中在出现不可遇见的故障的时候，允许损失部分可用性。</strong><br>正常情况下，在电子商务网站上购物时，消费者都能够以较流畅的过程来完成每一笔订单，但在面对数据高并发的情况（如双11），为了保护系统的稳定性以及提高性能，设计者往往采取服务降级的措施，来满足主要服务器的性能需求。</li>
-<li><strong>Sotf-State（软状态）</strong><br>与硬状态相比，其允许系统中的数据处于中间状态，并认为该中间状态的存在不会影响系统的整体可用性，即允许系统在不同节点的数据副本之间更新存在一定的时间延迟。例如，在图书网站秒杀活动中，经常出现不同用户看到同一本畅销书的库存数量不同。</li>
-<li><strong>Eventually Consistency（最终一致性）：指在系统中所有的数据副本，经过一段时间的同步后，最能能够到达一个一致的状态。</strong><br>最终一致性的本质在于所有数据在一定时间过后，一定能够到达一致状态，而不强制要求数据的实时一致性。</li>
-</ul>
-<p>BASE其核心思想是即使无法做到强一致性（Strong consistency），但每个应用都可以根据自身的业务特点，采用适当的方式来使系统达到最终一致性（Eventual consistency）。</p>
-<hr>
-<hr>
-<p>参考资料：</p>
-<p>[1] <a href="http://www.cnblogs.com/duanxz/p/5229352.html" target="_blank" rel="external">http://www.cnblogs.com/duanxz/p/5229352.html</a></p>
-<p>[2] <a href="http://blog.csdn.net/sinat_27186785/article/details/52032510" target="_blank" rel="external">http://blog.csdn.net/sinat_27186785/article/details/52032510</a></p>
-<p>[3] <a href="http://www.sigma.me/2011/06/17/database-ACID-and-BASE.html" target="_blank" rel="external">http://www.sigma.me/2011/06/17/database-ACID-and-BASE.html</a></p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/03/19/UML中类图与类关系详解/">UML中类图与类关系详解</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-03-19
-        </span>
-        
-          <div class="post-category">
-            
-              <a href="/categories/技术笔记/">技术笔记</a>
-            
-          </div>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><blockquote>
-<p>UML（Unified Modeling Language）又称统一建模语言或标准建模语言。它是一个支持模型化和软件系统开发的图形化语言，为软件开发的所有阶段提供模型化和可视化支持，包括由需求分析到规格，到构造和配置。</p>
-</blockquote>
-<p>前面以下图为例进行概念的分解：</p>
-<p><img src="http://on83riher.bkt.clouddn.com/%E6%80%BB%E8%A7%88.jpg" alt="img"></p>
-<hr>
-<ul>
-<li><h4 id="类（Class）"><a href="#类（Class）" class="headerlink" title="类（Class）"></a>类（Class）</h4></li>
-</ul>
-<p><img src="http://on83riher.bkt.clouddn.com/%E7%B1%BB.jpg" alt="img"></p>
-<hr>
-<ul>
-<li><h4 id="泛化（generalization）关系"><a href="#泛化（generalization）关系" class="headerlink" title="泛化（generalization）关系"></a>泛化（generalization）关系</h4></li>
-</ul>
-<p><strong>表示is-a关系，即继承关系，是对象之间耦合度最大的一种关系，子类继承父类所有属性和方法。</strong></p>
-<p>在类图中使用<strong>带三角箭头的实线</strong>表示，箭头由子类指向父类。</p>
-<ul>
-<li><p><img src="http://on83riher.bkt.clouddn.com/%E6%B3%9B%E5%8C%96%E5%85%B3%E7%B3%BB.jpg" alt="img"></p>
-<p>图中，程序员可以分为后端人员和前端人员，即它们之间存在泛化关系。</p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><h4 id="实现（Realization）关系"><a href="#实现（Realization）关系" class="headerlink" title="实现（Realization）关系"></a>实现（Realization）关系</h4></li>
-</ul>
-<p><strong>是一种类与接口的关系，表示类是接口所有特征和行为的实现。</strong></p>
-<p>在类图中使用<strong>带三角箭头的虚线</strong>表示，箭头从实现类指向接口（或抽象类）</p>
-<ul>
-<li><p><img src="http://on83riher.bkt.clouddn.com/%E5%AE%9E%E7%8E%B0%E5%85%B3%E7%B3%BB.jpg" alt="img"></p>
-<p>图中，员工为抽象类，而销售人员和程序员分别为它的实现，即它们之间存在实现关系。</p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><h4 id="依赖（Dependency）关系"><a href="#依赖（Dependency）关系" class="headerlink" title="依赖（Dependency）关系"></a>依赖（Dependency）关系</h4></li>
-</ul>
-<p><strong>对象之间最弱的一种关联方式，是临时性的关联，即一个类的实现需要另一个类的协助。</strong>在代码结构上，一般指局部变量、函数参数等。</p>
-<p>在类图中使用<strong>带箭头的虚线</strong>表示，箭头从使用类指向被依赖类。</p>
-<ul>
-<li><p><img src="http://on83riher.bkt.clouddn.com/%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB.jpg" alt="img"></p>
-<p>图中，程序员在工作时不可能离开电脑，即它们之间存在依赖关系。</p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><h4 id="关联（Association）关系"><a href="#关联（Association）关系" class="headerlink" title="关联（Association）关系"></a>关联（Association）关系</h4></li>
-</ul>
-<p><strong>对象之间的引用关系，如客户类与订单类之间的关系。</strong>这种关系通常使用类的属性表达。关联又分为一般关联、聚合关联与组合关联。</p>
-<p>在类图中使用<strong>带箭头的实线</strong>表示，箭头从使用类指向被关联的类。箭头可以是单向或者双向的。</p>
-<ul>
-<li><p><img src="http://on83riher.bkt.clouddn.com/%E5%85%B3%E8%81%94%E5%85%B3%E7%B3%BB.jpg" alt="img"></p>
-<p>图中，客户可以拥有订单，而订单可以从属于客户，即它们之间存在（双向）关联关系。</p>
-</li>
-</ul>
-<blockquote>
-<p>多重性（Multiplicity）：<strong>通常在关联、聚合、组合中使用。就是代表有多少个关联对象存在。使用数字..星号（数字）表示。</strong>如下图，一个割接通知可以关联0个到N个故障单。</p>
-<p><img src="http://on83riher.bkt.clouddn.com/%E5%A4%9A%E9%87%8D%E6%80%A7%E5%85%B3%E7%B3%BB.jpg" alt="img"></p>
-</blockquote>
-<hr>
-<ul>
-<li><h4 id="聚合（Aggregation）关系"><a href="#聚合（Aggregation）关系" class="headerlink" title="聚合（Aggregation）关系"></a>聚合（Aggregation）关系</h4></li>
-</ul>
-<p><strong>表示has-a关系，是一种不稳定的包含关系。</strong>较强于一般关联，有整体与局部关系，并且没有了整体，局部也可以独立存在。</p>
-<p>在类图中使用<strong>空心的菱形</strong>表示，空心菱形从局部指向整体。</p>
-<ul>
-<li><p><img src="http://on83riher.bkt.clouddn.com/%E8%81%9A%E5%90%88%E5%85%B3%E7%B3%BB.jpg" alt="img"></p>
-<p>图中，企业可以与多个合作商合作，但企业不一定需要这些合作商，即它们之间存在聚合关系。</p>
-</li>
-</ul>
-<hr>
-<ul>
-<li><h4 id="组合（Composition）关系"><a href="#组合（Composition）关系" class="headerlink" title="组合（Composition）关系"></a>组合（Composition）关系</h4></li>
-</ul>
-<p><strong>表示contains-a关系，是一种强烈的包含关系。</strong>组合类负责被组合类的生命周期。是一种更强的聚合关系。部分不能脱离整体存在。</p>
-<p>在类图中使用<strong>实心的菱形</strong>表示，实心菱形从局部指向整体。</p>
-<ul>
-<li><p><img src="http://on83riher.bkt.clouddn.com/%E7%BB%84%E5%90%88%E5%85%B3%E7%B3%BB.jpg" alt="img"></p>
-<p>图中，企业与部门是一种强聚合关系，即企业不存在时，部门也会随着消失，即它们之间存在组合关系。</p>
-</li>
-</ul>
-<hr>
-<hr>
-<p>参考资料：</p>
-<p>[1] <a href="http://www.uml.org.cn/oobject/201104212.asp" target="_blank" rel="external">http://www.uml.org.cn/oobject/201104212.asp</a></p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
   </section>
 
   
@@ -1135,12 +1060,12 @@
     
       <a class="prev" href="/page/6/">
         <i class="iconfont icon-left"></i>
-        <span class="prev-text">Prev</span>
+        <span class="prev-text">上一页</span>
       </a>
     
     
       <a class="next" href="/page/8/">
-        <span class="next-text">Next</span>
+        <span class="next-text">下一页</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -1194,11 +1119,11 @@
 
 <div class="copyright">
   <span class="power-by">
-    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
   </span>
   <span class="division">|</span>
   <span class="theme-info">
-    Theme - 
+    主题 - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 

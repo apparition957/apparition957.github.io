@@ -110,7 +110,7 @@
         <li class="mobile-menu-item">
           
           
-            Home
+            首页
           
         </li>
       </a>
@@ -119,7 +119,7 @@
         <li class="mobile-menu-item">
           
           
-            Archives
+            归档
           
         </li>
       </a>
@@ -128,7 +128,7 @@
         <li class="mobile-menu-item">
           
           
-            About
+            关于
           
         </li>
       </a>
@@ -149,7 +149,7 @@
           <a class="menu-item-link" href="/">
             
             
-              Home
+              首页
             
           </a>
         </li>
@@ -158,7 +158,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              Archives
+              归档
             
           </a>
         </li>
@@ -167,7 +167,7 @@
           <a class="menu-item-link" href="/about">
             
             
-              About
+              关于
             
           </a>
         </li>
@@ -183,6 +183,211 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts">
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/03/14/设计模式笔记-简单工厂模式（Simple-Factory-Pattern）/">设计模式笔记 - 简单工厂模式（Simple Factory Pattern）</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-14
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/设计模式/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><blockquote>
+<p>简单工厂模式（Simple Factory Pattern），又称为静态工厂方法（Static Factory Method）模式，它属于类创建型模式。在简单工厂模式中，可以根据参数的不同返回不同类的实例。简单工厂模式专门一个类来负责创建其他类的实例，被创建的实例通常都具有都具有共同的父类。</p>
+</blockquote>
+<hr>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>简单工厂模式包含如下角色：</p>
+<ul>
+<li>Factory：工厂角色 - 负责实现创建所有实例的内部逻辑</li>
+<li>Product：抽象产品角色 - 为所有具体产品的类的父类，负责描述所有实例所共有的公共接口</li>
+<li>ConcreteProduct：具体产品角色</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F.JPG" alt="img"></p>
+<hr>
+<h4 id="模式实例"><a href="#模式实例" class="headerlink" title="模式实例"></a>模式实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">// 一家披萨店面急需拥有处理订单的系统</div><div class="line">public class PizzaStore &#123;</div><div class="line">  	public void orderPizza(String item) &#123;</div><div class="line">      	Pizza pizza = PizzaCreateFactory.createPizze(item);</div><div class="line">      	pizza.display();</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Product - 抽象产品角色</div><div class="line">public abstract class Pizza &#123;</div><div class="line">  	public abstract String display(); </div><div class="line">&#125;</div><div class="line"></div><div class="line">// ConcreteProduct - 具体产品角色</div><div class="line">// 产品1</div><div class="line">public class CheesePizza extends Pizza &#123;</div><div class="line">    public String display() &#123;</div><div class="line">      	System.out.println(&quot;You order cheesePizza is ready!&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 产品2</div><div class="line">public class HotDogPizza extends Pizza &#123;</div><div class="line">  	public String display() &#123;</div><div class="line">      	System.out.println(&quot;You order HotDogPizza is ready!&quot;);</div><div class="line">  	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 工厂角色</div><div class="line">public class PizzaCreateFactory &#123;</div><div class="line">  	public static Pizza createPizza(String item) &#123;</div><div class="line">      	if (item.equals(&quot;cheesea&quot;)) &#123;</div><div class="line">          	return new CheesePizza();</div><div class="line">      	&#125; else if (item.equals(&quot;hot dog&quot;)) &#123;</div><div class="line">          	retrun new HotDogPizza();</div><div class="line">      	&#125; else &#123;</div><div class="line">          	// 一般返回一个具有错误处理的对象，此例中没做任何异常处理</div><div class="line">          	return null;</div><div class="line">      	&#125;</div><div class="line">  	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
+<li>将对象的创建和对象本身业务处理分离可以降低系统的耦合度。</li>
+<li>简单工厂模式最大的问题在于工厂类的职责相对过重，增加新的产品需要修改工厂类的判断逻辑，这一点与开闭原则（对扩展开放，对修改关闭）是相违背的。</li>
+<li>简单工厂模式的要点在于：当你需要什么，只需要传入若干正确参数，就可以获取所需的对象，而无需知道其创建细节。</li>
+</ul>
+<p><strong>简单工厂模式的优点：</strong></p>
+<ul>
+<li>工厂类含有必要的判断逻辑，客户端可以免除直接创建产品对象的责任，而仅仅“消费”产品。简单工厂模式通过这种做法实现了<strong>对责任的分割</strong>，降低两者之间的耦合。</li>
+<li>客户端无须知道所创建的具体产品类的类名，只需要知道具体产品类所对应分参数即可，对于一些复杂的类名，通过简单工厂模式可以减少使用者的记忆量（两者间应有一套严格的明文规定进行对象获取）</li>
+</ul>
+<p><strong>简单工厂模式的缺点：</strong></p>
+<ul>
+<li>系统扩展困难，一旦添加新产品就不得不修改工厂类中的逻辑，在产品类型较多时，有可能造成工厂逻辑过于复杂，不利于系统的扩展和维护。</li>
+<li>简单工厂模式由于使用了静态工厂方法，造成工厂角色无法形成基于继承的等级结构（与后面的抽象工厂作对比）。</li>
+</ul>
+<hr>
+<h4 id="适用环境"><a href="#适用环境" class="headerlink" title="适用环境"></a>适用环境</h4><p>在以下情况下可以使用简单工厂模式：</p>
+<ul>
+<li>工厂类负责创建的对象比较少。由于创建的对象较少，不会造成工厂方法中的业务逻辑太过复杂。</li>
+<li>客户端只知道传入工厂类的参数，对于如何创建对象不关心：客户端既不需要关心创建细节，甚至连类名都不需要记住，只需要知道类型所对应的参数。</li>
+</ul>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/simple_factory.html#simple-factory-pattern" target="_blank" rel="external">https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/simple_factory.html#simple-factory-pattern</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/03/14/数据库事务的基本概念/">数据库事务的基本概念</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-03-14
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p><strong>事务（Transaction）是并发控制的基本单位。</strong>所谓的事务，可以看做一个操作序列，这一操作序列里面所包含的所有操作要么都执行，要么都不执行，它是一个不可分割的工作单位。</p>
+<blockquote>
+<p>在银行转账的过程中，需要从一个账户的钱款转移到另外一个账户上，这样必定涉及一删一增的操作。在没有事务的情况下，假设在完成对甲方账户扣款，由于不可控力，数据在进行下一步操作时失败或丢失，这样乙方账户就正常无法收到这笔欠款，且甲方已扣除欠款而无法退还。但在存在事务的情况下，由于事务的特性，当在转账过程中出现异常，就会立即回滚，保证甲乙两方账户的安全。</p>
+</blockquote>
+<hr>
+<h4 id="事务具有以下4个基本特性："><a href="#事务具有以下4个基本特性：" class="headerlink" title="事务具有以下4个基本特性："></a>事务具有以下4个基本特性：</h4><ul>
+<li><strong>原子性（Atomicity）</strong>事务中包含的操作被看做一个逻辑单元，这个逻辑单元中的操作要么全部成功，要么全部失败。</li>
+<li><strong>一致性（Consistency）</strong>一个事务的执行前后，数据库都必须处于数据一致性状态。</li>
+<li><strong>隔离性（Isolation）</strong>事务允许多个用户对同一个数据进行并发访问，而不破坏数据的正确性和完整性。同时，并行事务的修改必须与其他并行事务的修改相互独立。</li>
+<li><strong>持久性（Durability）</strong>事务结束后，对数据库中数据的影响是永久的。</li>
+</ul>
+<hr>
+<h4 id="事务的基本SQL语句"><a href="#事务的基本SQL语句" class="headerlink" title="事务的基本SQL语句"></a>事务的基本SQL语句</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">START TRANSACTION;	-- 开启事务</div><div class="line">COMMIT;	-- 提交事务</div><div class="line">ROLLBACK; -- 回滚事务</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">-- 转账小例子</div><div class="line">&gt; select * from account;</div><div class="line">+----+------+-------+</div><div class="line">| id | name | money |</div><div class="line">+----+------+-------+</div><div class="line">|  1 | 小明 | 5000  |</div><div class="line">|  2 | 小红 | 8000  |</div><div class="line">+----+------+-------+</div><div class="line">&gt;</div><div class="line">&gt;</div><div class="line">&gt; start transaction; -- 事务提交失败，进行回滚</div><div class="line">&gt; update account set money=money-1000 where name=&apos;小明&apos;; -- 从小明账户中减1000, 但出于某些原由需要进行回滚（极端情况直接关闭控制台）</div><div class="line">&gt; rollback;</div><div class="line">&gt;</div><div class="line">&gt; select * from account;</div><div class="line">+----+------+-------+</div><div class="line">| id | name | money |</div><div class="line">+----+------+-------+</div><div class="line">|  1 | 小明 | 5000  |</div><div class="line">|  2 | 小红 | 8000  |</div><div class="line">+----+------+-------+</div><div class="line">&gt;</div><div class="line">&gt;</div><div class="line">&gt; start transaction; -- 事务提交成功</div><div class="line">&gt; update account set money=money-1000 where name=&apos;小明&apos;;</div><div class="line">&gt; update account set money=money+1000 where name=&apos;小红&apos;;</div><div class="line">&gt; commit;</div><div class="line">&gt;</div><div class="line">&gt; select * from account;</div><div class="line">+----+------+-------+</div><div class="line">| id | name | money |</div><div class="line">+----+------+-------+</div><div class="line">|  1 | 小明 | 4000  |</div><div class="line">|  2 | 小红 | 9000  |</div><div class="line">+----+------+-------+</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="事务的并发执行"><a href="#事务的并发执行" class="headerlink" title="事务的并发执行"></a>事务的并发执行</h4><p>在数据库系统中，如果各个事务都是按串行方式执行的，DBMS很容易实现事务的ACID特性。这是因为在DBMS中串行执行事务程序，不会导致数据不一致性和事务隔离性问题。但是，在实际应用中，需要在DBMS中多个事务并发执行，原因如下：</p>
+<ol>
+<li><strong>改善系统的资源利用率。</strong>一个事务一般都是由多个操作组合而成的，它们在不同执行阶段需要不同的资源。有时需要I/O资源，有时需要CPU资源或需要网络资源。如果事务能够并发执行的话，就能够充分利用系统资源，提高系统处理的吞吐能力。</li>
+<li><strong>减少事务运行的平均时间。</strong>每个事务的执行时长不同，倘若事务是串行处理的，那么当有些需要长时间处理的事务必定阻塞只需短时间处理的事务。所以事务的并发执行是刚需。</li>
+</ol>
+<hr>
+<h4 id="并发执行产生的后果"><a href="#并发执行产生的后果" class="headerlink" title="并发执行产生的后果"></a>并发执行产生的后果</h4><p>事务并发执行倘若不加约束的话，不但效率不会增加，反而不如串行执行，主要表现在若干数据的不一致问题，如脏读、不可重复读、幻读、丢失更新等问题。</p>
+<ul>
+<li><strong>脏读（Dirty Read）</strong></li>
+</ul>
+<p>脏读是指当一个事务读取被另外一个事务所修改的共享数据后，若修改数据的事务因某种原因失败，数据未被提交到数据库中，而读取共享数据的事务则在同一时刻，获取一个垃圾数据，即脏数据。</p>
+<p>脏数据是对未提交事务中所修改的数据的统称。如果别的事务读取了这个数据，则可能会导致应用的数据错误，也造成不同应用的数据不一致问题。</p>
+<ul>
+<li><p><img src="http://on83riher.bkt.clouddn.com/%E8%84%8F%E8%AF%BB.jpg" alt="img"></p>
+<p>图中，事务A和事务B共享访问雇员表信息。其中事务B将雇员编号为1的年龄数据从18修改为20。在事务A结束前，事务A程序再次读取了该雇员信息，获得了新的年龄数据20。但事务B在结束前，由于某种原因，回滚了之前的操作数据，即雇员编号为1的年龄数据恢复到18，从而导致事务A获取了一个脏数据。</p>
+</li>
+</ul>
+<ul>
+<li><strong>不可重复读（Unrepeatable Read）</strong></li>
+</ul>
+<p>不可重复读是指当一个事务对同一共享数据重复读取两次，但是发现原有的数据改变或丢失。这是由于多个事务并发执行时，其中一个事务对共享数据执行了修改或删除操作造成的。</p>
+<ul>
+<li><p><img src="http://on83riher.bkt.clouddn.com/%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB.jpg" alt="img"></p>
+<p>图中，事务A和事务B共享访问雇员表信息。事务A第一次读取雇员年龄数据小于或等于20的数据为3条。其后事务B将雇员编号为2的数据删除。当事务A再次读取雇员年龄数据小于或等于20的数据时，则为2条。</p>
+</li>
+</ul>
+<ul>
+<li><strong>幻读（Phantom Read）</strong></li>
+</ul>
+<p>幻读是指当一个事务对同一个共享数据重复读取两次，但是发现第二次读取比第一次读取时，新增了一些数据。这是由于多个事务并发执行时，其中一个事务同时对共享数据进行添加操作造成的。</p>
+<ul>
+<li><p><img src="http://on83riher.bkt.clouddn.com/%E5%B9%BB%E8%AF%BB.jpg" alt="img"></p>
+<p>图中，事务A和事务B共享访问雇员表信息。事务A第一次读取雇员年龄数据小于或等于20的数据为2条。其后事务B新添加了雇员编号为3的数据。当事务A再次读取雇员年龄数据小于或等于20的数据时，则为3条。</p>
+</li>
+</ul>
+<ul>
+<li><strong>丢失更新（Lost Update）</strong></li>
+</ul>
+<p>丢失更新是指一个事务对一共享数据进行更新处理，但是以后再查询该共享数据值与原更新值不一致。这是由于多个事务并发执行，其中一个事务也对同一个共享数据进行了更新，并将前面事务的更新值改变了。</p>
+<ul>
+<li><p><img src="http://on83riher.bkt.clouddn.com/%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.jpg" alt="img"></p>
+<p>图中，事务A和事务B共享访问雇员表信息。事务A对雇员编号为1的年龄数据修改为19。其后事务B也对该雇员的年龄数据进行修改，数据改为20。当事务A再次读取该雇员的信息时，其年龄数据已与先前数据修改不同。</p>
+</li>
+</ul>
+<hr>
+<h4 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h4><p>为了避免事务并发执行可能出现的以上的并发问题而导致的数据不一致问题，可以在DBMS中设置事务隔离级别（Isolation Level）。</p>
+<p><img src="http://on83riher.bkt.clouddn.com/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.jpg" alt="img"></p>
+<p>各个隔离级别解释：</p>
+<ul>
+<li><strong>读取为提交（READ UNCOMMITED）。</strong>指定语句可以读取已由事务修改但尚未修改的行。</li>
+<li><strong>读取已提交（READ COMMITED）。</strong>指定语句不能读取已由其他事务修改但尚未提交的数据。</li>
+<li><strong>可重复读（REPEATABLE READ）。</strong>指定语句不能读取已由其他事务修改但尚未提交的行，并且指定，其他任何事务都不能在当前事务完成之前修改由当前事务修改的数据。</li>
+<li><strong>可串行化（SERIALIZABLE）。</strong>指定事务中任何语句所读取的数据都将是在该事务开始时便存在的数据。 所有事务都是按顺序执行。</li>
+</ul>
+<hr>
+<h4 id="数据库锁机制"><a href="#数据库锁机制" class="headerlink" title="数据库锁机制"></a>数据库锁机制</h4><p>// 有空再写笔记补充</p>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="http://blog.csdn.net/zdwzzu2006/article/details/5947062" target="_blank" rel="external">http://blog.csdn.net/zdwzzu2006/article/details/5947062</a></p>
+<p>[2] <a href="http://www.cnblogs.com/Achang/archive/2013/03/22/2975161.html" target="_blank" rel="external">http://www.cnblogs.com/Achang/archive/2013/03/22/2975161.html</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
     
       
   <article class="post">
@@ -783,174 +988,6 @@
   </article>
 
     
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/03/06/MySQL基本概念-主键-外键-索引/">MySQL基本概念 -- 主键/外键/索引</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-03-06
-        </span>
-        
-          <div class="post-category">
-            
-              <a href="/categories/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <h4 id="主键-PRIMARY-KEY"><a href="#主键-PRIMARY-KEY" class="headerlink" title="主键(PRIMARY KEY)"></a><strong>主键(PRIMARY KEY)</strong></h4><p>主键能够唯一标识表中某一行的属性或属性组。</p>
-<p>主键是索引的一种，并且是唯一性索引的一种。</p>
-<p>主键约束唯一标识数据库表中的每条记录。</p>
-<p>主键必须包含唯一的值。</p>
-<p>主键列不能包含NULL值。</p>
-<p>主键常常与外键构成参照完整性约束，防止出现数据不一致。</p>
-<p>每个表应当有一个主键，但每个表<strong>只能</strong>有一个主键。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">-- 每一笔订单对应一个唯一的订单编号</div><div class="line">-- 若字段使用AUTO_INCREMENT, 其字段类型必须是TINYINT/SMALLINT/INT/BIGINT其中一种</div><div class="line">CREATE TABLE order (</div><div class="line">	id INT NOT NULL AUTO_INCREMENT,</div><div class="line">  	name VARCHAR(40) NOT NULL,</div><div class="line">  	PRIMARY KEY(id)</div><div class="line">);</div></pre></td></tr></table></figure>
-<hr>
-<h4 id="外键-FOREIGN-KEY"><a href="#外键-FOREIGN-KEY" class="headerlink" title="外键(FOREIGN KEY)"></a><strong>外键(FOREIGN KEY)</strong></h4><p><strong>如果一个实体的某个字段指向另一个实体的主键，就称为外键。</strong> 其中,被指向的实体，称之为主实体(主表)。负责指向的实体，称之为从实体(从表)，也叫子实体(子表)。</p>
-<p><strong>主要作用维护两个表之间的数据一致性，加强两个表数据之间的链接的一列或多列。</strong> 每当子表中的字段需要添加记录时，必须查询父表中是否存在该字段记录。需要删除父表中的主键时，则必须查询是否有其他表的外键与其绑定。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">-- 每样商品都有特定的商品种类(电脑对应电子产品, 口红对应化妆品)</div><div class="line">CREATE TABLE mb_item_type (</div><div class="line">	id INT NOT NULL AUTO_INCREMENT,</div><div class="line">  	type VARCHAR(200) NOT NULL,</div><div class="line">  	PRIMARY KEY(id)</div><div class="line">);</div><div class="line"></div><div class="line">INSERT INTO mb_item_type (type) VALUES (&apos;电子产品&apos;), (&apos;化妆品&apos;);</div><div class="line"></div><div class="line">CREATE TABLE item (</div><div class="line">	id INT NOT NULL AUTO_INCREMENT,</div><div class="line">  	name VARCHAR(200) NOT NULL,</div><div class="line">  	type_id INT NOT NULL,</div><div class="line">  	PRIMARY KEY(id),</div><div class="line">  	FOREIGN KEY(type_id) REFERENCES mb_item_type(id)</div><div class="line">);</div><div class="line"></div><div class="line">-- 对应相应的商品序号</div><div class="line">INSERT INTO item (name, type_id) VALUES (&apos;thinkpad&apos;, 1);</div><div class="line">INSERT INTO item (name, type_id) VALUES (&apos;口红&apos;, 2);</div><div class="line"></div><div class="line">-- 错误输入, 因为在mb_item_type中不存在序号为3的记录</div><div class="line">INSERT INTO item (name, type_id) VALUES (&apos;相机&apos;, 3);</div></pre></td></tr></table></figure>
-<p>是用来快速地寻找那些具有特定值的记录。主要是为了检索的方便，是为了加快访问速度， 按一定的规则创建的，一般起到排序作用。</p>
-<hr>
-<h4 id="唯一性索引-UNIQUE"><a href="#唯一性索引-UNIQUE" class="headerlink" title="唯一性索引(UNIQUE)"></a><strong>唯一性索引(UNIQUE)</strong></h4><p>UNIQUE 约束唯一标识数据库表中的每条记录。</p>
-<p>UNIQUE 和 PRIMARY KEY 约束均为列或列集合提供了唯一性的保证。</p>
-<p>PRIMARY KEY 拥有自动定义的 UNIQUE 约束。</p>
-<p><strong>每个表可以有多个 UNIQUE 约束，但是每个表只能有一个 PRIMARY KEY 约束</strong>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-- 一名学生对应一个唯一学号</div><div class="line">CREATE TABLE student (</div><div class="line">	id INT NOT NULL AUTO_INCREMENT,</div><div class="line">  	name VARCHAR(40) NOT NULL,</div><div class="line">  	student_id INT NOT NULL,</div><div class="line">  	PRIMARY KEY(id),</div><div class="line">  	UNIQUE KEY student_unique_id (student_id) USING BTREE</div><div class="line">);</div></pre></td></tr></table></figure>
-<hr>
-<h4 id="索引-KEY"><a href="#索引-KEY" class="headerlink" title="索引(KEY)"></a><strong>索引(KEY)</strong></h4><p>根据特定的算法，来快速地查找到具有特定值(按一定的规则创建)的记录。</p>
-<p>主要作用是为了检索的方便，是为了加快访问速度。</p>
-<p>详细参见<a href="http://www.cnblogs.com/hustcat/archive/2009/10/28/1591648.html" target="_blank" rel="external">http://www.cnblogs.com/hustcat/archive/2009/10/28/1591648.html</a></p>
-<hr>
-<p>参考文章:</p>
-<p>[1] <a href="http://blog.csdn.net/duck_arrow/article/details/8264686" target="_blank" rel="external">http://blog.csdn.net/duck_arrow/article/details/8264686</a></p>
-<p>[2] <a href="http://www.cnblogs.com/zunpeng/p/3878459.html" target="_blank" rel="external">http://www.cnblogs.com/zunpeng/p/3878459.html</a></p>
-<p>[3] <a href="http://www.w3school.com.cn/sql/" target="_blank" rel="external">http://www.w3school.com.cn/sql/</a></p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/02/28/Spring框架中-Controller类下的返回值/">Spring框架中@Controller类下的返回值</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-02-28
-        </span>
-        
-          <div class="post-category">
-            
-              <a href="/categories/Spring/">Spring</a>
-            
-          </div>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>Spring中Controller返回值</p>
-<ul>
-<li><p>返回String</p>
-<ul>
-<li><p>根据字符串名返回需要相应在/templates下的html文件</p>
-<p>需要同时返回数据时, 只需要在Controller内部声明<code>Model</code>/<code>ModelMap&lt;String, Object&gt;</code>添加数据即可</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/save"</span>, method=RequestMethod.POST)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(Demo demo, Model model)</span> </span>&#123;</div><div class="line">  	model.addAttribute(<span class="string">"msg"</span>, <span class="string">"Success"</span>);</div><div class="line">	<span class="keyword">return</span> <span class="string">"success"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>重定向(redirect)</p>
-<p>浏览器中url会进行改变, 但是重定向的页面无法传递request请求, 只能够重新创建request并提交</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/save"</span>, method=RequestMethod.POST)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(Demo demo)</span> </span>&#123;</div><div class="line"> 	<span class="keyword">return</span> <span class="string">"redirect:/demo/detail"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>页面转发(forward)</p>
-<p>浏览器中url不会改变, 但是会将到这个页面<code>(/save)</code>的request传递到指定页面<code>(/demo/detail)</code>, 保证数据一致性</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/save"</span>, method=RequestMethod.POST)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(Demo demo)</span> </span>&#123;</div><div class="line"> 	<span class="keyword">return</span> <span class="string">"forward:/demo/detail"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p><code>@ResponseBody</code></p>
-<p>方法上声明了<code>@ResponseBody</code>注解, 则会将返回的数据(String/Model)直接输出到页面中(String/JSON)</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/print"</span>)</div><div class="line"><span class="meta">@ResponseBody</span></div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">print</span><span class="params">()</span></span>&#123;</div><div class="line">	String message = <span class="string">"Hello World, Spring MVC!"</span>;</div><div class="line">	<span class="keyword">return</span> message;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-</ul>
-<ul>
-<li><p>返回ModelAndView</p>
-<p>定义ModelAndView对象并返回, 对象中可添加model数据、指定view</p>
-<p>ModelAndView中可以设置view, 同时也可以设置model对视图进行渲染</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/save"</span>, method=RequestMethod.POST)</div><div class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">save</span><span class="params">(Demo demo)</span> </span>&#123;</div><div class="line">	ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">"hello"</span>);<span class="comment">//实例化一个VIew的ModelAndView实例  </span></div><div class="line">	mav.addObject(<span class="string">"message"</span>, <span class="string">"Hello World!"</span>);<span class="comment">//添加一个带名的model对象  </span></div><div class="line">    <span class="keyword">return</span> mav;            </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-<li><p>返回void</p>
-<p>对应返回的视图就是路由路径</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/demo/get"</span>, method=RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getDemo</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">return</span>; <span class="comment">// 返回的视图名称为demo文件夹下的get.html         </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<p><code>@Controller</code>注释的类中的方法都可以直接通过HttpServletRequest和HttpServletResponse控制request和response</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/demo/get"</span>, method=RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getDemo</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> </span>&#123;</div><div class="line">  	<span class="comment">// 根据HTTP协议获取及传递 </span></div><div class="line">	<span class="keyword">return</span>;         </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<p>参考资料:</p>
-<p>[1] <a href="http://www.cnblogs.com/liuwt365/p/5686659.html" target="_blank" rel="external">http://www.cnblogs.com/liuwt365/p/5686659.html</a></p>
-<p>[2] <a href="http://www.cnblogs.com/xiepeixing/p/4243801.html" target="_blank" rel="external">http://www.cnblogs.com/xiepeixing/p/4243801.html</a></p>
-<p>[3] <a href="http://itroop.iteye.com/blog/263845" target="_blank" rel="external">http://itroop.iteye.com/blog/263845</a></p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
   </section>
 
   
@@ -958,12 +995,12 @@
     
       <a class="prev" href="/page/8/">
         <i class="iconfont icon-left"></i>
-        <span class="prev-text">Prev</span>
+        <span class="prev-text">上一页</span>
       </a>
     
     
       <a class="next" href="/page/10/">
-        <span class="next-text">Next</span>
+        <span class="next-text">下一页</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -1017,11 +1054,11 @@
 
 <div class="copyright">
   <span class="power-by">
-    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
   </span>
   <span class="division">|</span>
   <span class="theme-info">
-    Theme - 
+    主题 - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 
