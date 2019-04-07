@@ -392,113 +392,6 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          <a class="post-link" href="/2018/11/02/Motan-系列-总体设计/">Motan 系列-总体设计</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-11-02
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>Motan 是微博开源的一套基于 Java 研发的 RPC 框架，更加详细的了解可以参考<a href="https://github.com/weibocom/motan/wiki/zh_userguide" target="_blank" rel="external">Motan中文文档</a>，本文内容更多的是关注于总体架构方面的设计。</p>
-<h2 id="架构概述"><a href="#架构概述" class="headerlink" title="架构概述"></a>架构概述</h2><p><img src="/2018/11/02/Motan-系列-总体设计/Motan-总体架构.jpg" alt=""></p>
-<p>上图是 RPC 通信框架中较为通用的架构设计方式。</p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2018/10/30/Motan 系列-目录/">Motan 系列 - 目录</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-10-30
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <blockquote>
-<p>其实本来想写 Dubbo 的，奈何时间和个人能力都不足以让我从头到尾把 Dubbo 看一遍，所以转而深入理解 Motan 这一小而美的 RPC 框架。</p>
-</blockquote>
-<p>下面是近期想要开始写的 Motan 源码分析系列文章（先自己把坑挖好，后期慢慢把坑填上吧）。</p>
-<ol>
-<li>Motan 系列-总体设计</li>
-<li>Motan 系列-额外知识-SPI 机制</li>
-<li>Motan 系列-额外知识-Spring 事件机制</li>
-<li>Motan 系列-服务提供者-如何提供服务</li>
-<li>Motan 系列-服务提供者-如何响应服务</li>
-<li>Motan 系列-服务消费者-如何连接服务</li>
-<li>Motan 系列-服务消费者-如何消费服务</li>
-<li>Motan 系列-注册中心设计</li>
-<li>Motan 系列-其他特性-心跳机制</li>
-<li>Motan 系列-其他特性-Shutdown 机制</li>
-<li>Motan 系列-其他特性-异步调用</li>
-<li>…..</li>
-</ol>
-<hr>
-<p>以下参考的文章都是在我学习 Motan 的时候提供了很大的帮助，十分感谢他们能写出这么棒的文章。</p>
-<ol>
-<li><a href="http://kriszhang.com/motan-rpc-impl/" target="_blank" rel="external">从motan看RPC框架设计</a></li>
-<li><a href="https://fdx321.github.io/2017/07/19/%E3%80%90Motan%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E3%80%911-%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84/" target="_blank" rel="external">Motan源码学习</a></li>
-<li><a href="http://blog.yannxia.top/2018/06/30/java/motan/motan/" target="_blank" rel="external">Motan源码分析</a></li>
-<li><a href="https://github.com/weibocom/motan/wiki" target="_blank" rel="external">github/Motan-wiki 文档</a></li>
-</ol>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
           <a class="post-link" href="/2018/07/20/在小米实习的180天/">在小米实习的180天</a>
         
       </h1>
@@ -785,6 +678,103 @@
   </article>
 
     
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2018/05/14/Scala - 类构造器/">Scala - 类构造器</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-05-14
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>Scala 构造器可分为两种，主构造器和辅助构造器。</p>
+<h4 id="主构造器"><a href="#主构造器" class="headerlink" title="主构造器"></a>主构造器</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 无参主构造器</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line">    <span class="comment">// 主构造器的构成部分</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 有参主构造器</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo2</span>(<span class="params">name: <span class="type">String</span>, age: <span class="type">Int</span></span>) </span>&#123;</div><div class="line">    <span class="comment">// 主构造器的构成部分</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从类的定义开始，花括号的部分为主构造器的构成部分。主构造器在执行时，会执行类中所有的语句。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// example</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">val</span> name = <span class="string">"tom"</span></div><div class="line">    <span class="keyword">val</span> age = <span class="number">18</span></div><div class="line">    </div><div class="line">    doSomething() <span class="comment">// 初始化对象时，会打印 name: tome, age: 18</span></div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">doSomething</span></span>() = &#123;</div><div class="line">        println(<span class="string">"name: "</span> + name + <span class="string">", age: "</span> + age)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="辅助构造器"><a href="#辅助构造器" class="headerlink" title="辅助构造器"></a>辅助构造器</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> name = <span class="string">""</span></div><div class="line">    <span class="keyword">var</span> age = <span class="number">0</span></div><div class="line">    </div><div class="line">    <span class="comment">// 错误定义!!</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>() &#123;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>(name: <span class="type">String</span>) &#123;</div><div class="line">        <span class="keyword">this</span>()</div><div class="line">        <span class="keyword">this</span>.name = name</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>(name: <span class="type">String</span>, age: <span class="type">Int</span>) &#123;</div><div class="line">        <span class="keyword">this</span>(name)</div><div class="line">        <span class="keyword">this</span>.age = age</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>辅助构造器的名称为<code>this</code>，与 Java 的构造器名称不同（Java 构造器名称是以类名定义的），其代码大致结构为<code>def this(...) {}</code>。若一个类如果没有显式定义主构造器，则编译器会自动生成一个无参的主构造器。</p>
+<p>必须注意的是，每个辅助构造器都必须以一个对先前已定义的其他辅助构造器或者主构造器的调用开始。</p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2018/05/07/寻找一种更快更高效的方法/">寻找一种更快更高效的方法</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-05-07
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>这两天在对我们开发的模块进行最后的收尾，收尾的工作一般来说都是添加测试用例，测试模块调用时是否有 BUG 等。果不其然，老大还是叫我去做模块的测试。其实还是自己对于 C++了解太少，刚入门一个星期才勉强能够看懂之前的部分源码，而且原有工程十分庞大，还有自己封装好的又或自己开发的工具库。想去调用还得自己上网看看 example 熟悉下，没有 example 的那就苦逼自己慢慢摸索了</p>
+<blockquote>
+<p><strong>做测试没关系，毕竟怎么样都能够学到不一样的知识。</strong></p>
+</blockquote>
+<p>先说下这次测试的内容，就是将之前标注好的数据，利用我们的模块重新跑一遍，检验是否有错漏的地方。这上面说的简单，但其中含杂了大量的人工，这我可不干，所以才有了这一篇文章。</p>
+<h4 id="材料准备"><a href="#材料准备" class="headerlink" title="材料准备"></a>材料准备</h4><p>404页面错误检验模块（基于 URL 和 Content 两部分），编写爬虫将标注好的数据中 URL 所对应的页面存储于本地（csv文件）</p>
+<h4 id="人工方法"><a href="#人工方法" class="headerlink" title="人工方法"></a>人工方法</h4><p>如果按照人工方法走，就是针对于一个 URL 创建一个 HTML 文件，然后撰写一个测试用例，跑通了我们就往下走，没跑通那就回头重新梳理逻辑。这种方式如果针对于一两个文件还好说，那如果针对于上百个文件那怎么办？如果这还人工一个个弄，那算你厉害</p>
+<h4 id="自动化方法"><a href="#自动化方法" class="headerlink" title="自动化方法"></a>自动化方法</h4><p>自动化方法是否能够运用在于在这过程当中是否存在一定的规律，相信读到这里的我们，可以明白自动化的方法就是在若干个循环当中，重复操作人工的方法，只是在这个过程当中，你需要用代码来证明你的想法，而非你的汗水</p>
+<p>在材料准备中，我们已经有了包含测试数据的 csv 文件，可能读者会理所当然的认为这个自动化测试不就两行代码妥妥的就搞定吗？其实并不然，c++ 中并没有什么第三方库处理 csv 这样的文件（反正我是没找到），如果利用简单的<code>split</code>函数的话，那就会导致原有数据（HTML）的丢失。</p>
+<p>这个时候，我们需要转向文件流，即将若干个 HTML 文件存储下来，并创建一个索引表，记录 URL 与其对应的文件名，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">~/htmls/</div><div class="line">0.html 1.html 2.html index.txt</div><div class="line"></div><div class="line">~/htmls/index.txt</div><div class="line">https://www.baidu.com 0.html</div><div class="line">https://www.taobao.com 1.html</div></pre></td></tr></table></figure>
+<p>然后在实际编写代码过程中，先读取索引表，再利用索引表的信息，读取 HTML 文件然后运行模块，记录运行结果，当所有测试用例结束时，统计最终结果，并根据最终结果，调整内部的策略。</p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
   </section>
 
   
@@ -860,7 +850,7 @@
      
       2017 - 
     
-    2018
+    2019
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>

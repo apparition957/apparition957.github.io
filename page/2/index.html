@@ -189,103 +189,6 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          <a class="post-link" href="/2018/05/14/Scala - 类构造器/">Scala - 类构造器</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-05-14
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>Scala 构造器可分为两种，主构造器和辅助构造器。</p>
-<h4 id="主构造器"><a href="#主构造器" class="headerlink" title="主构造器"></a>主构造器</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 无参主构造器</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line">    <span class="comment">// 主构造器的构成部分</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 有参主构造器</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo2</span>(<span class="params">name: <span class="type">String</span>, age: <span class="type">Int</span></span>) </span>&#123;</div><div class="line">    <span class="comment">// 主构造器的构成部分</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>从类的定义开始，花括号的部分为主构造器的构成部分。主构造器在执行时，会执行类中所有的语句。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// example</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">val</span> name = <span class="string">"tom"</span></div><div class="line">    <span class="keyword">val</span> age = <span class="number">18</span></div><div class="line">    </div><div class="line">    doSomething() <span class="comment">// 初始化对象时，会打印 name: tome, age: 18</span></div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">doSomething</span></span>() = &#123;</div><div class="line">        println(<span class="string">"name: "</span> + name + <span class="string">", age: "</span> + age)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="辅助构造器"><a href="#辅助构造器" class="headerlink" title="辅助构造器"></a>辅助构造器</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> name = <span class="string">""</span></div><div class="line">    <span class="keyword">var</span> age = <span class="number">0</span></div><div class="line">    </div><div class="line">    <span class="comment">// 错误定义!!</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>() &#123;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>(name: <span class="type">String</span>) &#123;</div><div class="line">        <span class="keyword">this</span>()</div><div class="line">        <span class="keyword">this</span>.name = name</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>(name: <span class="type">String</span>, age: <span class="type">Int</span>) &#123;</div><div class="line">        <span class="keyword">this</span>(name)</div><div class="line">        <span class="keyword">this</span>.age = age</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>辅助构造器的名称为<code>this</code>，与 Java 的构造器名称不同（Java 构造器名称是以类名定义的），其代码大致结构为<code>def this(...) {}</code>。若一个类如果没有显式定义主构造器，则编译器会自动生成一个无参的主构造器。</p>
-<p>必须注意的是，每个辅助构造器都必须以一个对先前已定义的其他辅助构造器或者主构造器的调用开始。</p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2018/05/07/寻找一种更快更高效的方法/">寻找一种更快更高效的方法</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-05-07
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>这两天在对我们开发的模块进行最后的收尾，收尾的工作一般来说都是添加测试用例，测试模块调用时是否有 BUG 等。果不其然，老大还是叫我去做模块的测试。其实还是自己对于 C++了解太少，刚入门一个星期才勉强能够看懂之前的部分源码，而且原有工程十分庞大，还有自己封装好的又或自己开发的工具库。想去调用还得自己上网看看 example 熟悉下，没有 example 的那就苦逼自己慢慢摸索了</p>
-<blockquote>
-<p><strong>做测试没关系，毕竟怎么样都能够学到不一样的知识。</strong></p>
-</blockquote>
-<p>先说下这次测试的内容，就是将之前标注好的数据，利用我们的模块重新跑一遍，检验是否有错漏的地方。这上面说的简单，但其中含杂了大量的人工，这我可不干，所以才有了这一篇文章。</p>
-<h4 id="材料准备"><a href="#材料准备" class="headerlink" title="材料准备"></a>材料准备</h4><p>404页面错误检验模块（基于 URL 和 Content 两部分），编写爬虫将标注好的数据中 URL 所对应的页面存储于本地（csv文件）</p>
-<h4 id="人工方法"><a href="#人工方法" class="headerlink" title="人工方法"></a>人工方法</h4><p>如果按照人工方法走，就是针对于一个 URL 创建一个 HTML 文件，然后撰写一个测试用例，跑通了我们就往下走，没跑通那就回头重新梳理逻辑。这种方式如果针对于一两个文件还好说，那如果针对于上百个文件那怎么办？如果这还人工一个个弄，那算你厉害</p>
-<h4 id="自动化方法"><a href="#自动化方法" class="headerlink" title="自动化方法"></a>自动化方法</h4><p>自动化方法是否能够运用在于在这过程当中是否存在一定的规律，相信读到这里的我们，可以明白自动化的方法就是在若干个循环当中，重复操作人工的方法，只是在这个过程当中，你需要用代码来证明你的想法，而非你的汗水</p>
-<p>在材料准备中，我们已经有了包含测试数据的 csv 文件，可能读者会理所当然的认为这个自动化测试不就两行代码妥妥的就搞定吗？其实并不然，c++ 中并没有什么第三方库处理 csv 这样的文件（反正我是没找到），如果利用简单的<code>split</code>函数的话，那就会导致原有数据（HTML）的丢失。</p>
-<p>这个时候，我们需要转向文件流，即将若干个 HTML 文件存储下来，并创建一个索引表，记录 URL 与其对应的文件名，如下所示：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">~/htmls/</div><div class="line">0.html 1.html 2.html index.txt</div><div class="line"></div><div class="line">~/htmls/index.txt</div><div class="line">https://www.baidu.com 0.html</div><div class="line">https://www.taobao.com 1.html</div></pre></td></tr></table></figure>
-<p>然后在实际编写代码过程中，先读取索引表，再利用索引表的信息，读取 HTML 文件然后运行模块，记录运行结果，当所有测试用例结束时，统计最终结果，并根据最终结果，调整内部的策略。</p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
           <a class="post-link" href="/2018/04/19/有多少人工就有多少智能/">有多少人工就有多少智能</a>
         
       </h1>
@@ -901,6 +804,135 @@
   </article>
 
     
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/26/SpringMVC源码分析-DispatcherServlet请求处理过程/">SpringMVC源码分析 - DispatcherServlet请求处理过程</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-26
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p><img src="http://on83riher.bkt.clouddn.com/DispatcherServlet%E6%A1%86%E6%9E%B6%E6%A6%82%E8%A6%81.png" alt=""></p>
+<blockquote>
+<p>这张图在网上搜到的，但是实际的来源处实在找不到了，如果后面找到一定补上链接。</p>
+</blockquote>
+<p>上图的流程可用以下文字进行描述：</p>
+<ol>
+<li>DispatcherServelt 作为前端控制器，拦截所有的请求。</li>
+<li>DispatcherServlet 接收到 http 请求之后， 根据访问的路由以及 HandlerMapping，获取一个 HandlerExecutionChain 对象。</li>
+<li>DispatcherServlet 将 Handler 对象交由 HandlerAdapter，调用处理器 Controller 对应功能处理方法。</li>
+<li>HandlerAdapter 返回 ModelAndView 对象，DispatcherServlet 将 view 交由 ViewResolver 进行解析，得到相应的视图，并用 Model 对 View 进行渲染。</li>
+<li>返回响应结果。</li>
+</ol>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>源码部分我打算通过流程图的形式来分析，源代码部分还是根据流程图来一步步看会更好，否则会被陌生且复杂的源代码给搞混（欲哭无泪）。</p>
+<p><img src="http://on83riher.bkt.clouddn.com/DispatcherServlet%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82.png" alt=""></p>
+<blockquote>
+<p>DEBUG大法是真的好！</p>
+</blockquote>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/11/26/SpringMVC源码分析-DispatcherServlet初始化过程/">SpringMVC源码分析 - DispatcherServlet初始化过程</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-11-26
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h2 id="继承体系"><a href="#继承体系" class="headerlink" title="继承体系"></a>继承体系</h2><p><img src="http://on83riher.bkt.clouddn.com/DispatcherServlet%E7%BB%A7%E6%89%BF%E4%BD%93%E7%B3%BB.png" alt=""></p>
+<p>从 DispatcherServlet 继承体系来看（蓝色部分），DispatcherServlet 继承自 FrameworkServlet，而 FrameworkServlet 又继承自 HttpServletBean ，最终 HttpSevletBean 继承了 HttpServlet 。通过这一步步继承封装之后，才构成了如今的 DispatcherSevlet 架构基础。</p>
+<p>下面将自上到下来说明 DispatcherServlet 的初始化过程。</p>
+<h2 id="HttpServlet"><a href="#HttpServlet" class="headerlink" title="HttpServlet"></a>HttpServlet</h2><p>HttpServletBean 继承自 Servlet 架构中的 HttpServlet 类，并重写了<code>init()</code>方法。</p>
+<blockquote>
+<p>Servlet 生命周期从创建到销毁的过程中，有三个重要的方法：</p>
+<ul>
+<li>init() - 负责初始化 Servlet 对象。在 Servlet 生命周期中只会调用一次。</li>
+<li>service() - 负责响应客户的请求。每次服务器接收到一个 Servlet 请求时，服务器会产生一个新的线程并调用服务。service 方法中两个参数，分别是 ServletRequest 和 ServletResponse，用于传递 http 请求和回写。</li>
+<li>destory() - 负责销毁 Servlet 对象。在 Servlet 生命周期中只会调用一次。</li>
+</ul>
+</blockquote>
+<p>从 Servlet 的生命周期可知，在 <code>init()</code>方法中，我们可以进行初始化工作，HttpServletBean 正是也做了这样的工作。源码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException </span>&#123;</div><div class="line">   <span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</div><div class="line">      logger.debug(<span class="string">"Initializing servlet '"</span> + getServletName() + <span class="string">"'"</span>);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="comment">// Set bean properties from init parameters.</span></div><div class="line">   <span class="comment">// 加载 Servlet 的配置文件(一般指 web.xml)</span></div><div class="line">   PropertyValues pvs = <span class="keyword">new</span> ServletConfigPropertyValues(getServletConfig(), <span class="keyword">this</span>.requiredProperties);</div><div class="line">   <span class="keyword">if</span> (!pvs.isEmpty()) &#123;</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">         BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(<span class="keyword">this</span>);</div><div class="line">         ResourceLoader resourceLoader = <span class="keyword">new</span> ServletContextResourceLoader(getServletContext());</div><div class="line">         bw.registerCustomEditor(Resource.class, <span class="keyword">new</span> ResourceEditor(resourceLoader, getEnvironment()));</div><div class="line">         initBeanWrapper(bw); <span class="comment">// 上面做了这么多的工作，到这里却是一个空方法，而它的子类都没有去重写这个方法，个人认为这是想让开发者自定义如何管理 Servlet 配置吧</span></div><div class="line">         bw.setPropertyValues(pvs, <span class="keyword">true</span>);</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">catch</span> (BeansException ex) &#123;</div><div class="line">         <span class="keyword">if</span> (logger.isErrorEnabled()) &#123;</div><div class="line">            logger.error(<span class="string">"Failed to set bean properties on servlet '"</span> + getServletName() + <span class="string">"'"</span>, ex);</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">throw</span> ex;</div><div class="line">      &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="comment">// Let subclasses do whatever initialization they like.</span></div><div class="line">   <span class="comment">// 交由子类(FrameworkServlet)来进行其特有的初始化工作</span></div><div class="line">   initServletBean();</div><div class="line"></div><div class="line">   <span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</div><div class="line">      logger.debug(<span class="string">"Servlet '"</span> + getServletName() + <span class="string">"' configured successfully"</span>);</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="FrameworkServlet"><a href="#FrameworkServlet" class="headerlink" title="FrameworkServlet"></a>FrameworkServlet</h2><p>FrameworkServlet 继承自 HttpServletBean，实现了<code>initServletBean()</code>方法。FrameworkServlet 在继承体系结构中，在 Servlet 与 SpringMVC 起到了承上启下的作用，它负责初始化 WebApplicationContext，还负责重写了 Servlet 生命周期中另外两个重要方法——<code>service()</code>和<code>destory()</code>，并改写了<code>doGet()</code>、<code>doPost()</code>等 http 方法，统一调用<code>processHandler()</code>方法来处理所有 http 请求。</p>
+<blockquote>
+<p>ApplicationContext 是 Spring 的核心，相当于 Spring 环境中的上下文。而在WebApplicationContext 继承自 ApplicationContext，充当了在 Web 环境中使用 Spring 的上下文。在 Web 环境中，WebApplicationContext 实例需要 ServletContext，即它必须拥有 Web 容器才能够完成启动的工作。</p>
+</blockquote>
+<p>下面重点讲<code>initServletBean()</code>方法，源码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">initServletBean</span><span class="params">()</span> <span class="keyword">throws</span> ServletException </span>&#123;</div><div class="line">   <span class="comment">// do sth</span></div><div class="line">   <span class="keyword">try</span> &#123;</div><div class="line">      <span class="comment">// 初始化 WebApplicationContext</span></div><div class="line">      <span class="keyword">this</span>.webApplicationContext = initWebApplicationContext();</div><div class="line">      initFrameworkServlet();</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">catch</span> (ServletException ex) &#123;</div><div class="line">      <span class="keyword">this</span>.logger.error(<span class="string">"Context initialization failed"</span>, ex);</div><div class="line">      <span class="keyword">throw</span> ex;</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">catch</span> (RuntimeException ex) &#123;</div><div class="line">      <span class="keyword">this</span>.logger.error(<span class="string">"Context initialization failed"</span>, ex);</div><div class="line">      <span class="keyword">throw</span> ex;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// initServletBean()转而调用了initWebApplicationContext()，所以重点工作在这里</span></div><div class="line"><span class="function"><span class="keyword">protected</span> WebApplicationContext <span class="title">initWebApplicationContext</span><span class="params">()</span> </span>&#123;</div><div class="line">   WebApplicationContext rootContext =</div><div class="line">         WebApplicationContextUtils.getWebApplicationContext(getServletContext());</div><div class="line">   WebApplicationContext wac = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">   <span class="keyword">if</span> (<span class="keyword">this</span>.webApplicationContext != <span class="keyword">null</span>) &#123;</div><div class="line">      <span class="comment">// A context instance was injected at construction time -&gt; use it</span></div><div class="line">      wac = <span class="keyword">this</span>.webApplicationContext;</div><div class="line">      <span class="keyword">if</span> (wac <span class="keyword">instanceof</span> ConfigurableWebApplicationContext) &#123;</div><div class="line">         ConfigurableWebApplicationContext cwac = (ConfigurableWebApplicationContext) wac;</div><div class="line">         <span class="keyword">if</span> (!cwac.isActive()) &#123;</div><div class="line">            <span class="keyword">if</span> (cwac.getParent() == <span class="keyword">null</span>) &#123;</div><div class="line">               cwac.setParent(rootContext);</div><div class="line">            &#125;</div><div class="line">            configureAndRefreshWebApplicationContext(cwac);</div><div class="line">         &#125;</div><div class="line">      &#125;</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">if</span> (wac == <span class="keyword">null</span>) &#123;</div><div class="line">      <span class="comment">// No context instance was injected at construction time -&gt; see if one</span></div><div class="line">      <span class="comment">// has been registered in the servlet context. If one exists, it is assumed</span></div><div class="line">      <span class="comment">// that the parent context (if any) has already been set and that the</span></div><div class="line">      <span class="comment">// user has performed any initialization such as setting the context id</span></div><div class="line">      wac = findWebApplicationContext();</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">if</span> (wac == <span class="keyword">null</span>) &#123;</div><div class="line">      <span class="comment">// No context instance is defined for this servlet -&gt; create a local one</span></div><div class="line">      wac = createWebApplicationContext(rootContext);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="keyword">if</span> (!<span class="keyword">this</span>.refreshEventReceived) &#123;</div><div class="line">      <span class="comment">// DispatcherSevlet 初始化工作的入口就在这里！</span></div><div class="line">      onRefresh(wac);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="comment">// do sth</span></div><div class="line">   <span class="keyword">return</span> wac;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="DispatcherServlet"><a href="#DispatcherServlet" class="headerlink" title="DispatcherServlet"></a>DispatcherServlet</h2><p>在进行下一步代码分析之前，先看下 DispatcherSevrlet 的静态代码块部分：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_STRATEGIES_PATH = <span class="string">"DispatcherServlet.properties"</span>;</div><div class="line"></div><div class="line"><span class="keyword">static</span> &#123;</div><div class="line">   <span class="comment">// Load default strategy implementations from properties file.</span></div><div class="line">   <span class="comment">// This is currently strictly internal and not meant to be customized</span></div><div class="line">   <span class="comment">// by application developers.</span></div><div class="line">   <span class="comment">// 加载所有默认配置，用于后面的初始化工作</span></div><div class="line">   <span class="keyword">try</span> &#123;</div><div class="line">      ClassPathResource resource = <span class="keyword">new</span> ClassPathResource(DEFAULT_STRATEGIES_PATH, DispatcherServlet.class);</div><div class="line">      defaultStrategies = PropertiesLoaderUtils.loadProperties(resource);</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">catch</span> (IOException ex) &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Could not load '"</span> + DEFAULT_STRATEGIES_PATH + <span class="string">"': "</span> + ex.getMessage());</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>DispatcherServlet.properties</code>配置文件中定义了DispatcherServlet各组件中的配置实现形式，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"># Default implementation classes for DispatcherServlet&apos;s strategy interfaces.</div><div class="line"># Used as fallback when no matching beans are found in the DispatcherServlet context.</div><div class="line"># Not meant to be customized by application developers.</div><div class="line"></div><div class="line">org.springframework.web.servlet.LocaleResolver=org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.ThemeResolver=org.springframework.web.servlet.theme.FixedThemeResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerMapping=org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping,\</div><div class="line">   org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerAdapter=org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter,\</div><div class="line">   org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter,\</div><div class="line">   org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerExceptionResolver=org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver,\</div><div class="line">   org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver,\</div><div class="line">   org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.RequestToViewNameTranslator=org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator</div><div class="line"></div><div class="line">org.springframework.web.servlet.ViewResolver=org.springframework.web.servlet.view.InternalResourceViewResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.FlashMapManager=org.springframework.web.servlet.support.SessionFlashMapManager</div></pre></td></tr></table></figure>
+<p>回到正题，在<code>onRefresh()</code>方法，调用了<code>initStrategies()</code>，所以重点部分就在于<code>initStrategies()</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onRefresh</span><span class="params">(ApplicationContext context)</span> </span>&#123;</div><div class="line">   initStrategies(context);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initStrategies</span><span class="params">(ApplicationContext context)</span> </span>&#123;</div><div class="line">  	<span class="comment">// 初始化多媒体解析器</span></div><div class="line">    initMultipartResolver(context);</div><div class="line">    <span class="comment">// 初始化位置解析器</span></div><div class="line">    initLocaleResolver(context);</div><div class="line">  	<span class="comment">// 初始化主题解析器</span></div><div class="line">    initThemeResolver(context);</div><div class="line">  	<span class="comment">// 初始化 HandlerMappings</span></div><div class="line">    initHandlerMappings(context);</div><div class="line">  	<span class="comment">// 初始化 HandlerAdapters</span></div><div class="line">    initHandlerAdapters(context);</div><div class="line">  	<span class="comment">// 初始化异常处理解析器</span></div><div class="line">    initHandlerExceptionResolvers(context);</div><div class="line">  	<span class="comment">// 初始化请求到视图名转换器</span></div><div class="line">    initRequestToViewNameTranslator(context);</div><div class="line">  	<span class="comment">// 初始化视图解析器</span></div><div class="line">    initViewResolvers(context);</div><div class="line">  	<span class="comment">// 初始化 FlashMapManager</span></div><div class="line">    initFlashMapManager(context);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面以<code>initHandlerMappings()</code>方法为例，分析如何加载 HandlerMapping。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initHandlerMappings</span><span class="params">(ApplicationContext context)</span> </span>&#123;</div><div class="line">   <span class="keyword">this</span>.handlerMappings = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">   <span class="keyword">if</span> (<span class="keyword">this</span>.detectAllHandlerMappings) &#123;</div><div class="line">      <span class="comment">// Find all HandlerMappings in the ApplicationContext, including ancestor contexts.</span></div><div class="line">      Map&lt;String, HandlerMapping&gt; matchingBeans =</div><div class="line">            BeanFactoryUtils.beansOfTypeIncludingAncestors(context, HandlerMapping.class, <span class="keyword">true</span>, <span class="keyword">false</span>);</div><div class="line">      <span class="keyword">if</span> (!matchingBeans.isEmpty()) &#123;</div><div class="line">         <span class="keyword">this</span>.handlerMappings = <span class="keyword">new</span> ArrayList&lt;&gt;(matchingBeans.values());</div><div class="line">         <span class="comment">// We keep HandlerMappings in sorted order.</span></div><div class="line">         AnnotationAwareOrderComparator.sort(<span class="keyword">this</span>.handlerMappings);</div><div class="line">      &#125;</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">         HandlerMapping hm = context.getBean(HANDLER_MAPPING_BEAN_NAME, HandlerMapping.class);</div><div class="line">         <span class="keyword">this</span>.handlerMappings = Collections.singletonList(hm);</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">catch</span> (NoSuchBeanDefinitionException ex) &#123;</div><div class="line">         <span class="comment">// Ignore, we'll add a default HandlerMapping later.</span></div><div class="line">      &#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="comment">// Ensure we have at least one HandlerMapping, by registering</span></div><div class="line">   <span class="comment">// a default HandlerMapping if no other mappings are found.</span></div><div class="line">   <span class="keyword">if</span> (<span class="keyword">this</span>.handlerMappings == <span class="keyword">null</span>) &#123;</div><div class="line">      <span class="keyword">this</span>.handlerMappings = getDefaultStrategies(context, HandlerMapping.class);</div><div class="line">      <span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</div><div class="line">         logger.debug(<span class="string">"No HandlerMappings found in servlet '"</span> + getServletName() + <span class="string">"': using default"</span>);</div><div class="line">      &#125;</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的源码注释解释的十分清楚了，值得注意一点的是，为了确保 DispatcherServlet 中至少有一个 HandlerMapping，它会从上面所述的默认配置项中加载所有默认组件，如 HandlerMapping 默认组件为 BeanNameUrlHandlerMapping、RequestMappingHandlerMapping。</p>
+<hr>
+<p>参考资料：</p>
+<p><a href="http://www.cnblogs.com/klguang/p/4748922.html" target="_blank" rel="external">servlet清晰理解</a></p>
+<p><a href="http://blog.csdn.net/zhulinu/article/details/7305247" target="_blank" rel="external">WebApplicationContext初始化</a></p>
+<p><a href="http://wujiu.iteye.com/blog/2170778" target="_blank" rel="external">Spring MVC之DispatcherServlet初始化</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
   </section>
 
   
@@ -981,7 +1013,7 @@
      
       2017 - 
     
-    2018
+    2019
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>
