@@ -1,23 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
-  <head>
-    
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
 
-  <meta name="description" content="堆排序（Heap Sort）"/>
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
@@ -27,23 +19,17 @@
 
 
 
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
 
-  <link rel="alternate" href="/atom.xml" title="APPARITION957">
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
 
-
-
-<link rel="canonical" href="http://apparition957.github.io/2017/10/31/堆排序（Heap Sort）/"/>
-
-
-<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
 
 
 
@@ -51,166 +37,296 @@
 
 
   
-  <script id="baidu_analytics">
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?8bd9b518a8b821a06877823fceed6cab";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
 
-  <script id="baidu_push">
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="概述堆排序（Heap Sort）是指利用堆这种数据结构所设计的一种排序算法。 什么是堆堆的实现通过构造二叉堆，实为二叉树的一种分支。这种数据结构具有以下性质：  任意节点小于（或大于）它的所有后裔，最小元（或最大元）在堆的根上（堆序性）。 堆总是一个完全二叉树，即除了最底层外，其他层的节点都被元素填满，且最底层尽可能地从左到右填入。  将根节点最大的堆叫做最大堆，而将根节点最小的堆叫做最小堆。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="堆排序（Heap Sort）">
+<meta property="og:url" content="http://apparition957.github.io/2017/10/31/堆排序（Heap Sort）/index.html">
+<meta property="og:site_name" content="APPARITION957">
+<meta property="og:description" content="概述堆排序（Heap Sort）是指利用堆这种数据结构所设计的一种排序算法。 什么是堆堆的实现通过构造二叉堆，实为二叉树的一种分支。这种数据结构具有以下性质：  任意节点小于（或大于）它的所有后裔，最小元（或最大元）在堆的根上（堆序性）。 堆总是一个完全二叉树，即除了最底层外，其他层的节点都被元素填满，且最底层尽可能地从左到右填入。  将根节点最大的堆叫做最大堆，而将根节点最小的堆叫做最小堆。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/%E6%9C%80%E5%A4%A7%E6%9C%80%E5%B0%8F%E5%A0%86.png">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/%E5%A0%86%E6%8E%92%E5%BA%8F%E5%88%9D%E5%A7%8B.png">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/MAX_HEAPIFY.png">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/BUILD_MAX_HEAP.png">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/HEAPSORT.png">
+<meta property="og:updated_time" content="2017-10-31T12:55:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="堆排序（Heap Sort）">
+<meta name="twitter:description" content="概述堆排序（Heap Sort）是指利用堆这种数据结构所设计的一种排序算法。 什么是堆堆的实现通过构造二叉堆，实为二叉树的一种分支。这种数据结构具有以下性质：  任意节点小于（或大于）它的所有后裔，最小元（或最大元）在堆的根上（堆序性）。 堆总是一个完全二叉树，即除了最底层外，其他层的节点都被元素填满，且最底层尽可能地从左到右填入。  将根节点最大的堆叫做最大堆，而将根节点最小的堆叫做最小堆。">
+<meta name="twitter:image" content="http://on83riher.bkt.clouddn.com/%E6%9C%80%E5%A4%A7%E6%9C%80%E5%B0%8F%E5%A0%86.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
+  };
 </script>
 
 
 
+  <link rel="canonical" href="http://apparition957.github.io/2017/10/31/堆排序（Heap Sort）/">
 
 
 
 
 
-<meta name="google-site-verification" content="OxwLY0TQSQ2wO159foQs2OK6XTDPDZA_H3N6_pCPnng" />
+  <title>堆排序（Heap Sort） | APPARITION957</title>
+  
 
 
-    <title> 堆排序（Heap Sort） - APPARITION957 </title>
-  </head>
 
-  <body><div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/." class="logo">APPARITION957</a>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">APPARITION957</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
   </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
   </div>
 </div>
 
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    
-      <a href="/">
-        <li class="mobile-menu-item">
-          
-          
-            首页
-          
-        </li>
-      </a>
-    
-      <a href="/archives/">
-        <li class="mobile-menu-item">
-          
-          
-            归档
-          
-        </li>
-      </a>
-    
-      <a href="/about">
-        <li class="mobile-menu-item">
-          
-          
-            关于
-          
-        </li>
-      </a>
-    
-  </ul>
-</nav>
+<nav class="site-nav">
+  
 
-    <div class="container" id="mobile-panel">
-      <header id="header" class="header"><div class="logo-wrapper">
-  <a href="/." class="logo">APPARITION957</a>
-</div>
-
-<nav class="site-navbar">
   
     <ul id="menu" class="menu">
       
-        <li class="menu-item">
-          <a class="menu-item-link" href="/">
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
             
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
-              首页
-            
+            首页
           </a>
         </li>
       
-        <li class="menu-item">
-          <a class="menu-item-link" href="/archives/">
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
             
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
-              归档
-            
+            分类
           </a>
         </li>
       
-        <li class="menu-item">
-          <a class="menu-item-link" href="/about">
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
             
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
-              关于
-            
+            归档
           </a>
         </li>
+      
+
       
     </ul>
   
+
+  
 </nav>
 
-      </header>
 
-      <main id="main" class="main">
-        <div class="content-wrapper">
-          <div id="content" class="content">
-            
-  
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          堆排序（Heap Sort）
-        
-      </h1>
 
-      <div class="post-meta">
-        <span class="post-time">
-          2017-10-31
-        </span>
-        
-        
-      </div>
+ </div>
     </header>
 
-    
-    
-  <div class="post-toc" id="post-toc">
-    <h2 class="post-toc-title">文章目录</h2>
-    <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是堆"><span class="toc-text">什么是堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆排序中如何表示堆"><span class="toc-text">堆排序中如何表示堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆排序原理（以最大堆为例）"><span class="toc-text">堆排序原理（以最大堆为例）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#最大堆调整（MaxHeapify）"><span class="toc-text">最大堆调整（MaxHeapify）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建最大堆（BuildMaxHeap）"><span class="toc-text">创建最大堆（BuildMaxHeap）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#推排序（HeapSort）"><span class="toc-text">推排序（HeapSort）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#时间与空间复杂度"><span class="toc-text">时间与空间复杂度</span></a></li></ol>
-    </div>
-  </div>
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
+  <div id="posts" class="posts-expand">
+    
 
-    <div class="post-content">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2017/10/31/堆排序（Heap Sort）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jianpeng957">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="APPARITION957">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">堆排序（Heap Sort）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-31T01:02:22+08:00">
+                2017-10-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>堆排序（Heap Sort）是指利用堆这种数据结构所设计的一种排序算法。</p>
 <h2 id="什么是堆"><a href="#什么是堆" class="headerlink" title="什么是堆"></a>什么是堆</h2><p>堆的实现通过构造二叉堆，实为二叉树的一种分支。这种数据结构具有以下性质：</p>
@@ -237,67 +353,95 @@
 <h4 id="最大堆调整（MaxHeapify）"><a href="#最大堆调整（MaxHeapify）" class="headerlink" title="最大堆调整（MaxHeapify）"></a>最大堆调整（MaxHeapify）</h4><p>最大堆调整的作用是保持最大堆的性质，是整个算法的核心部分。它内部的算法其实决定了堆到底是最大堆还是最小堆。</p>
 <p><img src="http://on83riher.bkt.clouddn.com/MAX_HEAPIFY.png" alt=""></p>
 <p>代码部分如下所示：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// array代表需要排序的数组部分</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">maxHeapAdjust</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> heapSize)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> largest = index;</div><div class="line">    <span class="comment">// 左右子节点在数组中的位置</span></div><div class="line">    <span class="keyword">int</span> left = <span class="number">2</span> * index + <span class="number">1</span>;</div><div class="line">    <span class="keyword">int</span> right = <span class="number">2</span> * (index + <span class="number">1</span>);</div><div class="line"></div><div class="line">    <span class="comment">// 若左子节点大于父节点</span></div><div class="line">    <span class="keyword">if</span> (left &lt; heapSize &amp;&amp; array[index] &lt; array[left]) &#123;</div><div class="line">        largest = left;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 若右子节点大于父节点</span></div><div class="line">    <span class="keyword">if</span> (right &lt; heapSize &amp;&amp; array[largest] &lt; array[right]) &#123;</div><div class="line">        largest = right;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 倘若larget并非指向原节点index时，则证明父节点index小于某个子节点left/right</span></div><div class="line">    <span class="keyword">if</span> (largest != index) &#123;</div><div class="line">        swap(largest, index);</div><div class="line">      	<span class="comment">// 因为largest并非index，所以节点largest的堆结构也发生了变化</span></div><div class="line">        maxHeapAdjust(largest, heapSize);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> tmp = queue[i];</div><div class="line">    queue[i] = queue[j];</div><div class="line">    queue[j] = tmp;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// array代表需要排序的数组部分</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">maxHeapAdjust</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> heapSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> largest = index;</span><br><span class="line">    <span class="comment">// 左右子节点在数组中的位置</span></span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">2</span> * index + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> right = <span class="number">2</span> * (index + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 若左子节点大于父节点</span></span><br><span class="line">    <span class="keyword">if</span> (left &lt; heapSize &amp;&amp; array[index] &lt; array[left]) &#123;</span><br><span class="line">        largest = left;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 若右子节点大于父节点</span></span><br><span class="line">    <span class="keyword">if</span> (right &lt; heapSize &amp;&amp; array[largest] &lt; array[right]) &#123;</span><br><span class="line">        largest = right;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 倘若larget并非指向原节点index时，则证明父节点index小于某个子节点left/right</span></span><br><span class="line">    <span class="keyword">if</span> (largest != index) &#123;</span><br><span class="line">        swap(largest, index);</span><br><span class="line">      	<span class="comment">// 因为largest并非index，所以节点largest的堆结构也发生了变化</span></span><br><span class="line">        maxHeapAdjust(largest, heapSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp = queue[i];</span><br><span class="line">    queue[i] = queue[j];</span><br><span class="line">    queue[j] = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>非递归实现版本</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">maxHeapAdjustWhile</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> heapSize)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> largest, left, right;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line">        largest = index;</div><div class="line">        left = <span class="number">2</span> * index + <span class="number">1</span>;</div><div class="line">        right = <span class="number">2</span> * (index + <span class="number">1</span>);</div><div class="line"></div><div class="line">        <span class="comment">// 若左子节点大于父节点</span></div><div class="line">        <span class="keyword">if</span> (left &lt; heapSize &amp;&amp; queue[index] &lt; queue[left]) &#123;</div><div class="line">          	largest = left;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// 若右子节点大于父节点</span></div><div class="line">        <span class="keyword">if</span> (right &lt; heapSize &amp;&amp; queue[largest] &lt; queue[right]) &#123;</div><div class="line">          	largest = right;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// 倘若larget并非指向原节点index时，则证明父节点index小于某个子节点left/right</span></div><div class="line">        <span class="keyword">if</span> (largest != index) &#123;</div><div class="line">          	swap(largest, index);</div><div class="line">          	maxHeapAdjustWhile(largest, heapSize);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">          	<span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">maxHeapAdjustWhile</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> heapSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> largest, left, right;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        largest = index;</span><br><span class="line">        left = <span class="number">2</span> * index + <span class="number">1</span>;</span><br><span class="line">        right = <span class="number">2</span> * (index + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 若左子节点大于父节点</span></span><br><span class="line">        <span class="keyword">if</span> (left &lt; heapSize &amp;&amp; queue[index] &lt; queue[left]) &#123;</span><br><span class="line">          	largest = left;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 若右子节点大于父节点</span></span><br><span class="line">        <span class="keyword">if</span> (right &lt; heapSize &amp;&amp; queue[largest] &lt; queue[right]) &#123;</span><br><span class="line">          	largest = right;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 倘若larget并非指向原节点index时，则证明父节点index小于某个子节点left/right</span></span><br><span class="line">        <span class="keyword">if</span> (largest != index) &#123;</span><br><span class="line">          	swap(largest, index);</span><br><span class="line">          	maxHeapAdjustWhile(largest, heapSize);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          	<span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="创建最大堆（BuildMaxHeap）"><a href="#创建最大堆（BuildMaxHeap）" class="headerlink" title="创建最大堆（BuildMaxHeap）"></a>创建最大堆（BuildMaxHeap）</h4><p>创建最大堆的作用是将一个数组转换为一个最大堆。倘若堆中有n个元素，那么BuildMaxHeap就从Parent(n)开始（因为Parent(n)的节点刚刚好指向最后一个元素的父节点），从下往上地调用MaxHeapify。</p>
 <p><img src="http://on83riher.bkt.clouddn.com/BUILD_MAX_HEAP.png" alt=""></p>
 <p>代码结构如下所示：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildMaxHeap</span><span class="params">(<span class="keyword">int</span> heapSize)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> parent = (heapSize - <span class="number">1</span>) / <span class="number">2</span>;</div><div class="line">  	<span class="comment">// 可以参考图思考一下，为什么这样循环递减i</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = parent; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">        maxHeapAdjust(i, heapSize);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildMaxHeap</span><span class="params">(<span class="keyword">int</span> heapSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> parent = (heapSize - <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">  	<span class="comment">// 可以参考图思考一下，为什么这样循环递减i</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = parent; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        maxHeapAdjust(i, heapSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="推排序（HeapSort）"><a href="#推排序（HeapSort）" class="headerlink" title="推排序（HeapSort）"></a>推排序（HeapSort）</h4><p>堆排序是堆排序算法的接口算法部分，HeapSort先调用BuildMaxHeap将传递来的数组转换为最大堆，然后将最大堆堆顶元素与堆底最后一个元素对换，然后再重新调用MaxHeapify来保证最大堆的性质。</p>
 <p><img src="http://on83riher.bkt.clouddn.com/HEAPSORT.png" alt=""></p>
 <p>代码结构如下所示：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] maxHeapSort() &#123;</div><div class="line">    <span class="keyword">int</span> heapSize = queue.length;</div><div class="line">    buildMaxHeap(heapSize);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = heapSize - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</div><div class="line">        <span class="comment">// 交换堆顶的最大值放置数组末尾</span></div><div class="line">        swap(<span class="number">0</span>, i);</div><div class="line">        <span class="comment">// 重新整理最大堆，范围缩小至除已排序的节点外</span></div><div class="line">        maxHeapAdjust(<span class="number">0</span>, i);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> queue;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] maxHeapSort() &#123;</span><br><span class="line">    <span class="keyword">int</span> heapSize = queue.length;</span><br><span class="line">    buildMaxHeap(heapSize);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = heapSize - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="comment">// 交换堆顶的最大值放置数组末尾</span></span><br><span class="line">        swap(<span class="number">0</span>, i);</span><br><span class="line">        <span class="comment">// 重新整理最大堆，范围缩小至除已排序的节点外</span></span><br><span class="line">        maxHeapAdjust(<span class="number">0</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> queue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="时间与空间复杂度"><a href="#时间与空间复杂度" class="headerlink" title="时间与空间复杂度"></a>时间与空间复杂度</h2><p>最优时间复杂度为O(nlogn)，最坏时间复杂度O(nlogn)。</p>
 <p>总空间复杂度为O(n)，辅助空间复杂度O(1)。</p>
 <hr>
 <p>参考资料</p>
-<p><a href="https://zh.wikipedia.org/wiki/%E5%A0%86%E6%8E%92%E5%BA%8F" target="_blank" rel="external">堆排序</a></p>
-<p><a href="https://zh.wikipedia.org/wiki/%E5%A0%86_(%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84" target="_blank" rel="external">堆 (数据结构)</a>)</p>
-<p><a href="http://bubkoo.com/2014/01/14/sort-algorithm/heap-sort/" target="_blank" rel="external">常见排序算法 - 堆排序 (Heap Sort)</a></p>
+<p><a href="https://zh.wikipedia.org/wiki/%E5%A0%86%E6%8E%92%E5%BA%8F" target="_blank" rel="noopener">堆排序</a></p>
+<p><a href="https://zh.wikipedia.org/wiki/%E5%A0%86_(%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84" target="_blank" rel="noopener">堆 (数据结构)</a>)</p>
+<p><a href="http://bubkoo.com/2014/01/14/sort-algorithm/heap-sort/" target="_blank" rel="noopener">常见排序算法 - 堆排序 (Heap Sort)</a></p>
 
       
     </div>
 
-    
+    <div>
       
-      
-
-
-
-      
-      
-    
-
-    
-      <footer class="post-footer">
         
-        
-        
-  <nav class="post-nav">
-    
-      <a class="prev" href="/2017/10/31/Java关键字-static/">
-        <i class="iconfont icon-left"></i>
-        <span class="prev-text nav-default">Java关键字 - static</span>
-        <span class="prev-text nav-mobile">上一篇</span>
-      </a>
-    
-    
-      <a class="next" href="/2017/10/30/Java异常机制分析/">
-        <span class="next-text nav-default">Java异常机制分析</span>
-        <span class="prev-text nav-mobile">下一篇</span>
-        <i class="iconfont icon-right"></i>
-      </a>
-    
-  </nav>
 
-      </footer>
-    
+      
+    </div>
 
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/30/Java异常机制分析/" rel="next" title="Java异常机制分析">
+                <i class="fa fa-chevron-left"></i> Java异常机制分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/31/Java关键字-static/" rel="prev" title="Java关键字 - static">
+                Java关键字 - static <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
           </div>
+          
+
+
           
   <div class="comments" id="comments">
     
@@ -305,102 +449,286 @@
 
 
         </div>
-      </main>
-
-      <footer id="footer" class="footer">
-
-  <div class="social-links">
-    
-      
         
-          <a href="mailto:jianpeng957@gmail.com" class="iconfont icon-email" title="email"></a>
-        
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-    
-    
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
   </div>
 
-
-<div class="copyright">
-  <span class="power-by">
-    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    主题 - 
-    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
-  </span>
-
-  <span class="copyright-year">
+  <aside id="sidebar" class="sidebar">
     
-    &copy; 
-     
-      2017 - 
-    
-    2019
+    <div class="sidebar-inner">
 
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">jianpeng957</span>
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="jianpeng957">
+          <p class="site-author-name" itemprop="name">jianpeng957</p>
+           
+              <p class="site-description motion-element" itemprop="description">沉迷学习无法自拔</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">93</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是堆"><span class="nav-number">2.</span> <span class="nav-text">什么是堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆排序中如何表示堆"><span class="nav-number">3.</span> <span class="nav-text">堆排序中如何表示堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆排序原理（以最大堆为例）"><span class="nav-number">4.</span> <span class="nav-text">堆排序原理（以最大堆为例）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最大堆调整（MaxHeapify）"><span class="nav-number">4.0.1.</span> <span class="nav-text">最大堆调整（MaxHeapify）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建最大堆（BuildMaxHeap）"><span class="nav-number">4.0.2.</span> <span class="nav-text">创建最大堆（BuildMaxHeap）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#推排序（HeapSort）"><span class="nav-number">4.0.3.</span> <span class="nav-text">推排序（HeapSort）</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#时间与空间复杂度"><span class="nav-number">5.</span> <span class="nav-text">时间与空间复杂度</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
   </span>
+  <span class="author" itemprop="copyrightHolder">jianpeng957</span>
 </div>
 
-      </footer>
 
-      <div class="back-to-top" id="back-to-top">
-        <i class="iconfont icon-up"></i>
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
       </div>
-    </div>
+    </footer>
 
     
-  
-
-
-
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
     
 
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
 
 
 
   
-    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
   
 
   
-    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
 
   
 
 
-    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
-<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
 
-  </body>
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
 </html>
