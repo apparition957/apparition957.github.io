@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://apparition957.github.io/about/index.html</loc>
+    
+    <lastmod>2020-01-08T11:50:52.581Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://apparition957.github.io/2020/01/07/%E3%80%8AThe-Dataflow-Model%E3%80%8B%E8%AE%BA%E6%96%87%E7%BF%BB%E8%AF%91/</loc>
     
     <lastmod>2020-01-08T06:17:22.756Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>http://apparition957.github.io/2018/07/20/%E5%9C%A8%E5%B0%8F%E7%B1%B3%E5%AE%9E%E4%B9%A0%E7%9A%84180%E5%A4%A9/</loc>
     
     <lastmod>2018-07-20T14:47:16.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://apparition957.github.io/about/index.html</loc>
-    
-    <lastmod>2018-07-12T08:07:28.000Z</lastmod>
     
   </url>
   
