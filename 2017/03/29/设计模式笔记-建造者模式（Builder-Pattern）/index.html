@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="模式定义 建造者模式（Builder Pattern）将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。建造者模式是一步一步创建一个复杂的对象，它允许用户只通过指定复杂对象的类型和内容就可以构建它们，用户无需知道内部的具体构建细节。 建造者模式属于对象创建型模式。   模式结构建造者模式包含如下角色：  Builder - 抽象建造者 - 定义了产品的创建方法和返回方法 C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式笔记 - 建造者模式（Builder Pattern）">
+<meta property="og:url" content="http://apparition957.github.io/2017/03/29/设计模式笔记-建造者模式（Builder-Pattern）/index.html">
+<meta property="og:site_name" content="APPARITION957">
+<meta property="og:description" content="模式定义 建造者模式（Builder Pattern）将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。建造者模式是一步一步创建一个复杂的对象，它允许用户只通过指定复杂对象的类型和内容就可以构建它们，用户无需知道内部的具体构建细节。 建造者模式属于对象创建型模式。   模式结构建造者模式包含如下角色：  Builder - 抽象建造者 - 定义了产品的创建方法和返回方法 C">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F.JPG">
+<meta property="og:updated_time" content="2017-07-31T13:19:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式笔记 - 建造者模式（Builder Pattern）">
+<meta name="twitter:description" content="模式定义 建造者模式（Builder Pattern）将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。建造者模式是一步一步创建一个复杂的对象，它允许用户只通过指定复杂对象的类型和内容就可以构建它们，用户无需知道内部的具体构建细节。 建造者模式属于对象创建型模式。   模式结构建造者模式包含如下角色：  Builder - 抽象建造者 - 定义了产品的创建方法和返回方法 C">
+<meta name="twitter:image" content="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://apparition957.github.io/2017/03/29/设计模式笔记-建造者模式（Builder-Pattern）/">
+
+
+
+
+
+  <title>设计模式笔记 - 建造者模式（Builder Pattern） | APPARITION957</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">APPARITION957</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2017/03/29/设计模式笔记-建造者模式（Builder-Pattern）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jianpeng957">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="APPARITION957">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">设计模式笔记 - 建造者模式（Builder Pattern）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-29T14:37:41+08:00">
+                2017-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><blockquote>
+<p>建造者模式（Builder Pattern）将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。建造者模式是一步一步创建一个复杂的对象，它允许用户只通过指定复杂对象的类型和内容就可以构建它们，用户无需知道内部的具体构建细节。</p>
+<p>建造者模式属于对象创建型模式。</p>
+</blockquote>
+<hr>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>建造者模式包含如下角色：</p>
+<ul>
+<li>Builder - 抽象建造者 - 定义了产品的创建方法和返回方法</li>
+<li>ConcreteBuilder - 具体建造者</li>
+<li>Director - 指挥者 - 隔离了客户与生产过程，并负责控制产品的生成过程</li>
+<li>Product - 产品角色</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F.JPG" alt="img"></p>
+<hr>
+<h4 id="模式实例"><a href="#模式实例" class="headerlink" title="模式实例"></a>模式实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 本例为McDonald&apos;s中超值套餐系列构造。虽然不同的超值套餐都自己不同的特点，但是总体的构造成分都是一致的，主食（汉堡）以及饮料（可乐）等。</span><br><span class="line"> */</span><br><span class="line">// Product - 产品角色</span><br><span class="line">public class ValueMeal &#123;</span><br><span class="line">  	private Meal meal;</span><br><span class="line">  	private Drink drink;</span><br><span class="line">  </span><br><span class="line">  	public void setMeal(Meal meal) &#123;</span><br><span class="line">      	this.meal = meal;</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public void setDrink(Drink drink) &#123;</span><br><span class="line">      	this.drink = drink;</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public Meal getMeal(Meal meal) &#123;</span><br><span class="line">      	return this.meal;</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public Drink getDrink(Drink drink) &#123;</span><br><span class="line">      	return this.drink;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Builder - 抽象建造者</span><br><span class="line">public interface class valueMealBuilder &#123;</span><br><span class="line">  	public void buildMeal(Meal meal);</span><br><span class="line">  	public void buildDrink(Drink drink);</span><br><span class="line">  	public ValueMeal getValueMeal(); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ConcreteBuilder - 具体建造者</span><br><span class="line">// 麦辣鸡腿堡</span><br><span class="line">public class McCrispyPackage implements valueMealBuilder &#123;</span><br><span class="line">  	private ValueMeal valueMeal = new ValueMeal();</span><br><span class="line">  	</span><br><span class="line">  	public void buildMeal() &#123;</span><br><span class="line">      	valueMeal.setMeal(new McCrispyChickenBurger());</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public void buildDrink() &#123;</span><br><span class="line">      	valueMeal.setDrink(new CocaCola());</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public ValueMeal getValueMeal() &#123;</span><br><span class="line">      	return this.valueMeal;</span><br><span class="line">  	&#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ConcreteBuilder - 具体建造者</span><br><span class="line">// 巨无霸</span><br><span class="line">public class BigMacPackage implements valueMealBuilder &#123;</span><br><span class="line">  	private ValueMeal valueMeal = new ValueMeal();</span><br><span class="line">  	</span><br><span class="line">  	public void buildMeal() &#123;</span><br><span class="line">      	valueMeal.setMeal(new BigMac());</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public void buildDrink() &#123;</span><br><span class="line">      	valueMeal.setDrink(new CocaCola());</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public ValueMeal getValueMeal() &#123;</span><br><span class="line">      	return this.valueMeal;</span><br><span class="line">  	&#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Direct - 指挥者</span><br><span class="line">public class McDonaldWaiter &#123;</span><br><span class="line">  	private ValueMealBuilder valueMealBuilder;</span><br><span class="line">  	</span><br><span class="line">  	public McDonaldWaiter(ValueMealBuilder valueMealBuilder) &#123;</span><br><span class="line">      	this.valueMealBuilder = valueMealBuilder;</span><br><span class="line">  	&#125;</span><br><span class="line">  	</span><br><span class="line">  	public void construct() &#123;</span><br><span class="line">      	valueMealBuilder.buildMeal();</span><br><span class="line">      	valueMealBuilder.buildDrink();</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public ValueMeal getValueMeal() &#123;</span><br><span class="line">      	valueMealBuilder.getValueMeal();</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public void setValueMealBuilder(ValueMealBuilder valueMealBuilder) &#123;</span><br><span class="line">      	this.valueMealBuilder = valueMealBuilder;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 测试类</span><br><span class="line">public class Test &#123;</span><br><span class="line">  	public static void main(String[] args) &#123;</span><br><span class="line">      	ValueMealBuilder mcCrispyPackage = new McCrispyPackage();</span><br><span class="line">      	McDonaldWaiter waiter = new McDonaldWaiter(mcCrispyPackage);</span><br><span class="line">      </span><br><span class="line">      	waiter.construct();</span><br><span class="line">      	ValueMeal mcCrispy = waiter.getValueMeal();</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
+<li>建造者模式的重心在于分离构建算法和具体的构造实现，从而使得构建算法可以重用，具体的构造实现可以方便地扩展和切换，从而可以灵活地组合来构造出不同的产品对象。</li>
+<li>增加新的具体建造者无需修改原有类库的代码，指挥者类针对抽象建造者类编程，系统扩展方便，符合“开闭原则”。</li>
+<li>建造者模式所创建的产品一般具有较多的共同点，其组成部分相似，如果产品之间的差异性较大，则不适合使用建造者模式，因此其适用范围受到一定的限制。</li>
+</ul>
+<p><strong>建造者模式的优点：</strong></p>
+<ul>
+<li>在建造者模式中，客户端不必知道产品内部组成的细节，将产品本身与产品的创建过程解耦，使得相同的创建过程可以创建不同的产品对象。</li>
+<li>每一个具体建造者都相对独立，而与其他的具体建造者无关，因此很方便地替换不同的具体建造者或增加新的具体建造者。</li>
+<li>可以更加精细地控制产品的创建过程。将复杂产品的创建步骤分解在不同的方法当中，使得构建者可以更加专注于逻辑处理部分。</li>
+</ul>
+<p><strong>建造者模式的缺点：</strong></p>
+<ul>
+<li>如果产品的内部变化复杂，可能会导致需要定义很多具体建造者类来实现这种变化，增加系统复杂度，难以维护。</li>
+</ul>
+<hr>
+<h4 id="模式应用"><a href="#模式应用" class="headerlink" title="模式应用"></a>模式应用</h4><ul>
+<li>在游戏软件设计中，不同的地图包括天空、地面和背景等组成部分，不同的人物也包括身体，服装和装备等组成部分，可以利用建造者模式对其设计，通过不同的具体建造者创建不同类型的地图或人物。</li>
+</ul>
+<hr>
+<h4 id="与抽象工厂模式的对比："><a href="#与抽象工厂模式的对比：" class="headerlink" title="与抽象工厂模式的对比："></a>与抽象工厂模式的对比：</h4><ul>
+<li>与抽象工厂模式相比，建造者模式返回一个组装好的完整产品，可以类比于<strong>汽车组装工厂</strong>。而抽象工厂模式返回一系列的相关产品，这些产品位于不同的产品等级结构，构成了一个产品族，可以类比于<strong>汽车配件生产工厂</strong>。</li>
+<li>在抽象工厂模式中，客户端实例化工厂类，然后调用工厂方法获取所需产品对象，而在建造者模式中，客户端可以不直接调用具体建造者的相关方法，而是通过指挥者类来指导如何生成对象，它<strong>侧重于如何一步步构建一个复杂对象，返回一个完整的对象。</strong></li>
+</ul>
+<hr>
+<hr>
+<p>参考资料：</p>
+<p>[1] <a href="https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/builder.html" target="_blank" rel="noopener">https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/builder.html</a></p>
+<p>[2] <a href="http://www.cnblogs.com/java-my-life/archive/2012/04/07/2433939.html" target="_blank" rel="noopener">http://www.cnblogs.com/java-my-life/archive/2012/04/07/2433939.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/28/设计模式笔记-状态模式（State-Pattern）/" rel="next" title="设计模式笔记 - 状态模式（State Pattern）">
+                <i class="fa fa-chevron-left"></i> 设计模式笔记 - 状态模式（State Pattern）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/29/设计模式笔记-中介者模式（Mediator-Pattern）/" rel="prev" title="设计模式笔记 - 中介者模式（Mediator Pattern）">
+                设计模式笔记 - 中介者模式（Mediator Pattern） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="jianpeng957">
+            
+              <p class="site-author-name" itemprop="name">jianpeng957</p>
+              <p class="site-description motion-element" itemprop="description">沉迷学习无法自拔</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">93</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#模式定义"><span class="nav-number">1.</span> <span class="nav-text">模式定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式结构"><span class="nav-number">2.</span> <span class="nav-text">模式结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式实例"><span class="nav-number">3.</span> <span class="nav-text">模式实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式分析"><span class="nav-number">4.</span> <span class="nav-text">模式分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式应用"><span class="nav-number">5.</span> <span class="nav-text">模式应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与抽象工厂模式的对比："><span class="nav-number">6.</span> <span class="nav-text">与抽象工厂模式的对比：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jianpeng957</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

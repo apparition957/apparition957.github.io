@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="注重实效的哲学这一章中，作者从六个相互独立的主题来阐述程序员应该从哪几个方面来注重实效，为注重实效的哲学奠定了基础。  责任 注重实效的程序员对他/她自己的职业生涯负责，并且不害怕承认无知和错误。  责任是你主动负担的东西。你承诺确保某件事情正确完成，但你不一定能直接控制事情的每一个方面。除了尽你所能以外，你必须分析风险是否超出了你的控制。对于不可能做到的事情或者风险太大的事情，你有权不去为之负责">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《程序员修炼之道》读书笔记">
+<meta property="og:url" content="http://apparition957.github.io/2017/07/30/《程序员修炼之道》读书笔记/index.html">
+<meta property="og:site_name" content="APPARITION957">
+<meta property="og:description" content="注重实效的哲学这一章中，作者从六个相互独立的主题来阐述程序员应该从哪几个方面来注重实效，为注重实效的哲学奠定了基础。  责任 注重实效的程序员对他/她自己的职业生涯负责，并且不害怕承认无知和错误。  责任是你主动负担的东西。你承诺确保某件事情正确完成，但你不一定能直接控制事情的每一个方面。除了尽你所能以外，你必须分析风险是否超出了你的控制。对于不可能做到的事情或者风险太大的事情，你有权不去为之负责">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-07-31T12:21:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《程序员修炼之道》读书笔记">
+<meta name="twitter:description" content="注重实效的哲学这一章中，作者从六个相互独立的主题来阐述程序员应该从哪几个方面来注重实效，为注重实效的哲学奠定了基础。  责任 注重实效的程序员对他/她自己的职业生涯负责，并且不害怕承认无知和错误。  责任是你主动负担的东西。你承诺确保某件事情正确完成，但你不一定能直接控制事情的每一个方面。除了尽你所能以外，你必须分析风险是否超出了你的控制。对于不可能做到的事情或者风险太大的事情，你有权不去为之负责">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://apparition957.github.io/2017/07/30/《程序员修炼之道》读书笔记/">
+
+
+
+
+
+  <title>《程序员修炼之道》读书笔记 | APPARITION957</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">APPARITION957</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2017/07/30/《程序员修炼之道》读书笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jianpeng957">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="APPARITION957">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《程序员修炼之道》读书笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-30T12:52:57+08:00">
+                2017-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">技术笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="注重实效的哲学"><a href="#注重实效的哲学" class="headerlink" title="注重实效的哲学"></a>注重实效的哲学</h1><p>这一章中，作者从六个相互独立的主题来阐述程序员应该从哪几个方面来注重实效，为注重实效的哲学奠定了基础。</p>
+<hr>
+<h2 id="责任"><a href="#责任" class="headerlink" title="责任"></a>责任</h2><blockquote>
+<p>注重实效的程序员对他/她自己的职业生涯负责，并且不害怕承认无知和错误。</p>
+</blockquote>
+<p><strong>责任是你主动负担的东西。</strong>你承诺确保某件事情正确完成，但你不一定能直接控制事情的每一个方面。除了尽你所能以外，你必须分析风险是否超出了你的控制。对于不可能做到的事情或者风险太大的事情，你有权不去为之负责。你必须基于你自己的道德准则和判断来做出决定。</p>
+<p>如果你确实同意要为某个结果负责，你就应切实负起责任。当你犯错误、或者判断错误时，诚实地承认它，<strong>并设法给出各种选择</strong>，而不是选择去责备别人或别的东西、或者拼凑借口。</p>
+<p>在你走向任何人，告诉他们为何某事做不到、为何耽搁、为何出问题之前，先停下来，听一下你心里的声音。在你的头脑中把谈话预演一遍。其他人可能会说什么？你将怎样回答？在你去告诉他们坏消息之前，是否还有其他你可以再试一试的办法？有时，你其实知道他们会说什么，所以还是不要给他们添加麻烦吧。</p>
+<hr>
+<h2 id="软件的熵"><a href="#软件的熵" class="headerlink" title="软件的熵"></a>软件的熵</h2><p>熵，指的是系统中的“无序”的总量。在热力学定律中，保证了宇宙中的熵倾向于最大化，而在相似的环境中，当软件正在无序、野蛮的增长时，程序员称之为“软件腐烂”。</p>
+<blockquote>
+<p>破窗户理论：一扇破窗户，只要有那么一段时间不去修路，就会渐渐给建筑的居民带来一种废弃感——一种职权部门不关心这座建筑的感觉。于是又一扇窗户破了。人们开始乱扔垃圾。出现了乱涂图画。严重的结构损坏开始了。在相对较短的一段时间里，建筑就被损毁得超出了业主愿意修理的程度，而废弃感就成了现实。</p>
+</blockquote>
+<p>从“破窗户理论”中，我们可以得知，当项目中出现了类似于低劣的设计或者糟糕的代码，倘若程序员不及时去修复时，放着不管，就容易使得负责该项目的人员产生一种随意感，这样做的后果往往会是项目失败的一个较大的原因。</p>
+<p>所以，在项目开始时，不要留着”破窗户”不修。发现一个就修复一个。如果没有足够的时间进行适当的修理，就做一个 to-do-list，亦或者在问题的代码上放入具有警示性的注释，亦或者用虚设的数据（dummy data）加以替代。<strong>采用某种行动防止进一步的损坏，并说明情势仍处于你的控制之下。</strong></p>
+<p>若项目中的每个人员都注重于自身设计的简约，代码的工整，使得项目的结构合理得体，那么身为项目中的一员的你也不愿意去玷污这个工程，即使在项目的最后期限（deadline），也不愿成为第一个弄脏东西的人。</p>
+<hr>
+<h2 id="石头汤与青蛙"><a href="#石头汤与青蛙" class="headerlink" title="石头汤与青蛙"></a>石头汤与青蛙</h2><p>这一章中的故事主要讲述了三个士兵利用人的好奇心，用石头汤换来一顿美味的大餐。</p>
+<h4 id="从士兵的角度思考整个故事"><a href="#从士兵的角度思考整个故事" class="headerlink" title="从士兵的角度思考整个故事"></a>从士兵的角度思考整个故事</h4><p>士兵的角度解析这篇故事有两层寓意。士兵戏弄了村民，他们利用村民的好奇，从他们那里弄到了食物。但更重要的是，士兵充当了催化剂，把村民们团结起来，和他们一起做了他们自己本来做不到的事情。</p>
+<p>在有些情况下，你也许确切地知道需要做什么，以及怎么样去做。整个系统就在你的眼前——你知道它是对的，但请求许可去处理整个事情，你会遇到拖延和漠然。每个人都会护卫他们自己的资源，不轻易去协助，甚至让步。</p>
+<p>这正是拿出“石头”的时候。设计出你可以合理要求的东西，好好开发它。一旦完成雏形之时，可以与人分享，引起他们兴趣，人就自然而然会来帮助你。<strong>人们发现，参与正在发生的成功要更容易。让他们瞥见未来，你就能让他们聚集在你周围。</strong></p>
+<h4 id="从村民的角度思考整个故事"><a href="#从村民的角度思考整个故事" class="headerlink" title="从村民的角度思考整个故事"></a>从村民的角度思考整个故事</h4><p>从故事中，我们知道村民们注意力过度集中，只想着石头，而忘却了自己身处的环境（贫困饥饿）。这种事情就好比温水煮青蛙一般，程序员如果没有观察到项目中的细小变化，而被一些微不足道的事情逐步侵蚀，最终的后果是灾难性的。</p>
+<p><strong>在项目开发中，不要像温水中青蛙一样。要留心大局（big picture）。要持续不断地观察周围发生的事情，而不只是你自己在做的事情。</strong></p>
+<hr>
+<h2 id="足够好的软件"><a href="#足够好的软件" class="headerlink" title="足够好的软件"></a>足够好的软件</h2><blockquote>
+<p>欲求更好，常把好事变糟。                                          —— 李尔王</p>
+</blockquote>
+<p>在现实世界中，我们无法制作出完美的产品，特别是没有任何差错（bug）的软件。但是我们可以训练自己，编写出足够好的软件——对你的用户（功能）、对未来的维护者（文档）、对你自己内心的安宁（满足）来说足够好。</p>
+<p>在编写软件的过程中，我们应当接纳用户的各种各样的意见，让他们参与权衡之中。无视用户的需求，一味地给程序增加新特性，闭门造车，或是一次又一次润饰代码，这不是有职业素养的做法。</p>
+<p>在项目开发过程中，我们应该将项目的范围与质量作为项目需求的一部分规定下来，使之成为需求问题，一步步满足完善。但是同时，我们也不该过度修饰和过于求精而损毁完好的程序。继续前进，让你的代码凭着自己的质量（高可用）站立。<strong>它也许不完美，但你也不用担心，它不可能完美。</strong></p>
+<hr>
+<h2 id="你的知识资产"><a href="#你的知识资产" class="headerlink" title="你的知识资产"></a>你的知识资产</h2><p>在程序员的职业生涯中，知识和经验是你重要的职业财富。遗憾的是，它们是有时效的资产（expiring asset）。随着新的技术、语言及环境的出现，你的知识可能会变得过时。不断变化的市场驱动也许会使你的经验变得陈旧或无关紧要。<strong>随着你的知识的价值降低，对你的公司或者你的客户来说，你的价值也在降低。</strong></p>
+<p>作为程序员，我们将所知道的关于计算技术和他们所工作的应用领域的全部事实，以及他们的所有经验视为他们的知识资产。管理知识资产与管理金融资产非常相似：</p>
+<ul>
+<li><p><strong>严肃的投资者定期投资。</strong></p>
+<p>就像金融投资一样，你必须定期地为你的知识资产投资。即使投资量很小，习惯自身也和总量一样重要。可以通过几种途径累积自己的资本：</p>
+<ul>
+<li><strong>每年至少学习一种新语言。</strong>不同语言以不同的方式解决相同的问题。通过不同的语言，有助于拓宽思维，并避免墨守成规。</li>
+<li><strong>每季度阅读一本技术书籍。</strong>起码至少一个月读一本书。</li>
+<li><strong>也要阅读非技术书籍。</strong></li>
+<li><strong>上课。</strong></li>
+<li><strong>试验不同的环境。</strong></li>
+<li><strong>跟上潮流。</strong>了解时事，抓紧下一次流量窗口。</li>
+</ul>
+</li>
+<li><p><strong>多元化是长期成功的关键。</strong></p>
+<p>你知道的不同的事情越多，你就越有价值。作为底线，你需要知道你目前所用的特定技术的各种特性。但不要就此止步。计算技术的面貌变化地很快——今天热门技术明天就可能变得近乎无用。</p>
+</li>
+<li><p><strong>聪明的投资者在保守的投资和高风险、高回报的投资之间平衡他们的资产。</strong></p>
+<p>从高风险、可能有高回报，到低风险，低回报，技术存在于这样一条谱带中。把你所有的金钱都投入到可能突然崩盘的高风险股票并不是一个很好的主意；你也不应太过于保守，错过可能的机会。不要将你所有的技术鸡蛋放在一个篮子中。</p>
+</li>
+<li><p><strong>投资者设法低买高卖，以获得最大回报。</strong></p>
+<p>在新型的技术流行之前学习它可能就和找到被低估的股票一样困难，但所得到的就会像那样的股票带来的收益一样。</p>
+</li>
+<li><p><strong>应周期性地重新评估和平衡资产。</strong></p>
+<p>充分评估自身所拥有的资产（技术栈），并不断地丰富自己的技术栈，有助于自身的发展。</p>
+</li>
+<li><p><strong>批判地思考你读到的和听到的。</strong></p>
+<p>所见非所得，你需要对不同途径获取的信息，进行批判性地思考，对接受的内容持有怀疑态度，直至被自己证实。</p>
+</li>
+</ul>
+<hr>
+<h2 id="交流"><a href="#交流" class="headerlink" title="交流"></a>交流</h2><p>作为开发者，我们必须在许多层面上进行交流。我们把许多小时花在开会、倾听和交谈上。我们与最终用户一起工作，设法了解他们的需要。我们编写代码，与机器交流我们的意图；把我们的想法变成文档，留给以后的开发者。我们撰写提案和备忘录，用以申请资源并证明其正当性、报告我们的状态、以及提出各种新的办法。我们每天在团队中工作，宣扬我们的主意、修正现有的做法、并提出新的做法。<strong>我们的时间有很大一部分都花在交流上，所以我们需要把它做好。</strong></p>
+<ul>
+<li><p><strong>知道你想说什么。</strong></p>
+<p>规划你想要说的东西。写出大纲。然后问你自己：”这是否讲清了我要说的所有内容？“提炼它，直到确实如此为止。</p>
+</li>
+<li><p><strong>了解你的听众。</strong></p>
+<p>只有当你是在传达令人能够理解的信息时，你才是在进行交流。为此，你需要了解你的听众的需要、兴趣、能力。要在脑海里形成一幅明确的关于你的听众的画面。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">WISDOM</th>
+<th style="text-align:left">译文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">What do you want them to learn?</td>
+<td style="text-align:left">你想让他们学到什么？</td>
+</tr>
+<tr>
+<td style="text-align:left">What is their interest in what you’ve got to say?</td>
+<td style="text-align:left">他们对你讲的什么感兴趣？</td>
+</tr>
+<tr>
+<td style="text-align:left">How sophisticated are they?</td>
+<td style="text-align:left">他们有多少经验？</td>
+</tr>
+<tr>
+<td style="text-align:left">How much detail do they want?</td>
+<td style="text-align:left">他们想要多少细节？</td>
+</tr>
+<tr>
+<td style="text-align:left">Whom do you want to own the information?</td>
+<td style="text-align:left">你想要让谁获得这些信息？</td>
+</tr>
+<tr>
+<td style="text-align:left">How canyou motivate them to to listen to you?</td>
+<td style="text-align:left">你如何使他们听你说话？</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><strong>选择时机。</strong></p>
+<p>为了了解你的听众需要听什么，你需要弄清楚他们的”轻重缓急“是什么。要让你所说的适得其时，在内容上切实相关，满足听众需求。</p>
+</li>
+<li><p><strong>选择风格。</strong></p>
+<p>调整你的交流风格，让其适应你的听众。有人要的是正式的会议简报。另一些人喜欢在进行正题之前高谈阔论一番。</p>
+</li>
+<li><p><strong>让文档美观。</strong></p>
+<p>你的主意固然重要，但是结构良好，思路清晰的文档更容易地让听众接受。</p>
+</li>
+<li><p><strong>让听众参与。</strong></p>
+<p>在项目开发过程中，在尽可能的情况下，让你的读者参与到文档的早起草稿的制作。获取他们的反馈，并汲取他们的智慧。你将建立良好的工作关系，并很可能在此过程中制作出比原先更好的文档。</p>
+</li>
+<li><p><strong>做倾听者。</strong></p>
+<p>如果你想要大家听你说话，你必须使用一种方法：听他们说话。在正式会议中，即使你掌握着全部信息，倘若你只管你自己讲话，是没有任何听众愿意听你讲话的。</p>
+<p>鼓励大家通过提问来交谈，或者让他们总结你告诉他们的东西。把会议变成对话，你将能更有效地阐述你的观点。</p>
+</li>
+<li><p><strong>回复他人。</strong></p>
+<p>及时、随时回复他人，会让他们更容易原谅你偶然的疏忽，并有助于维持一段较为良好的关系。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/29/Linux-LVM磁盘管理/" rel="next" title="Linux LVM磁盘管理">
+                <i class="fa fa-chevron-left"></i> Linux LVM磁盘管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/31/Linux命令-mount与umount/" rel="prev" title="Linux命令 - mount与umount">
+                Linux命令 - mount与umount <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="jianpeng957">
+            
+              <p class="site-author-name" itemprop="name">jianpeng957</p>
+              <p class="site-description motion-element" itemprop="description">沉迷学习无法自拔</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">93</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#注重实效的哲学"><span class="nav-number">1.</span> <span class="nav-text">注重实效的哲学</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#责任"><span class="nav-number">1.1.</span> <span class="nav-text">责任</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件的熵"><span class="nav-number">1.2.</span> <span class="nav-text">软件的熵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#石头汤与青蛙"><span class="nav-number">1.3.</span> <span class="nav-text">石头汤与青蛙</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#从士兵的角度思考整个故事"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">从士兵的角度思考整个故事</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从村民的角度思考整个故事"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">从村民的角度思考整个故事</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#足够好的软件"><span class="nav-number">1.4.</span> <span class="nav-text">足够好的软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你的知识资产"><span class="nav-number">1.5.</span> <span class="nav-text">你的知识资产</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交流"><span class="nav-number">1.6.</span> <span class="nav-text">交流</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jianpeng957</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

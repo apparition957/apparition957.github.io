@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="模式定义 模板模式（Template Pattern）定义一个操作中算法的框架，而将一些步骤延迟到子类中，使得子类可以不改变算法的结构，重新定义算法中的某些特定步骤。   模式结构模板模式包含以下角色：  AbstractClass：抽象类 ConcreteClass：具体类    模式实例123456789101112131415161718192021222324252627282930313">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式笔记 - 模板模式（Template Pattern）">
+<meta property="og:url" content="http://apparition957.github.io/2017/03/18/设计模式笔记-模板模式（Template-Pattern）/index.html">
+<meta property="og:site_name" content="APPARITION957">
+<meta property="og:description" content="模式定义 模板模式（Template Pattern）定义一个操作中算法的框架，而将一些步骤延迟到子类中，使得子类可以不改变算法的结构，重新定义算法中的某些特定步骤。   模式结构模板模式包含以下角色：  AbstractClass：抽象类 ConcreteClass：具体类    模式实例123456789101112131415161718192021222324252627282930313">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F.JPG">
+<meta property="og:updated_time" content="2017-07-31T13:04:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式笔记 - 模板模式（Template Pattern）">
+<meta name="twitter:description" content="模式定义 模板模式（Template Pattern）定义一个操作中算法的框架，而将一些步骤延迟到子类中，使得子类可以不改变算法的结构，重新定义算法中的某些特定步骤。   模式结构模板模式包含以下角色：  AbstractClass：抽象类 ConcreteClass：具体类    模式实例123456789101112131415161718192021222324252627282930313">
+<meta name="twitter:image" content="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://apparition957.github.io/2017/03/18/设计模式笔记-模板模式（Template-Pattern）/">
+
+
+
+
+
+  <title>设计模式笔记 - 模板模式（Template Pattern） | APPARITION957</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">APPARITION957</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2017/03/18/设计模式笔记-模板模式（Template-Pattern）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jianpeng957">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="APPARITION957">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">设计模式笔记 - 模板模式（Template Pattern）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T21:00:20+08:00">
+                2017-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><blockquote>
+<p>模板模式（Template Pattern）定义一个操作中算法的框架，而将一些步骤延迟到子类中，使得子类可以不改变算法的结构，重新定义算法中的某些特定步骤。</p>
+</blockquote>
+<hr>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>模板模式包含以下角色：</p>
+<ul>
+<li>AbstractClass：抽象类</li>
+<li>ConcreteClass：具体类</li>
+</ul>
+<p><img src="http://on83riher.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AC%94%E8%AE%B0%20-%20%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F.JPG" alt="img"></p>
+<hr>
+<h4 id="模式实例"><a href="#模式实例" class="headerlink" title="模式实例"></a>模式实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 此例为实现模板模式的小例子。茶与咖啡同属于咖啡因的种类，两者的冲泡方式也十分相同：煮沸水、添</span><br><span class="line"> * 加咖啡豆（或茶包）、导入杯中、添加调料。利用模板模式，可以将两者的冲泡过程进行抽象泛化。</span><br><span class="line"> */</span><br><span class="line">// AbstractClass - 抽象类</span><br><span class="line">public abstract class CaffeineBeverage &#123;</span><br><span class="line">  	// final - 标记子类无法重载该方法</span><br><span class="line">  	final void prepareRecipe() &#123;</span><br><span class="line">      	boilWater();</span><br><span class="line">      	brew();</span><br><span class="line">      	pourInCup();</span><br><span class="line">      	hook();</span><br><span class="line">      	addCondiments();</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	// 指定子类必须实现以下两个抽象方法</span><br><span class="line">  	abstract void brew();</span><br><span class="line">  	</span><br><span class="line">  	abstract void addCondiments();</span><br><span class="line">  </span><br><span class="line">  	void boilWater() &#123;</span><br><span class="line">      	System.out.println(&quot;Boiling Water!&quot;);</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	void pourInCup() &#123;</span><br><span class="line">      	System.out.println(&quot;Pouring into Cup!&quot;);</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	// hook钩子 - 空方法 - 使算法更具拓展性</span><br><span class="line">  	void hook() &#123;</span><br><span class="line">      	;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ConcreteClass - 具体类</span><br><span class="line">// 茶</span><br><span class="line">public class Tea extends CaffeineBeverage &#123;</span><br><span class="line">  	public void brew() &#123;</span><br><span class="line">      	System.out.println(&quot;Steeping the tea!&quot;);</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public void addCondiments() &#123;</span><br><span class="line">      	System.out.println(&quot;Adding Lemon!&quot;);</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 咖啡</span><br><span class="line">public class Coffee extends CaffeineBeverage &#123;</span><br><span class="line">  	public void brew() &#123;</span><br><span class="line">      	System.out.println(&quot;Dripping Coffee through filter!&quot;);</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public void addCondiments() &#123;</span><br><span class="line">      	System.out.println(&quot;Adding Sugar and Milk!&quot;);</span><br><span class="line">  	&#125;</span><br><span class="line">  </span><br><span class="line">  	public void hook() &#123;</span><br><span class="line">      	System.out.println(&quot;Please give me a spoon!&quot;);</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line">  	public static void main(String[] args) &#123;</span><br><span class="line">      	CaffeineBeverage tea = new Tea();</span><br><span class="line">      	CaffeineBeverage coffee = new Coffee();</span><br><span class="line">      </span><br><span class="line">      	tea.prepareRecipe();</span><br><span class="line">      	coffee.prepareRecipe();</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="模式分析"><a href="#模式分析" class="headerlink" title="模式分析"></a>模式分析</h4><ul>
+<li>通常来说，模板模式中抽象类负责实现模板方法，定义算法的骨架，而具体类实现抽象类中的抽象方法，实现完整的算法。</li>
+</ul>
+<h4 id=""><a href="#" class="headerlink" title=" "></a> </h4><p><strong>模板模式的优点：</strong></p>
+<ul>
+<li>模板模式提供了抽象类专注于算法本身，并定义了算法的大致骨架，使代码的复用最大化。</li>
+<li>子类可以继承模板类，并实现算法所指定的细节，有助于算法的扩展。</li>
+</ul>
+<p><strong>模板模式的缺点：</strong></p>
+<ul>
+<li>抽象类内部的细节若划分太过于细节，将减少子类实现该抽象类的弹性，不易于扩展。</li>
+</ul>
+<hr>
+<h4 id="模式扩展"><a href="#模式扩展" class="headerlink" title="模式扩展"></a>模式扩展</h4><p><strong>模板模式中不一定非要继承抽象类才能够实现算法的复用。</strong>java.util 包中 Array.sort() 静态方法为我们提供了排序的模板，但是我们并不能够继承数组类，所以它要求需要排序的类实现Comparable接口，才能够正常使用该排序。</p>
+<hr>
+<h4 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h4><ul>
+<li><strong>当我创建一个模板方法时，怎么知道什么时候才能使用抽象方法，什么时候用钩子</strong>当你的子类“必须”提供算法中某个方法或步骤的实现时，就使用抽象方法。如果算法的这个部分是可选的，就使用钩子。</li>
+<li><strong>使用钩子的真正目的</strong>钩子可以让子类实现算法中可选的部分，换种角度来说，在钩子对于子类的实现并不重要的时候，子类可以对此置之不理。钩子的另外一个用法，是让子类能够有机会对模板方法中某些即将发生的（或刚刚发生的）步骤做出反应。</li>
+<li><strong>策略模式与模板模式的区别</strong>策略模式与模板模式的思想是封装算法。但策略模式的侧重点在于使用组合，实现算法的替换，而模板模式的侧重点使用继承，实现算法框架的某些细节。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/17/设计模式笔记-外观模式（Facade-Pattern）/" rel="next" title="设计模式笔记 - 外观模式（Facade Pattern）">
+                <i class="fa fa-chevron-left"></i> 设计模式笔记 - 外观模式（Facade Pattern）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/18/大型网站架构演化笔记/" rel="prev" title="大型网站架构演化笔记">
+                大型网站架构演化笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="jianpeng957">
+            
+              <p class="site-author-name" itemprop="name">jianpeng957</p>
+              <p class="site-description motion-element" itemprop="description">沉迷学习无法自拔</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">93</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#模式定义"><span class="nav-number">1.</span> <span class="nav-text">模式定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式结构"><span class="nav-number">2.</span> <span class="nav-text">模式结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式实例"><span class="nav-number">3.</span> <span class="nav-text">模式实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式分析"><span class="nav-number">4.</span> <span class="nav-text">模式分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#null"><span class="nav-number">5.</span> <span class="nav-text"> </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式扩展"><span class="nav-number">6.</span> <span class="nav-text">模式扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-amp-A"><span class="nav-number">7.</span> <span class="nav-text">Q&amp;A</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jianpeng957</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="APPARITION957" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="虽然两者在使用场景上没有可比性，HBase 是非关系型数据库，而 Parquet 是数据存储格式，但是两者却存在相似的概念——列式存储。我在了解 Parquet 的时候，因为列式存储这个概念与 HBase 混淆时，所以特意坐下笔记，记录两者的区别  让我们直入正题，什么是列式存储？相比行式存储又有什么优势呢？   图源来自 http://zhuanlan.51cto.com/art/201703">
+<meta property="og:type" content="article">
+<meta property="og:title" content="列式存储 - HBase vs Parquet">
+<meta property="og:url" content="http://apparition957.github.io/2018/03/24/列式存储 - HBase vs Parquet/index.html">
+<meta property="og:site_name" content="APPARITION957">
+<meta property="og:description" content="虽然两者在使用场景上没有可比性，HBase 是非关系型数据库，而 Parquet 是数据存储格式，但是两者却存在相似的概念——列式存储。我在了解 Parquet 的时候，因为列式存储这个概念与 HBase 混淆时，所以特意坐下笔记，记录两者的区别  让我们直入正题，什么是列式存储？相比行式存储又有什么优势呢？   图源来自 http://zhuanlan.51cto.com/art/201703">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/%E5%88%97%E5%BC%8F%E5%AD%98%E5%82%A8%E4%B8%8E%E8%A1%8C%E5%BC%8F%E5%AD%98%E5%82%A8%20%E5%AF%B9%E6%AF%94%E5%9B%BE.png">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/HBase%20%E6%9E%B6%E6%9E%84%E5%9B%BE.png">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/HBase%20%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F.png">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/Parquet%20%E4%BE%8B%E5%AD%90.png">
+<meta property="og:image" content="http://on83riher.bkt.clouddn.com/Parquet%20%E4%BE%8B%E5%AD%902.png">
+<meta property="og:updated_time" content="2018-03-24T07:06:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="列式存储 - HBase vs Parquet">
+<meta name="twitter:description" content="虽然两者在使用场景上没有可比性，HBase 是非关系型数据库，而 Parquet 是数据存储格式，但是两者却存在相似的概念——列式存储。我在了解 Parquet 的时候，因为列式存储这个概念与 HBase 混淆时，所以特意坐下笔记，记录两者的区别  让我们直入正题，什么是列式存储？相比行式存储又有什么优势呢？   图源来自 http://zhuanlan.51cto.com/art/201703">
+<meta name="twitter:image" content="http://on83riher.bkt.clouddn.com/%E5%88%97%E5%BC%8F%E5%AD%98%E5%82%A8%E4%B8%8E%E8%A1%8C%E5%BC%8F%E5%AD%98%E5%82%A8%20%E5%AF%B9%E6%AF%94%E5%9B%BE.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://apparition957.github.io/2018/03/24/列式存储 - HBase vs Parquet/">
+
+
+
+
+
+  <title>列式存储 - HBase vs Parquet | APPARITION957</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">APPARITION957</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2018/03/24/列式存储 - HBase vs Parquet/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jianpeng957">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="APPARITION957">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">列式存储 - HBase vs Parquet</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-24T15:05:48+08:00">
+                2018-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>虽然两者在使用场景上没有可比性，HBase 是非关系型数据库，而 Parquet 是数据存储格式，但是两者却存在相似的概念——列式存储。我在了解 Parquet 的时候，因为列式存储这个概念与 HBase 混淆时，所以特意坐下笔记，记录两者的区别</p>
+</blockquote>
+<p>让我们直入正题，什么是列式存储？相比行式存储又有什么优势呢？</p>
+<p><img src="http://on83riher.bkt.clouddn.com/%E5%88%97%E5%BC%8F%E5%AD%98%E5%82%A8%E4%B8%8E%E8%A1%8C%E5%BC%8F%E5%AD%98%E5%82%A8%20%E5%AF%B9%E6%AF%94%E5%9B%BE.png" alt=""></p>
+<blockquote>
+<p>图源来自 <a href="http://zhuanlan.51cto.com/art/201703/535729.htm" target="_blank" rel="noopener">http://zhuanlan.51cto.com/art/201703/535729.htm</a></p>
+</blockquote>
+<hr>
+<p>首选先从 HBase 开始讲述。HBase是一个分布式的、面向列的非关系型数据库。它的架构设计如下：</p>
+<p><img src="http://on83riher.bkt.clouddn.com/HBase%20%E6%9E%B6%E6%9E%84%E5%9B%BE.png" alt=""></p>
+<p>简单说明一下：</p>
+<ul>
+<li>HMaster：HBase 主/从架构的主节点。通常在一个 HBase 集群中允许存在多个 HMaster 节点，其中一个节点被选举为 Active Master，而剩余节点为 Backup Master。其主要作用在于：<ul>
+<li>管理和分配 HRegionServer 中的 Region</li>
+<li>管理 HRegionServer 的负载均衡</li>
+</ul>
+</li>
+<li>HRegionServer：HBase 主/从架构的从节点。主要负责响应 Client 端的 I/O 请求，并向底层文件存储系统 HDFS 中读写数据</li>
+<li>HRegion：HBase 通过表中的 RowKey 将表进行水平切割后，会生成多个 HRegion。每个 HRegion 都会被安排到 HRegionServer 中</li>
+<li>Store：每一个 HRegion 有一个或多个 Store 组成，Store 相对应表中的 Column Family（列族）。每个 Store 都由一个 MemStore 以及多个 StoreFile 组成</li>
+<li>MemStore：MemStore 是一块内存区域，其将 Client 对 Store 的所有操作进行存储，并到达一定的阈值时会进行 flush 操作</li>
+<li>StoreFile：MemStore 中的数据写入文件后就成为了 StoreFile，而 StoreFile 底层是以 HFile 为存储格式进行保存的</li>
+<li>HFile：HBase 中 Key-Value 数据的存储格式，是 Hadoop 的二进制文件。其中 Key-Value 的格式为（Table, RowKey, Family, Qualifier, Timestamp）- Value</li>
+</ul>
+<p>HBase 的主要读写方式可以通过以下流程进行：</p>
+<p><img src="http://on83riher.bkt.clouddn.com/HBase%20%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F.png" alt=""></p>
+<p>可以从上述的架构讲述看出，HBase 并非严格意义上的列式存储，而是基于“列族”存储的，所以其是列族的角度进行列式存储。</p>
+<hr>
+<p>Parquet 是面向分析型业务的列式存储格式，其不与某一特定语言绑定，也不与任何一种数据处理框架绑定在一起，其性质类似于 JSON。</p>
+<p>Parquet 相较于 HBase 对数据的处理方式，其将数据当做成一种嵌套数据的模型，并将其结构定义为 schema。每一个数据模型的 schema 包含多个字段，而每个字段又可以包含多个字段。每一字段都有三个属性：repetition、type 和 name，其中 repetition 可以是以下三种：required（出现1次）、optional（出现0次或1次）、repeated（出现0次或多次），而 type 可以是 group（嵌套类型）或者是 primitive（原生类型）。</p>
+<p>举一个典型的例子：</p>
+<p><img src="http://on83riher.bkt.clouddn.com/Parquet%20%E4%BE%8B%E5%AD%90.png" alt=""></p>
+<p>在 Parquet 格式的存储当中，一个 schema 的树结构有几个叶子节点，在实际存储中就有多少个 column。例如上面 schema 的数据存储实际上有四个 column，如下所示：</p>
+<p><img src="http://on83riher.bkt.clouddn.com/Parquet%20%E4%BE%8B%E5%AD%902.png" alt=""></p>
+<p>从上面的图看来，与 HBase 好像没有什么区别，但这只是为了让用户更好的了解数据才这样表示，其内部实现的机制与 HBase 完全不同，而且 Parquet 是真正的基于列式存储。其能够进行列式存储归功于 Striping/Assembly 算法。</p>
+<p>算法我就不详细说了，<a href="http://www.infoq.com/cn/articles/in-depth-analysis-of-parquet-column-storage-format" target="_blank" rel="noopener">这篇文章</a>讲的很详细，我就不献丑了。</p>
+<hr>
+<p>参考资料：</p>
+<ol>
+<li>HBase 权威指南</li>
+<li><a href="http://blog.javachen.com/2013/06/15/hbase-note-about-data-structure.html" target="_blank" rel="noopener">HBase笔记：存储结构</a></li>
+<li><a href="http://www.infoq.com/cn/articles/in-depth-analysis-of-parquet-column-storage-format" target="_blank" rel="noopener">深入分析Parquet列式存储格式</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/19/Scala - identity() 函数/" rel="next" title="Scala - identity() 函数">
+                <i class="fa fa-chevron-left"></i> Scala - identity() 函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/01/Spark - 由 foreach 引发的思考/" rel="prev" title="Spark - 由 foreach 引发的思考">
+                Spark - 由 foreach 引发的思考 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="jianpeng957">
+            
+              <p class="site-author-name" itemprop="name">jianpeng957</p>
+              <p class="site-description motion-element" itemprop="description">沉迷学习无法自拔</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">93</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jianpeng957</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
