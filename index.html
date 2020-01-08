@@ -10,6 +10,7 @@
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
 
 
 
@@ -36,36 +37,11 @@
 
 
 
+
   
   
   <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
 
 
 
@@ -74,7 +50,22 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
 
 
   <meta name="keywords" content="Hexo, NexT">
@@ -84,11 +75,6 @@
 
 
   <link rel="alternate" href="/atom.xml" title="APPARITION957" type="application/atom+xml">
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
 
 
 
@@ -113,9 +99,11 @@
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -148,12 +136,6 @@
 
 
 
-
-
-
-
-
-
 </head>
 
 <body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -164,8 +146,7 @@
   
 
   <div class="container sidebar-position-left 
-   page-home 
- ">
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -211,16 +192,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
-            
-            分类
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -258,7 +229,11 @@
   
   
 
-  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2020/01/07/《The-Dataflow-Model》论文翻译/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -319,6 +294,9 @@
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -327,31 +305,354 @@
       
         
           
+            <blockquote>
+<p><strong>The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领域的具有指导性意义的论文，它对数据集特征和相应的计算方式进行了归纳总结，并针对大规模/无边界/乱序数据集，提出一种可以平衡准确性/延迟/处理成本的数据模型。这篇论文的目的不在于解决目前流计算引擎无法解决的问题，而是提供一个灵活的通用数据模型，可以无缝地切合不同的应用场景。</strong>（来源于：<a href="http://www.whitewood.me/2018/05/07/The-Dataflow-Model-论文总结/" target="_blank" rel="noopener">时间与精神小屋的论文总结</a>）</p>
+<p>本论文是通过机翻+人翻结合一起的，里面包含大量的长句，如果纯人翻的话，完全啃下来有点难！</p>
+</blockquote>
+<h2 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h2><p>Unbounded, unordered, global-scale datasets are increasingly common in day-to-day business (e.g. Web logs, mobileusage statistics, and sensor networks). At the same time,consumers of these datasets have evolved sophisticated requirements, such as event-time ordering and windowing by features of the data themselves, in addition to an insatiable hunger for faster answers. Meanwhile, practicality dictates that one can never fully optimize along all dimensions of correctness, latency, and cost for these types of input. As a result, data processing practitioners are left with the quandary of how to reconcile the tensions between these seemingly competing propositions, often resulting in disparate implementations and systems.</p>
+<blockquote>
+<p>无边界的、无序的、全球范围的数据集在日常业务中越来越普遍（例如，Web日志，移动设备使用情况统计信息和传感器网络）。 同时，这些数据集的消费者已经提出了更加复杂的需求，例如基于event-time（事件时间）的排序和数据特征本身的窗口聚合，以满足消费者对于快速消费数据的庞大需求。与此同时，从实用性的角度出发，对于以上提到的数据集，我们永远无法在准确（correctness），延迟（latency）和成本（cost）等所有维度上进行全面优化。 最后，数据处理人员需要在这些看似冲突的方面之间做出妥协与调和，而这些做法往往会产生不同的实现与框架。</p>
+</blockquote>
+<p>We propose that a fundamental shift of approach is necessary to deal with these evolved requirements in modern data processing. We as a field must stop trying to groom unbounded datasets into finite pools of information that eventually become complete, and instead live and breathe under the assumption that we will never know if or when we have seen all of our data, only that new data will arrive, old data may be retracted, and the only way to make this problem tractable is via principled abstractions that allow the practitioner the choice of appropriate tradeoffs along the axes of interest: correctness, latency, and cost.</p>
+<blockquote>
+<p>我们认为有关于数据处理的方法必须得到根本性的改变，以应对现代数据处理中这些不断发展的需求。作为流式处理的领域中，我们必须停止尝试将无边界的数据集归整成完整的、有限的信息池，因为在一般的情况下，我们永远不知道是否或者何时能看到所有的数据。使得该问题变得易于解决的唯一方法就是通过一些规则上的抽象，使得数据处理人员能够从准确（correctness），延迟（latency）和成本（cost）几个维度做出妥协。</p>
+</blockquote>
+<p>In this paper, we present one such approach, the Dataflow Model, along with a detailed examination of the semantics it enables, an overview of the core principles that guided its design, and a validation of the model itself via the real-world experiences that led to its development.</p>
+<blockquote>
+<p>在本文中，我们提出了一种这样的方法，The Dataflow Model，并对其支持的语义进行了详细的审视，概述其设计指导的核心原则，并通过实际的开发经验验证了模型本身的可行性。</p>
+</blockquote>
+<h2 id="1-INTRODUCTION"><a href="#1-INTRODUCTION" class="headerlink" title="1. INTRODUCTION"></a>1. INTRODUCTION</h2><p>Modern data processing is a complex and exciting field. From the scale enabled by MapReduce  and its successors(e.g Hadoop, Pig, Hive, Spark), to the vast body of work on streaming within the SQL community (e.g.query systems, windowing, data streams,time domains, semantic models), to the more recent forays in low-latency processing such as Spark Streaming, MillWheel, and Storm, modern consumers of data wield remarkable amounts of power in shaping and taming massive-scale disorder into organized structures with far greater value. Yet, existing models and systems still fall short in a number of common use cases.</p>
+<blockquote>
+<p>现代数据处理是一个复杂且令人兴奋的领域。从MapReduce及其继承者（e.g. Hadoop，Pig，Hive，Spark）实现的大规模运算，到SQL社区对流式处理做出的巨大工作（e.g. 查询系统（query system），窗口（windowing），数据流（data streams），时间域（time domains），语义模型（semantic model）），再到近期如Spark Streaming，MillWheel和Storm对于低延迟数据处理的初步尝试，现代数据的消费者挥舞着庞大的力量，尝试将大规模的、无序的海量数据规整为具有巨大价值的、易于管理的结构当中。然而，现有的模型和系统在许多常见的用例仍然存在不足的地方。</p>
+</blockquote>
+<p>Consider an initial example: a streaming video provider wants to monetize their content by displaying video ads and billing advertisers for the amount of advertising watched. The platform supports online and offline views for content and ads. The video provider wants to know how much to bill each advertiser each day, as well as aggregate statistics about the videos and ads. In addition, they want to efficiently run offline experiments over large swaths of historical data.</p>
+<blockquote>
+<p>考虑一个比较简单的例子：流视频提供者希望通过展示视频广告来使其视频内容能够盈利，并且通过广告的观看量对广告商收取一定的费用。该平台同时支持在线和离线观看视频和广告。视频提供者想要知道每天应向每个广告商收取多少费用，以及所有视频和广告的统计情况。此外，他们还希望能够有效率地对大量的历史数据进行离线实验。</p>
+</blockquote>
+<p>Advertisers/content providers want to know how often and for how long their videos are being watched, with which content/ads, and by which demographic groups. They also want to know how much they are being charged/paid. They want all of this information as quickly as possible, so that they can adjust budgets and bids, change targeting, tweak campaigns, and plan future directions in as close to realtime as possible.  Since money is involved, correctness is paramount.</p>
+<blockquote>
+<p>而广告商/内容提供商想要知道他们的视频被观看的频率和时长，观看的内容/广告是什么，观看的人群是什么。他们也想知道他们需要为此要付出多少费用。他们希望尽可能快地获得所有这些信息，这样他们就可以调整预算和投标，改变目标，调整活动，并尽可能实时地规划未来的方向。因为涉及到钱，所以系统上设计时需要首要重点考虑其准确性。</p>
+</blockquote>
+<p>Though data processing systems are complex by nature,the video provider wants a programming model that is simple and flexible. And finally, since the Internet has so greatly expanded the reach of any business that can be parceled along its backbone, they also require a system that can handle the diaspora of global scale data.</p>
+<blockquote>
+<p>虽然数据处理系统本质上是复杂的，但是视频提供商却想要一个简单而灵活的编程模型。最后，由于互联网极大地扩展了任何可以沿着其主干分布的业务的范围，他们还需要一个能够处理全球范围内所有分散数据的系统。</p>
+</blockquote>
+<p>The information that must be calculated for such a usecase is essentially the time and length of each video viewing,who viewed it, and with which ad or content it was paired(i.e.  per-user, per-video viewing sessions).  Conceptually this is straightforward, yet existing models and systems all fall short of meeting the stated requirements.</p>
+<blockquote>
+<p>对于这样的一个用例，必须计算的信息本质上等同于每个视频观看的时长、谁观看了它，以及它与哪个广告或内容配对(e.g. 每个用户，每个视频观看会话)。从概念上讲，这很简单，但是现有的模型和系统都不能满足上述提到的需求。</p>
+</blockquote>
+<p>Batch systems such as MapReduce (and its Hadoop vari-ants, including Pig and Hive), FlumeJava, and Spark suffer from the latency problems inherent with collecting all input data into a batch before processing it. For many streaming systems, it is unclear how they would remain fault-tolerantat scale (Aurora, TelegraphCQ, Niagara, Esper). Those that provide scalability and fault-tolerance fall short on expressiveness or correctness vectors.  </p>
+<blockquote>
+<p>诸如MapReduce（及其Hadoop变体，包括Pig和Hive），FlumeJava和Spark之类的批处理系统都碰到了在批处理之前需要将所有输入数据导入系统时所带来的延迟问题。对于许多流系统，我们无法清晰地知道他们是如何构建大规模的容错机制（Aurora，TelegraphCQ，Niagara，Esper），而那些提供可伸缩性和容错性的系统则在表达性或准确性方面上表现不足。</p>
+</blockquote>
+<p>Many lack the ability to provide exactly-once semantics (Storm, Samza, Pulsar), impacting correctness. Others simply lack the temporal primitives necessary for windowing(Tigon), or provide windowing semantics that are limited to tuple- or processing-time-based windows (Spark Streaming, Sonora, Trident). </p>
+<blockquote>
+<p>许多框架都缺乏提供exactly-once语义的能力（Storm，Samza，Pulsar），从而影响了数据的准确性。 而其他框架则缺少窗口所必需的时间原语（Tigon），或提供仅限于以元组（tuple-）或处理时间（processing-time）为基础的窗口语义（Spark Streaming，Sonora，Trident）。 </p>
+</blockquote>
+<p>Most that provide event-time-based windowing either rely on ordering (SQLStream),or have limited window triggering semantics in event-time mode (Stratosphere/Flink). CEDR and Trill are note worthy in that they not only provide useful triggering semantics via punctuations, but also provide an overall incremental model that is quite similar to the one we propose here; however, their windowing semantics are insufficient to express sessions, and their periodic punctuations are insufficient for some of the use cases in Section3.3.  MillWheel and Spark Streaming are both sufficiently scalable, fault-tolerant, and low-latency to act as reasonable substrates, but lack high-level programming models that make calculating event-time sessions straightforward.</p>
+<blockquote>
+<p>大多数框架提供的基于 event-time 的窗口机制要么依赖于排序（SQLStream），要么在event-time 模式下提供有限的窗口触发语义（Stratosphere / Flink）。值得一提的是，CEDR 和 Trill不仅可以通过标点符号（punctuations）提供有效的窗口触发语义，而且还提供了一个整体增量（overall incremental）的模型，该模型与我们此处提到的模型非常相似。然而，它们的窗口语义并不足以表达会话（sessions），并且它们的周期性标点符号不足以满足3.3节中的某些用例。MillWhell 和 Spark Streaming 都具有伸缩性，容错性和低延迟性，作为流框架合理的基础架构，但是其缺少能够让基于 event-time 的会话计算变得通俗易懂的高级编程模型。</p>
+</blockquote>
+<p>The only scalable system we are aware of that supports a high-level notion of unaligned windows such as sessions is Pulsar, but that system fails to provide correctness, as noted above. Lambda Architecture systems can achieve many of the desired requirements, but fail on the simplicity axis on account of having to build and maintain two systems. Summingbird ameliorates this implementation complexity by abstracting the underlying batch and streaming systems behind a single interface, but in doing so imposes limitations on the types of computation that can be performed, and still requires double the operational complexity.</p>
+<blockquote>
+<p>我们观察到唯一具有伸缩性，并且支持未对齐窗口（例如会话）这种高级概念的流数据系统是Pulsar，但是如上所述，该系统无法提供准确性。Lambda架构体系可以满足许多我们期望的要求，但是由于必须构建和维护两套系统，因此其在简单性这一维度上就注定失败。Summingbird通过在单一接口背后抽象底层的批系统和流系统，来改善其实现的复杂性，但是这样做会限制其可以执行的计算类型，并且仍会有两倍的操作复杂性。</p>
+</blockquote>
+<p>None of these short comings are intractable, and systems in active development will likely overcome them in due time. But we believe a major shortcoming of all the models and systems mentioned above (with exception given to CEDR and Trill), is that they focus on input data (unbounded orotherwise) as something which will at some point become complete. We believe this approach is fundamentally flawed when the realities of today’s enormous, highly disordered datasets clash with the semantics and timeliness demanded by consumers. We also believe that any approach that is to have broad practical value across such a diverse and variedset of use cases as those that exist today (not to mention those lingering on the horizon) must provide simple, but powerful, tools for balancing the amount of correctness, latency, and cost appropriate for the specific use case at hand. </p>
+<blockquote>
+<p>这些缺点都不是很难解决的，积极开发中的系统很可能会在适当的时候攻克它们。 但是我们认为，上述所有模型和系统（CEDR和Trill除外）的一个主要缺点是，它们只专注于那些最终在某些时刻达到完整的输入数据（无界或其他）。 我们认为，当现今庞大且高度混乱的数据集与消费者要求的语义和及时性发生冲突时，这种方法从根本上是有缺陷的。 我们还认为，任何在如今多样的用例中都具有广泛实用价值的方法（更不用说那些长期存在的用例）必须提供简单但强大的工具来平衡准确性，低延迟性和适合于特定用例的成本。</p>
+</blockquote>
+<p>Lastly, we believe it is time to move beyond the prevailing mindset of an execution engine dictating system semantics; properly designed and built batch, micro-batch, and streaming systems can all provide equal levels of correctness, and all three see widespread use in unbounded data processing today. Abstracted away beneath a model of sufficient generality and flexibility, we believe the choice of execution engine can become one based solely on the practical underlying differences between them: those of latency and resource cost. </p>
+<blockquote>
+<p>最后，我们认为是时候超越执行引擎决定系统语义的主流思维了。 经过正确设计和构建的批处理，微批处理和流传输系统都可以提供同等程度的准确性，并且这三者在当今的无边界数据处理中都可以得到了广泛使用。 在具有足够通用性和灵活性的模型下进行抽象，我们认为执行引擎的选择可以仅基于它们之间的实际潜在差异（即延迟和资源成本）进行选择。</p>
+</blockquote>
+<p>Taken from that perspective, the conceptual contribution of this paper is a single unified model which:</p>
+<ul>
+<li>Allows  for  the  calculation  of  event-time ordered  results,  windowed  by  features  of  the  data  themselves, over an unbounded, unordered data source, with correctness, latency, and cost tunable across a broad spectrum of combinations.</li>
+<li>Decomposes  pipeline  implementation  across  four  related dimensions, providing clarity, composability, andflexibility:<ul>
+<li>– <strong>What</strong> results are being computed.</li>
+<li>– <strong>Where</strong> in event time they are being computed.</li>
+<li>– <strong>When</strong> in processing time they are materialized.</li>
+<li>– <strong>How</strong> earlier results relate to later refinements.</li>
+</ul>
+</li>
+<li>Separates  the  logical  notion  of  data  processing  from the underlying physical implementation, allowing the choice  of  batch,  micro-batch,  or  streaming  engine  to become one of simply correctness, latency, and cost.</li>
+</ul>
+<blockquote>
+<p>从这个角度来看，本文提出了一个单一且统一的模型概念，即：</p>
+<ul>
+<li>允许计算event-time排序的结果，并根据数据本身的特征在无边界，无序的数据源上进行窗口化，其准确性，延迟和成本可在多种组合中调整。</li>
+<li>分解四个跨维度相关的管道实现，以提供清晰性，可组合性和灵活性：<ul>
+<li>– What 正在计算<strong>什么</strong>结果。</li>
+<li>– Where 在事件发生时，它们被计算<strong>在哪里</strong>。</li>
+<li>– When <strong>何时</strong>在prcoessing-time内实现。</li>
+<li>– How 早期的结果<strong>如何</strong>与后来的改进相联系。</li>
+</ul>
+</li>
+<li>将数据处理的逻辑概念与底层物理实现分开，允许批处理，微批处理或流引擎的选择成为准确性，延迟和成本中的一种。</li>
+</ul>
+</blockquote>
+<p>Concretely, this contribution is enabled by the following:</p>
+<ul>
+<li><strong>A windowing model</strong> which supports unaligned event-time windows, and a simple API for their creation and use (Section 2.2).</li>
+<li><strong>A triggering model</strong> that binds the output times of results to runtime characteristics of the pipeline, with a powerful and flexible declarative API for describing desired triggering semantics (Section 2.3).</li>
+<li>An <strong>incremental processing model</strong> that integrates retractions and updates into the windowing and triggering models described above (Section 2.3).</li>
+<li><strong>Scalable implementations</strong> of  the  above  atop  the MillWheel streaming engine and the FlumeJava batch engine, with an external reimplementation for GoogleCloud  Dataflow,  including  an  open-source  SDK that is runtime-agnostic (Section 3.1).</li>
+<li>A  set  of <strong>core principles</strong> that  guided  the  design  of this model (Section 3.2).</li>
+<li>Brief discussions of our <strong>real-world experiences</strong> with massive-scale,  unbounded,  out-of-order  data  processing at Google that motivated development of this model(Section 3.3).</li>
+</ul>
+<blockquote>
+<p>具体来说，这一模型可由下面几个概念形成：</p>
+<ul>
+<li><strong>窗口模型（A windowing model）</strong>。支持未对齐的event-time窗口，以及提供易于创建和使用窗口 API 的模型(章节2.2)。</li>
+<li><strong>触发模型（A triggering model ）</strong>。将输出的时间结果与具有运行特性的管道进行绑定，并提供功能强大且灵活的声明性 API，用于描述所需的触发语义（章节2.3）。</li>
+<li><strong>增量处理模型（incremental processing model）</strong>。将数据回撤功能和数据更新功能集成到上述窗口和触发模型中（章节2.3）。</li>
+<li><strong>可扩展的实现（Scalable implementations）</strong>。在MillWheel流引擎和FlumeJava批处理引擎之上的可扩展实现以及对GoogleCloud Dataflow的外部重新实现，包括与运行时无关的开源SDK（章节3.1）。</li>
+<li><strong>核心原则（core principles）</strong>。用于指导该模型设计的一组核心原则(章节3.2)。</li>
+<li><strong>真实经验（ real-world experiences ）</strong>。简要讨论了我们在Google上使用大规模，无边界，无序数据处理的真实经验，这些经验推动了该模型的发展（章节3.3）。</li>
+</ul>
+</blockquote>
+<p>It is lastly worth noting that there is nothing magical about this model.  Things which are computationally impractical in existing strongly-consistent batch, micro-batch, streaming, or Lambda Architecture systems remain so, with the inherent constraints of CPU, RAM, and disk left steadfastly in place. What it does provide is a common framework that allows for the relatively simple expression of parallel computation in a way that is independent of the underlying execution engine, while also providing the ability to dial in precisely the amount of latency and correctness for any specific problem domain given the realities of the data and resources at hand. In that sense, it is a model aimed at ease of use in building practical, massive-scale data  processing pipelines.</p>
+<blockquote>
+<p>最后值得注意的是，这个模型没有什么神奇之处。在现有的强一致批处理、微批处理、流处理或Lambda体系结构系统中，那些不现实的东西依旧存在，CPU、RAM和 Disk的固有约束仍然稳定存在。它所提供的是一个通用的框架，该框架允许以独立于底层执行引擎的方式对并行计算进行相对简单的表达，同时还提供了在现有数据和资源下，为任何特定问题精确计算延迟和准确性的能力。从某种意义上说，它是一种旨在易于使用的模型，可用于构建实用的大规模数据处理管道。</p>
+</blockquote>
+<h3 id="1-1-Unbounded-Bounded-vs-Streaming-Batch"><a href="#1-1-Unbounded-Bounded-vs-Streaming-Batch" class="headerlink" title="1.1  Unbounded/Bounded vs Streaming/Batch"></a>1.1  Unbounded/Bounded vs Streaming/Batch</h3><p>When describing infinite/finite data sets, we prefer the terms unbounded/bounded over streaming/batch, because the latter terms carry with them an implication of the use of a specific type of execution engine. In reality, unbounded datasets have been processed using repeated runs of batch systems since their conception, and well-designed streaming systems are perfectly capable of processing bounded data. From the perspective of the model, the distinction of streaming or batch is largely irrelevant, and we thus reserve those terms exclusively for describing runtime execution engines.</p>
+<blockquote>
+<p>当描述无限/有限数据集时，我们首选“无界/有界”这一术语而不是“流/批处理”，因为后者会带来使用特定类型执行引擎的隐含含义。 实际上，自从无边界数据集的概念诞生以来，就已经使用批处理系统的重复运行对其进行了处理，而精心设计的流系统则完全能够处理有边界的数据。 从模型的角度来看，流或批处理的区别在很大程度上是无关紧要的，因此，我们保留了那些专门用于描述运行时执行引擎的术语。</p>
+</blockquote>
+<h3 id="1-2-Windowing"><a href="#1-2-Windowing" class="headerlink" title="1.2  Windowing"></a>1.2  Windowing</h3><p>Windowing slices up a dataset into finite chunks for processing as a group. When dealing with unbounded data, windowing is required for some operations (to delineate finite boundaries in most forms of grouping: aggregation,outer joins, time-bounded operations, etc.), and unnecessary for others (filtering, mapping, inner joins, etc.).  For bounded data, windowing is essentially optional, though still a semantically useful concept in many situations (e.g. back-filling large scale updates to portions of a previously computed unbounded data source). </p>
+<blockquote>
+<p>窗口化（Windowing）将数据集切成有限的数据块，以作为一组进行处理。 处理无边界数据时，某些操作（在大多数分组形式中描绘有限边界：聚合，外部联接，有时间限制的操作等）需要窗口化，而其他操作（过滤，映射，内部联接等）则不需要。 对于有界数据，窗口化在本质上是可选的，尽管在许多情况下仍然是语义上十分有用的概念（例如，回填大规模数据更新到先前计算的无界数据源的某些部分中）。</p>
+</blockquote>
+<p>Windowing is effectively always time based, while many systems support tuple-based windowing, this is essentially time-based windowing over a logical time domain where elements in order have successively increasing logical timestamps. Windows may be either aligned, i.e. applied across all the data for the window of time in question, or unaligned, i.e.  applied across only specific subsets of the data (e.g. per key) for the given window of time. Figure 1 highlights three of the major types ofwindows encountered when dealing with unbounded data.</p>
+<blockquote>
+<p>实际上，窗口化总是基于时间的，虽然许多系统支持基于元组的窗口，但这本质上还是基于时间的窗口，并在逻辑时间域上，元素按顺序依次增加逻辑时间戳。窗口可以是对齐的，即在时间窗口中应用所有数据，也可以是未对齐的，即在给定时间窗口中只应用数据的特定子集(例如，每个键值)。图1突出显示了在处理无界数据时遇到的三种主要windows类型。</p>
+</blockquote>
+<p><img src="/2020/01/07/《The-Dataflow-Model》论文翻译/image-20200107205851307.png" alt="Figure 1: Common Windowing Patterns" style="zoom:50%;"></p>
+<p><strong>Fixed</strong> windows (sometimes called tumbling windows) are defined by a static window size, e.g. hourly windows or daily windows.  They are generally aligned, i.e. every window applies across all of the data for the corresponding period of time. For the sake of spreading window completion load evenly across time, they are sometimes unaligned by phase shifting the windows for each key by some random value.</p>
+<blockquote>
+<p><strong>固定窗口（有时称为翻滚窗口）</strong>。固定窗口由静态窗口大小定义，例如每小时一次或每天一次。 它们通常是对齐的，即每个窗口都在相应的时间段内应用于所有数据。为了使窗口完成时间均匀地分布在整个时间上，有时通过将每个键的窗口位移某个随机值来使它们不对齐。</p>
+</blockquote>
+<p><strong>Sliding</strong> windows are defined by a window size and slide period, e.g. hourly windows starting every minute.  The period may be less than the size, which means the windows may overlap.  Sliding windows are also typically aligned; even though the diagram is drawn to give a sense of sliding motion, all five windows would be applied to all three keys inthe diagram, not just Window 3. Fixed windows are really a special case of sliding windows where size equals period.</p>
+<blockquote>
+<p><strong>滑动窗口</strong>。滑动窗口由窗口大小和滑动周期定义，例如每分钟启动一次统计每小时的窗口。周期可能会小于窗口大小，这意味着窗口之间可能会发生重叠。 滑动窗口通常也会对齐，即使绘制该图给人提供一种滑动的感觉，所有五个窗口也将应用于该图中的所有三个键，而不仅仅是窗口3。固定窗口实际上是窗口大小等于滑动周期大小的滑动窗口的一种特殊情况。</p>
+</blockquote>
+<p><strong>Sessions</strong> are windows that capture some period of activity over a subset of the data, in this case per key. Typically they are defined by a timeout gap. Any events that occur within a span of time less than the timeout are grouped together as a session. Sessions are unaligned windows. For example, Window 2 applies to Key 1 only, Window 3 to Key2 only, and Windows 1 and 4 to Key 3 only.</p>
+<blockquote>
+<p><strong>会话窗口。</strong>会话是捕获数据子集（在此情况下为每个键值）的一段时间活动的窗口。 通常，它们由超时时间间隔定义的。 在小于超时的时间间隔范围内发生的任何事件都被归为一个会话。 会话是未对齐的窗口。 例如，窗口2仅适用于键1，窗口3仅适用于键2，窗口1和4仅适用于键3。</p>
+</blockquote>
+<h3 id="1-3-Time-Domains"><a href="#1-3-Time-Domains" class="headerlink" title="1.3  Time Domains"></a>1.3  Time Domains</h3><p>When processing data which relate to events in time, there are two inherent domains of time to consider. Though captured in various places across the literature (particularly time management  and semantic models, but also windowing, out-of-order processing, punctuations, heartbeats, watermarks, frames), the detailed examples in section 2.3 will be easier to follow with the concepts clearly in mind. The two domains of interest are:</p>
+<ul>
+<li><strong>Event Time</strong>, which is the time at which the event itself actually occurred, i.e. a record of system clock time (for whatever system generated the event) at the time of occurrence.</li>
+<li><strong>Processing Time</strong>, which is the time at which an event is observed at any given point during processing within the pipeline, i.e.  the current time according to the system clock. Note that we make no assumptions about clock synchronization within a distributed system.</li>
+</ul>
+<blockquote>
+<p>在处理与时间事件相关的数据时，需要考虑两个固有的时间域。虽然在文献的不同地方都已经提到过（特别是时间管理和语义模型，但也有窗口，无序处理，标点（punctuations），心跳，水印（watermarks），帧（frame）），详细的例子在章节2.3中展示，其将有助于帮助我们在脑海中更加清晰地掌握它。以下两个时间领域我们所关心的是：</p>
+<ul>
+<li><strong>事件时间（Event Time）。</strong>即事件本身实际发生的时间，即系统时钟时间（对于生成事件的任何系统）在事件发生时的记录。</li>
+<li><strong>处理时间 （Processing Time）。</strong>这是在流水线内处理期间在任何给定点观察到事件的时间，即根据系统时钟的当前时间。 注意，我们不对分布式系统中的时钟同步做任何假设。</li>
+</ul>
+</blockquote>
+<p>Event time for a given event essentially never changes,but processing time changes constantly for each event as it flows through the pipeline and time marches ever forward. This is an important distinction when it comes to robustly analyzing events in the context of when they occurred.</p>
+<blockquote>
+<p>给定事件的事件时间在本质上是不会改变，但是处理时间会随着事件在管道中的流动而不断变化，时间会不断前进。这是一个重要的区别，当它在事件发生的背景下进行清晰地分析时。</p>
+</blockquote>
+<p>During processing, the realities of the systems in use (communication delays, scheduling algorithms, time spent processing, pipeline serialization, etc.)  result in an inherent and dynamically changing amount of skew between the two domains. Global progress metrics, such as punctuations or watermarks, provide a good way to visualize this skew. For our purposes, we’ll consider something like MillWheel’swa-termark, which is a lower bound (often heuristically established) on event times that have been processed by the pipeline. As we’ve made very clear above, notions of completeness are generally incompatible with correctness, so we won’t rely on watermarks as such. They do, however, provide a useful notion of when the system thinks it likely that all data up to a given point in event time have been observed,and thus find application in not only visualizing skew, but in monitoring overall system health and progress, as well as making decisions around progress that do not require complete accuracy, such as basic garbage collection policies.</p>
+<blockquote>
+<p>在处理过程中，市面上所有系统都会因为某些原因（通信延迟，调度算法，处理所花费的时间，流水线序列化等）导致两个时间域之间存在固有的，动态变化的偏移量。 诸如标点（punctuations）或水印（watermarks）之类的全局进度指标提供了一种可视化这种偏移量的好方法。为了我们的目的，我们将考虑使用MillWheel的水印，这是管道已处理的事件时间的下限（通常是启发式确定的）。 正如我们在上面非常清楚地指出的那样，完整性的概念通常与准确性是不兼容，因此我们不会像这样依赖水印。 但是，它们确实提供了一个有用的概念，即系统可在所有的数据中，观察那些给定的事件时间节点上的数据，因此不仅可以用于可视化其偏移量，而且可以用于监视整个系统的运行状况和进度， 以及围绕整体进度做出不要求准确性的决策，例如基本的垃圾回收策略。</p>
+</blockquote>
+<p>In an ideal world, time domain skew would always bezero; we would always be processing all events immediately as they happen. Reality is not so favorable, however, and often what we end up with looks more like Figure 2. Starting around 12:00, the watermark starts to skew more away from real time as the pipeline lags, diving back close to real time around 12:02, then lagging behind again noticeably by the time 12:03 rolls around.  This dynamic variance in skew is very common in distributed data processing systems, and will play a big role in defining what functionality is necessary for providing correct, repeatable results.</p>
+<p><img src="/2020/01/07/《The-Dataflow-Model》论文翻译/image-20200107215424077.png" alt="Figure 2: Time Domain Skew" style="zoom: 50%;"></p>
+<blockquote>
+<p>在理想的世界中，时间域的偏移量将始终为零，即我们将始终在事件发生时立即处理所有事件。但是，现实情况并非如此，通常，我们最终得到的结果看起来更像图2。从12:00开始，随着管线的滞后，水印开始偏离实时更多，然后回到接近实时12:02，然后到12:03时，又明显落后了。 时间偏移量的动态差异在分布式数据处理系统中非常常见，并且在定义提供准确，可重复的结果所需的功能方面将发挥重要作用。</p>
+</blockquote>
+<h2 id="2-DATAFLOW-MODEL"><a href="#2-DATAFLOW-MODEL" class="headerlink" title="2. DATAFLOW MODEL"></a>2. DATAFLOW MODEL</h2><p>In this section, we will define the formal model for the system and explain why its semantics are general enough to subsume the standard batch, micro-batch, and streaming models, as well as the hybrid streaming and batch semantics of the Lambda Architecture. For code examples, we will usea simplified variant of the Dataflow Java SDK, which itself is an evolution of the FlumeJava API.</p>
+<blockquote>
+<p>在本节中，我们将定义系统的正式模型，并解释为什么它的语义足够通用到可以包含标准批处理、微批处理和流模型，以及Lambda架构的混合流处理和批处理语义。对于代码示例，我们将使用Dataflow Java SDK的简化变体，它本身是FlumeJava API的演化。</p>
+</blockquote>
+<h3 id="2-1-Core-Primitives"><a href="#2-1-Core-Primitives" class="headerlink" title="2.1 Core Primitives"></a>2.1 Core Primitives</h3><p>To begin with, let us consider primitives from the classic batch model. The Dataflow SDK has two core transforms that operate on the (key, value) pairs flowing through the system:</p>
+<ul>
+<li><p><strong><em>ParDo</em></strong> for generic parallel processing. Each input element to be processed (which itself may be a finite collection) is provided to a user-defined function (called a <em>DoFn</em> in Dataflow), which can yield zero or more out-put elements per input. For example, consider an operation which expands all prefixes of the input key, duplicating the value across them:</p>
+<p><img src="/2020/01/07/《The-Dataflow-Model》论文翻译/image-20200107220503810.png" alt="image-20200107220503810" style="zoom:50%;"></p>
+</li>
+<li><p><strong><em>GroupByKey</em></strong> for key-grouping (key, value) pairs.</p>
+</li>
+</ul>
+<p><img src="/2020/01/07/《The-Dataflow-Model》论文翻译/image-20200107220520181.png" alt="image-20200107220520181" style="zoom:50%;"></p>
+<blockquote>
+<p>首先，让我们考虑经典批处理模型中的原语。Dataflow SDK有两个核心转换（transforms），它们对流经系统的（key、value）对进行操作：</p>
+<ul>
+<li><strong><em>ParDo</em></strong>。<em>ParDo</em>用于通用并行处理。每个输入元素（它本身可能是一个有限的集合）均会被用户自定义的函数（在数据流中称为<em>DoFn</em>）所处理，该函数可以为每个输入生成零个或多个输出元素。例如，考虑这样一个操作，它展开输入key的所有前缀，在它们之间复制所有的value</li>
+<li><strong><em>GroupByKey</em></strong>。<em>GroupByKey</em>用来基于 key键将数据进行聚合</li>
+</ul>
+</blockquote>
+<p>The <em>ParDo</em> operation operates element-wise on each input element, and thus translates naturally to unbounded data.The <em>GroupByKey</em> operation, on the other hand, collects all data for a given key before sending them downstream for reduction.  If the input source is unbounded, we have no way of knowing when it will end. The common solution to this problem is to window the data.</p>
+<blockquote>
+<p><em>ParDo</em>操作是在每个输入元素上逐个操作元素，从而能够很自然地将其转换为无界数据。而在另一方面，<em>GroupByKey</em>操作收集给定key键的所有数据，然后将它们发送到下游进行缩减。如果输入源是无界的，我们无法知道它何时结束。这个问题的常见解决方案是将数据窗口化。</p>
+</blockquote>
+<h3 id="2-2-Windowing"><a href="#2-2-Windowing" class="headerlink" title="2.2 Windowing"></a>2.2 Windowing</h3><p>Systems which support grouping typically redefine their <em>GroupByKey</em> operation to essentially be <em>GroupByKeyAndWindow</em>. Our primary contribution here is support for un-aligned windows, for which there are two key insights. The first is that it is simpler to treat all windowing strategies as unaligned from the perspective of the model, and allow underlying implementations to apply optimizations relevant to the aligned cases where applicable. The second is that windowing can be broken apart into two related operations:</p>
+<ul>
+<li><p><code>Set&lt;Window&gt; AssignWindows(T datum)</code>, which assigns the element to zero or more windows. This is essentially the Bucket Operator from Li.</p>
+</li>
+<li><p><code>Set&lt;Window&gt; MergeWindows(Set&lt;Window&gt; windows)</code>, which merges windows at grouping time. This allows data-driven windows to be constructed over time as data arrive and are grouped together.</p>
+</li>
+</ul>
+<blockquote>
+<p>支持分组的系统通常将<em>GroupByKey</em>操作重新定义为<em>GroupByKeyAndWindow</em>。我们在这里的主要贡献是支持未对齐的窗口，对此有两个关键的见解。首先，从模型的角度来看，将所有的窗口策略视为未对齐的比较简单，并允许底层实现对对齐的情况应用相关的优化。第二，窗口可以分解为两个相关的操作：</p>
+<ul>
+<li><p><code>Set&lt;Window&gt; AssignWindows(T datum)</code>，它将元素赋值给零个或多个窗口。</p>
+</li>
+<li><p><code>Set&lt;Window&gt; MergeWindows(Set&lt;Window&gt; windows)</code>，它允许按时间分组时合并窗口。这允许在数据到达并分组在一起时，随时间构建数据驱动窗口。</p>
+</li>
+</ul>
+</blockquote>
+<p>For any given windowing strategy, the two operations are intimately related; sliding window assignment requires slid-ing window merging, sessions window assignment requires sessions window merging, etc.</p>
+<blockquote>
+<p>对于任何给定的窗口策略，这两个操作都是密切相关的，如滑动窗口分配需要滑动窗口合并，会话窗口分配需要会话窗口合并，等等。</p>
+</blockquote>
+<p>Note that, to support event-time windowing natively, instead of passing (key, value) pairs through the system, we now pass (key, value, eventtime, window) 4-tuples. Elements are provided to the system with event-time timestamps (which may also be modified at any point in the pipeline), and are initially assigned to a default global window, covering all of event time, providing semantics that match the defaults in the standard batch model.</p>
+<blockquote>
+<p>注意，为了在本地支持事件时间的窗口，我们现在传递(key, value, eventtime, window) 4元组，而不是传递(key, value)到系统中。元素以基于事件时间的时间戳（也可以在管道中的任何位置修改）提供给系统，并在最初时分配给一个默认的全局窗口，覆盖所有事件时间，提供与标准批处理模型中的默认值匹配的语义。</p>
+</blockquote>
+<h4 id="2-2-1-Window-Assignment"><a href="#2-2-1-Window-Assignment" class="headerlink" title="2.2.1 Window Assignment"></a>2.2.1 Window Assignment</h4><p>From the model’s perspective, window assignment creates a new copy of the element in each of the windows to which it has been assigned. For example, consider windowing a dataset by sliding windows of two-minute width and one-minute period, as shown in Figure 3 (for brevity, timestamps are given in HH:MM format).</p>
+<p><img src="/2020/01/07/《The-Dataflow-Model》论文翻译/image-20200107222734127.png" alt="Figure 3: Window Assignment" style="zoom:50%;"></p>
+<blockquote>
+<p>从模型的的角度来看，窗口赋值是在每个已赋值给它的窗口中创建元素的新副本。例如，考虑使用两分钟时间长度和以一分钟为时间周期的滑动窗口来窗口化一个数据集，如图3所示。</p>
+</blockquote>
+<p>In this case, each of the two (key, value) pairs is duplicated to exist in both of the windows that overlapped the element’s timestamp. Since windows are associated directly with the elements to which they belong, this means window assignment can happen any where in the pipeline before grouping is applied. This is important, as the grouping operation may be buried somewhere downstream inside a composite transformation (e.g.<code>Sum.integersPerKey()</code>).</p>
+<blockquote>
+<p>在本例中，这两个(key, value)对中的每一个都被复制到重叠元素时间戳的两个窗口中。由于窗口直接与它们所属的元素相关联，这意味着在应用分组之前，可以在管道中的任何位置进行窗口分配。这很重要，因为分组操作可能隐藏在复合转换(例如<code>Sum.integersPerKey()</code>)下游中的某个地方。</p>
+</blockquote>
+<h4 id="2-2-2-Window-Merging"><a href="#2-2-2-Window-Merging" class="headerlink" title="2.2.2 Window Merging"></a>2.2.2 Window Merging</h4><p>Window merging occurs as part of the <em>GroupByKeyAndWindow</em> operation, and is best explained in the context of an example. We will use session windowing since it is our motivating use case. Figure 4 shows four example data, three for <em>k1</em> and one for <em>k2</em>, as they are windowed by session, with a 30-minute session timeout. All are initially placed in a default global window by the system. The sessions implementation of <em>AssignWindows</em> puts each element into a single window that extends 30 minutes beyond its own timestamp; this window denotes the range of time into which later events can fall if they are to be considered part of the same session. We then begin the <em>GroupByKeyAndWindow</em> operation, which is really a five-part composite operation:</p>
+<ul>
+<li><strong><em>DropTimestamps</em></strong> - Drops element timestamps, as only the window is relevant from here on out.</li>
+<li><strong><em>GroupByKey</em></strong> - Groups (value, window) tuples by key.</li>
+<li><strong><em>MergeWindows</em></strong> - Merges the set of currently buffered windows for a key. The actual merge logic is defined by the windowing strategy. In this case, the windows for <em>v1</em> and <em>v4</em> overlap, so the sessions windowing strategy merges them into a single new, larger session, as indicated in bold.</li>
+<li><strong><em>GroupAlsoByWindow</em></strong> - For each key, groups values by window. After merging in the prior step,<em>v1</em> and <em>v4</em> are now in identical windows, and thus are grouped together at this step. </li>
+<li><strong><em>ExpandToElements</em></strong> - Expands per-key, per-window groups of values into (key, value, eventtime, window)tuples, with new per-window timestamps. In this example, we set the timestamp to the end of the window, but any timestamp greater than or equal to the timestamp of the earliest event in the window is valid with respect to watermark correctness.</li>
+</ul>
+<p><img src="/2020/01/07/《The-Dataflow-Model》论文翻译/image-20200107224002473.png" alt="Figure 4: Window Merging" style="zoom:50%;"></p>
+<blockquote>
+<p>窗口合并是<em>GroupByKeyAndWindow</em>操作的一部分，这将会在后面的示例中进行解释。我们因其常见性，决定在本例中使用会话窗口。图4显示了四个示例数据，其中三个用于k1，一个用于k2，因为它们是按会话窗口显示的，并且有30分钟的会话超时。它们最初都被系统放置在一个默认的全局窗口中。<em>AssignWindows</em>的会话实现将每个元素放入一个单独的窗口中，这个窗口比它自身的时间戳延长了30分钟。此窗口表示如果迟到的事件被认为是同一会话的一部分的话，它们可能落入的时间范围。然后我们开始<em>GroupByKeyAndWindow</em>操作，这实际上是一个由五部分组成的复合操作：</p>
+<ul>
+<li><p><strong><em>DropTimestamps</em></strong> -丢弃元素时间戳，因为从这里开始，只有窗口相关的部分。</p>
+</li>
+<li><p><strong><em>GroupByKey</em></strong> -按key分组成(value、window)元组。</p>
+</li>
+<li><p><strong><em>MergeWindows</em></strong> -合并key的当前缓冲窗口集。实际的合并逻辑是由窗口策略定义的。在这种情况下，v1和v4对应的窗口重叠，所以会话窗口将它们合并成一个新的、更大的会话。</p>
+</li>
+<li><p><strong><em>GroupAlsoByWindow</em></strong>  -对于每个key，通过窗口聚合所有的value。在前一步合并之后，v1和v4现在位于相同的窗口中，因此在这一步将它们组合在一起。</p>
+</li>
+<li><p><strong><em>ExpandToElements</em></strong> -将每个key、每个窗口的value组扩展为(key、value、eventtime、window)元组，并使用新的窗口时间戳。在本例中，我们将时间戳设置在窗口的末端，但任何大于或等于窗口中最早事件的时间戳的事件时间戳在水印准确性方面都被认为是有效的。</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="2-2-3-API"><a href="#2-2-3-API" class="headerlink" title="2.2.3 API"></a>2.2.3 API</h4><p>As a brief example of the use of windowing in practice,consider the following Cloud Dataflow SDK code to calculate keyed integer sums:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PCollection&lt;KV&lt;String, Integer&gt;&gt; input = IO.read(...);</span><br><span class="line">PCollection&lt;KV&lt;String, Integer&gt;&gt; output = input.apply(Sum.integersPerKey());</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>作为实际使用窗口的简要示例，请考虑以下Cloud Dataflow SDK代码以计算key 对应的整数和：</p>
+</blockquote>
+<p>To do the same thing, but windowed into sessions with a 30-minute timeout as in Figure 4, one would add a single <code>Window.into</code> call before initiating the summation:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PCollection&lt;KV&lt;String, Integer&gt;&gt; input = IO.read(...);</span><br><span class="line">PCollection&lt;KV&lt;String, Integer&gt;&gt; output = input</span><br><span class="line">	.apply(Window.into(Sessions.withGapDuration(Duration.standardMinutes(<span class="number">30</span>))))</span><br><span class="line">	.apply(Sum.integersPerKey());</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>要执行相同的操作，但是要像图4那样以30分钟的超时时间窗口化到会话中，则需要在启动求和之前添加单个Window.into调用</p>
+</blockquote>
+<h3 id="2-3-Triggers-amp-Incremental-Processing"><a href="#2-3-Triggers-amp-Incremental-Processing" class="headerlink" title="2.3 Triggers &amp; Incremental Processing"></a>2.3 Triggers &amp; Incremental Processing</h3><p>The ability to build un-aligned, event-time windows is an improvement, but now we have two more shortcomings to address:</p>
+<ul>
+<li>We need some way of providing support for tuple- and processing-time-based windows, otherwise we have regressed our windowing semantics relative to other systems in existence.</li>
+<li>We need some way of knowing when to emit the results for a window. Since the data are unordered with respect to event time, we require some other signal to tell us when the window is done.</li>
+</ul>
+<blockquote>
+<p>拥有构建未对齐（un-aligned）的事件时间（event-time）窗口的能力是一种改进，但现在我们还有两个缺点需要解决：</p>
+<ul>
+<li><p>我们需要某种方式来提供对基于元组和基于处理时间的窗口的支持，否则我们已经倒退了与现有的其他系统相关的窗口语义了。</p>
+</li>
+<li><p>我们需要一些方法知道什么时候发出窗口的结果。由于数据对于事件时间是无序的，我们需要一些其他信号来告诉我们什么时候窗口完成数据处理了。</p>
+</li>
+</ul>
+</blockquote>
+<p>The problem of tuple- and processing-time-based windows we will address in Section 2.4, once we have built up a solution to the window completeness problem. As to window completeness, an initial inclination for solving it might be to use some sort of global event-time progress metric, such as watermarks. However, watermarks themselves have two major shortcomings with respect to correctness:</p>
+<ul>
+<li>They are sometimes <strong>too fast</strong>, meaning there may be late data that arrives behind the watermark. For many distributed data sources, it is intractable to derive a completely perfect event time watermark, and thus impossible to rely on it solely if we want 100% correctness in our output data.</li>
+<li>They are sometimes <strong>too slow</strong>.  Because they are a global progress metric, the watermark can be heldback for the entire pipeline by a single slow datum. And even for healthy pipelines with little variability in event-time skew, the baseline level of skew may still be multiple minutes or more, depending upon the input source. As a result, using watermarks as the sole signal for emitting window results is likely to yield higher latency of overall results than, for example, a comparable Lambda Architecture pipeline.</li>
+</ul>
+<blockquote>
+<p>一旦我们建立了一个窗口完整性问题的解决方案，我们将在章节2.4中讨论基于元组和处理时间的窗口的问题。至于窗口完整性，解决它的最初倾向可能是使用某种全局的事件时间进度度量工具，例如水印（watermark）。但是，就准确性而言，水印（watermark）本身有两大缺点：</p>
+<ul>
+<li><p>他们有时<strong>太快</strong>了，这意味着可能有迟来的数据可能会到达在水印后面。对于许多分布式数据源而言，它们很难获得十分完美的事件时间水印，因此如果我们想要输出数据100%正确，就不可能完全依赖于它。</p>
+</li>
+<li><p>他们有时<strong>太慢</strong>了。因为它们是一个全局进度度量，所以水印或许会被一个缓慢的数据来阻止整个管道。即使是在正常的管道中，即使在事件时间偏移量变化不大，偏移量的基线水平仍然可能是几分钟甚至更多，这取决于输入源。因此，使用水印作为唯一的信号来发送窗口结果可能会产生比类似的Lambda架构管道更高的延迟。</p>
+</li>
+</ul>
+</blockquote>
+<p>For these reasons, we postulate that watermarks alone are insufficient. A useful insight in addressing the completeness problem is that the Lambda Architecture effectively sidesteps the issue: it does not solve the completeness problem by somehow providing correct answers faster; it simply provides the best low-latency estimate of a result that the streaming pipeline can provide, with the promise of eventual consistency and correctness once the batch pipeline runs. If we want to do the same thing from within a single pipeline (regardless of execution engine), then we will need a way to provide multiple answers (or panes) for any given window.We call this feature triggers, since they allow the specification of when to trigger the output results for a given window.</p>
+<blockquote>
+<p>由于这些原因，我们假定仅有水印（watermark）是不够的。解决窗口完整性问题的一个有用的方式（也是Lambda架构提出的一种有效回避该问题的方式）:它并没有更快地通过某种方式提供正确的解决方法来处理完整性问题，而只是提供了流管道所能提供的结果的最佳低延迟估计值，并承诺一旦批处理管道运行起来，将在最终保持一致性和正确性。如果我们希望在单个管道中执行相同的操作(与执行引擎无关)，那么我们将需要为任何给定窗口提供多个解决方法(或窗格)的方法。我们将此功能称为触发器（triggers），因为它们允许指定何时触发给定窗口的输出结果。</p>
+</blockquote>
+<p>In a nutshell, triggers are a mechanism for stimulating the production of <em>GroupByKeyAndWindow</em> results in response to internal or external signals.  They are complementary to the windowing model, in that they each affect system behaviour along a different axis of time:</p>
+<ul>
+<li><p><strong>Windowing</strong> determines <em>where</em> in <strong>event time</strong> data are grouped together for processing.</p>
+</li>
+<li><p><strong>Triggering</strong> determines <em>when</em> in <strong>processing time</strong> the results of groupings are emitted as panes.</p>
+</li>
+</ul>
+<blockquote>
+<p>简而言之，触发器是一种机制，用于触发<em>GroupByKeyAndWindow</em>结果的生成，以响应内部或外部信号。它们是窗口模型的补充，因为它们都影响系统在不同时间轴上的行为：</p>
+<ul>
+<li><p><strong>窗口</strong>确定<strong>事件时间</strong>数据<strong>在哪里</strong>分组，并进行处理。</p>
+</li>
+<li><p><strong>触发器</strong>决定在<strong>处理时间</strong>内分组的结果<strong>在什么时候</strong>以窗格的形式发出。</p>
+</li>
+</ul>
+</blockquote>
+<p>Our systems provide predefined trigger implementations for triggering at completion estimates (e.g. watermarks, including percentile watermarks, which provide useful semantics for dealing with stragglers in both batch and streaming execution engines when you care more about processing a minimum percentage of the input data quickly than processing every last piece of it), at points in processing time, and in response to data arriving (counts, bytes, data punctuations, pattern matching, etc.). We also support composing triggers into logical combinations (and, or, etc.), loops, sequences,and other such constructions. In addition, users may define their own triggers utilizing both the underlying primitives of the execution runtime (e.g. watermark timers, processing-time timers, data arrival, composition support) and any other relevant external signals (data injection requests, external progress metrics, RPC completion callbacks, etc.).We will look more closely at examples in Section 2.4.</p>
+<blockquote>
+<p>我们的系统提供了用于在完成估算时触发的预定义触发器实现（例如，水印，包括百分位数水印，当您更关心快速处理最小百分比的输入数据而不是处理数据时，它们提供了有用的语义来处理批处理和流执行引擎中的散乱消息数据的最后一部分），当位于在处理时间点或者需要对数据到达（计数，字节，数据标点，模式匹配等）的响应时。 我们还支持将触发器组合成逻辑组合（and，or等），循环，序列和其他类似的构造。 另外，用户可以利用执行运行时的基本原语（例如水印计时器，处理时间计时器，数据到达，合成支持）和任何其他相关的外部信号（数据注入请求，外部进度指标，RPC回调等）来定义自己的触发器。。我们将在章节2.4中更详细地研究示例。</p>
+</blockquote>
+<p>In addition to controlling when results are emitted, the triggers system provides a way to control how multiple panes for the same window relate to each other, via three different refinement modes:</p>
+<ul>
+<li><p><strong>Discarding</strong>: Upon triggering, window contents are discarded, and later results bear no relation to previous results. This mode is useful in cases where the downstream consumer of the data (either internal or external to the pipeline) expects the values from various trigger fires to be independent (e.g. when injecting into a system that generates a sum of the values injected). It is also the most efficient in terms of amount of data buffered, though for associative and commutative operations which can be modeled as a Dataflow Combiner, the efficiency delta will often be minimal. For our video sessions use case, this is not sufficient, since it is impractical to require downstream consumers of our data to stitch together partial sessions.</p>
+</li>
+<li><p><strong>Accumulating</strong>: Upon triggering, window contents are left intact in persistent state, and later results become a refinement of previous results. This is useful when the downstream consumer expects to overwrite old values with new ones when receiving multiple results for the same window, and is effectively the mode used in Lambda Architecture systems, where the streaming pipeline produces low-latency results, which are then overwritten in the future by the results from the batch pipeline. For video sessions, this might be sufficient if we are simply calculating sessions and then immediately writing them to some output source that supports updates (e.g. a database or key/value store).</p>
+</li>
+<li><p><strong>Accumulating &amp; Retracting</strong>: Upon triggering, inaddition to the <em>Accumulating</em> semantics, a copy of the emitted value is also stored in persistent state. When the window triggers again in the future, a retraction for the previous value will be emitted first, followed by the new value as a normal datum. Retractions are necessary in pipelines with multiple serial <em>GroupByKeyAndWindow</em> operations, since the multiple results generated by a single window over subsequent trigger fires may end up on separate keys when grouped downstream. In that case, the second grouping operation will generate incorrect results for those keys unless it is informed via a retraction that the effects of the original output should be reversed. Dataflow <em>Combiner</em> operations that are also reversible can support retractions efficiently via  an <em>uncombine</em> method. For video sessions,this mode is the ideal. If we are performing aggregations downstream from session creation that depend on properties of the sessions themselves, for example detecting unpopular ads (such as those which are viewed for less than five seconds in a majority of sessions), initial results may be invalidated as inputs evolve overtime, e.g. as a significant number of offline mobile viewers come back online and upload session data. Retractions provide a way for us to adapt to these types of changes in complex pipelines with multiple serial grouping stages.</p>
+</li>
+</ul>
+<blockquote>
+<p>除了控制何时发出结果，触发器系统还提供了一种方法，可通过三种不同的优化模式来控制同一窗口的多个窗格之间的相互关系：</p>
+<ul>
+<li><strong>丢弃（Discarding）</strong>：触发器触发时，窗口内容将会被丢弃，并且以后的结果将与以前的结果无关。 倘若数据的下游使用者（管道内部或外部）期望来自各种触发器触发的值是独立的情况下（例如，注入到生成注入值之和的系统中），此模式很有用。 就缓冲的数据量而言，它也是最有效的，尽管对于可以为数据流组合器建模的关联和交换操作，增量效率通常会很小。 对于我们的视频会话用例，这是不够的，因为要求数据的下游使用者将部分会话缝合在一起是不切实际的。</li>
+<li><strong>累加（Accumulating）</strong>：触发器触发时，窗口内容将保持不变，以后的结果是以以前结果为基础，进行数据增量操作。这是十分有用的方法，当下游使用者希望在同一窗口中接收到多个结果时希望用新值覆盖旧值，并且系统能够有效地作用于Lambda架构系统。而在这其中，流管道产生低延迟的结果，这些结果随后将被来自批处理管道的结果覆盖。对于视频会话，如果我们只是简单地计算会话，然后立即将其写入支持更新的某个输出源中（例如数据库或key/value存储），这可能就足够了。</li>
+<li><strong>累积和回退（Accumulating &amp; Retracting）</strong>：触发器触发时，除了<em>累积</em>语义外，输出值的副本也以持久状态存储。 当窗口在未来再次触发时，将首先会对先前值的回退，然后是输出作为正常基准的新值。 在具有多个串行<em>GroupByKeyAndWindow</em>操作的管道中，回退操作是必要的，因为在下游分组时，单个窗口在后续触发器触发上生成的多个结果可能会在单独的键上结束。 在那种情况下，第二次分组操作将为那些键生成不正确的结果，除非通过回退通知其原始输出进行回退。 数据流<em>Combiner</em>操作也可以通过取消组合方法有效地支持回退。 对于视频会话，此模式是理想的。 如果我们在会话创建的下游执行依赖于会话本身属性的聚合，例如检测不受欢迎的广告（例如在大多数会话中观看时间少于五秒钟的广告），则随着输入的发展，初始结果可能会是无效的，例如因为大量的离线移动设备恢复了在线状态并上传了会话数据。 回退为我们提供了一种方法，使我们可以通过多个串行分组阶段来适应复杂管道中的这些类型的更改。</li>
+</ul>
+</blockquote>
+<h3 id="2-4-Examples"><a href="#2-4-Examples" class="headerlink" title="2.4  Examples"></a>2.4  Examples</h3><blockquote>
+<p>举例部分比较简单，就是结合上面提到的所有概念，进行综合举例，有空再挖坑回填。</p>
+</blockquote>
+<h2 id="3-IMPLEMENTATION-amp-DESING"><a href="#3-IMPLEMENTATION-amp-DESING" class="headerlink" title="3. IMPLEMENTATION &amp; DESING"></a>3. IMPLEMENTATION &amp; DESING</h2><blockquote>
+<p>实现部分是作者自身在 Google 内部的实践与经验，对于流系统开发者而言能够了解到他们在实现时碰到的坑。因为是了解背后原理就不进行详细翻译了。</p>
+</blockquote>
+<h2 id="4-CONCLUSIONS"><a href="#4-CONCLUSIONS" class="headerlink" title="4. CONCLUSIONS"></a>4. CONCLUSIONS</h2><p>The future of data processing is unbounded data. Though bounded data will always have an important and useful place, it is semantically subsumed by its unbounded counterpart. Furthermore, the proliferation of unbounded datasets across modern business is staggering.  At the same time, consumers of processed data grow savvier by the day, demanding powerful constructs like event-time ordering and unaligned windows. The models and systems that exist today serve as an excellent foundation on which to build the data processing tools of tomorrow, but we firmly believe that a shift in overall mindset is necessary to enable those tools to comprehensively address the needs of consumers of unbounded data.</p>
+<blockquote>
+<p>无边界（无限）的数据是数据处理的未来。 尽管有边界（有限）的数据将始终具有重要和有用的位置，但从语义上讲，它由无边界的对应部分所包含。 此外，无限数据集在整个跨现代业务中的扩散令人震惊。 同时，处理数据的消费者一天比一天更加精明，因此需要强大的架构，例如事件时间顺序和未对齐的窗口等。 当今存在的模型和系统为构建未来的数据处理工具奠定了良好的基础，但是我们坚信，必须转变整体的观念，以使这些工具能够全面满足数据消费者的需求。 </p>
+</blockquote>
+<p>Based on our many years of experience with real-world,massive-scale, unbounded data processing within Google, we believe the model presented here is a good step in that direction. It supports the un-aligned, event-time-ordered windows modern data consumers require. It provides flexible triggering and integrated accumulation and retraction, refocusing the approach from one of finding completeness in data to one of adapting to the ever present changes manifest in real-world datasets. It abstracts away the distinction of batch vs.micro-batch vs. streaming, allowing pipeline builders a more fluid choice between them, while shielding them from the system-specific constructs that inevitably creep into models targeted at a single underlying system. Its overall flexibility allows pipeline builders to appropriately balance the dimensions of correctness, latency, and cost to fit their use case, which is critical given the diversity of needs in existence. And lastly, it clarifies pipeline implementations by separating the notions of what results are being computed, where in event time they are being computed, when in processing time they are materialized, and how earlier results relate to later refinements. We hope others will find this model useful as we all continue to push forward the state of the art in this fascinating, remarkably complex field.</p>
+<blockquote>
+<p>根据我们多年在Google中真实，大规模，无边界数据处理的经验，我们相信此处介绍的模型是朝这个方向迈出的重要一步。 它支持消费者需要的未对齐，事件时间顺序的窗口现代数据。 它提供了灵活的触发方式以及集成的累积和回退功能，将寻找数据完整性的方法重新定位为适应现实数据集中不断变化的方法。 它抽象化了批处理、微型批处理和流式处理三者的区别，使管道构建器可以在它们之间进行更多的选择，同时使它们免受系统特定的构造的影响，这些构造不可避免地会渗入针对单个基础系统的模型。 它的整体灵活性使流水线构建者可以适当地平衡正确性，延迟和成本这三个维度，以适应其用例，考虑到现有需求的多样性，这一点至关重要。最后，它通过分离以下概念来澄清流水线实现：正在计算哪些结果，其中计算它们的事件时间，在处理时间何时实现它们，以及较早的结果与以后的改进有何关系。我们希望其他人会发现此模型有用，因为我们所有人都将继续在这个引人入胜，非常复杂的领域中发展最先进的技术。</p>
+</blockquote>
+
           
-The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领域的具有指导性意义的论文，它对数据集特征和相应的计算方式进行了归纳总结，并针对大规模/无边界/乱序数据集，提出一种可以平衡准确性/延迟/处理成本的数据模型。这篇论文的目的不在于解决目前流计算引
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/01/07/《The-Dataflow-Model》论文翻译/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -365,6 +666,10 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -377,7 +682,11 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
   
   
 
-  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2018/12/06/八日漫游大西环线/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -438,6 +747,9 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -446,34 +758,85 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       
         
           
-          缘起这次旅行可以认为是一场说走就走的旅行，缘起于朋友的一次不经意的漫谈，到最终构思出大致的计划不过两日，我俩就踏上了旅程，途中边走边规划，要去哪吃，要去哪玩。
+            <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>这次旅行可以认为是一场说走就走的旅行，缘起于朋友的一次不经意的漫谈，到最终构思出大致的计划不过两日，我俩就踏上了旅程，途中边走边规划，要去哪吃，要去哪玩。</p>
+<blockquote>
+<p>这篇记录主要以风景照为主，美食的话没有拍，味道全留在肚子里了。</p>
+</blockquote>
+<h2 id="第一日：成都-兰州"><a href="#第一日：成都-兰州" class="headerlink" title="第一日：成都-兰州"></a>第一日：成都-兰州</h2><p>出发前一天，看到凌晨的机票十分便宜便立马下手，本以为捡到了大便宜，但是成都突如其来的大雾天气导致我们的航班延误了整整5个小时。在等待期间，别的航空公司的飞机由于机型缘故可以在较恶劣的条件下起飞，所以我们只能在同一个登机口眼巴巴地看着他们欢快的登机。</p>
+<blockquote>
+<p>切勿贪小便宜乘坐廉价航空或者机型较小的飞机！</p>
+</blockquote>
+<p><img src="/2018/12/06/八日漫游大西环线/IMG_8018.JPG" alt=""></p>
+<p>到达兰州的时候已经中午12点半了，我们拿着行李就跑去乘坐机场大巴赶去下榻酒店。中川机场到市中心的距离长达68公里之远，所以一般都不会考虑打车去市中心，而是选择两条路线：到隔壁的中川机场高铁站乘坐高铁或者乘坐机场大巴，两条路线的价格和花费时间都相差不多。</p>
+<p>匆忙放完行李后，我们早已肚子饿的不得了，便到楼下的兰州拉面点上了两碗心心念念的牛肉面。</p>
+<p><img src="/2018/12/06/八日漫游大西环线/IMG_8036.JPG" alt=""></p>
+<p>在兰州安排的第一个必游的景点是甘肃省博物馆，主要目的还是奔着镇馆之宝——马踏飞燕走的。但是不得不说，逛完博物馆后整个人都虚脱了，只能回酒店暂作休息。迷迷糊糊睡了会儿，便起身去看看兰州夜景。</p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_17.jpg" alt=""></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_26.jpg" alt=""></p>
+<h2 id="第二日：兰州-西宁"><a href="#第二日：兰州-西宁" class="headerlink" title="第二日：兰州-西宁"></a>第二日：兰州-西宁</h2><p>由于今日的我们没有安排过多的行程，便睡了个回笼觉，睡醒便已经10点钟了。早上我们只安排了一个景点——白塔山公园，虽说是公园，其实就有点像深圳的莲花山公园，还是有点山路的，况且我们还是拿着全副行李，但是想到能够俯瞰兰州全貌，便咬咬牙爬了上去。</p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_2d.jpg" alt=""></p>
+<p>从公园下来已经接近中午，吃了最后一顿美味的牛肉面后又马不停蹄的赶往兰州西站，乘坐高铁前往西宁。在西宁游玩时，给我印象最深的便是较近晚上时前去的东关清真大寺，印象深的并不是里面的建筑，而是里面的穆斯林老人，他们见到你时，会先递给你一张小纸片，上面记录着伊斯兰教中最重要的几句话，然后会十分热情地跟你述说了伊斯兰教的由来、信仰伊斯兰教与其他宗教的不同等等。从我的直觉上看，倘若我们不刻意打断他们（虽然很不礼貌），他们能讲上一整天。</p>
+<h2 id="第三日：西宁-塔尔寺-青海湖"><a href="#第三日：西宁-塔尔寺-青海湖" class="headerlink" title="第三日：西宁-塔尔寺-青海湖"></a>第三日：西宁-塔尔寺-青海湖</h2><p>尽管昨日有过短暂的休息，但是还是忍不住今早早起的哈欠。我们与昨日联系好的小马哥（本次旅行的司机）约好九点半在酒店楼下集合，这一次同行的包括司机在内总共有七人（四男三女），出乎意料的是主要都来自广东。</p>
+<p>后面的文字记录，我就不过多描述旅途中的辛酸了，主要还是以风景为重点进行记录。</p>
+<h3 id="路途风景"><a href="#路途风景" class="headerlink" title="路途风景"></a>路途风景</h3><p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_52.jpg" alt="UNADJUSTEDNONRAW_thumb_52"></p>
+<h3 id="塔尔寺"><a href="#塔尔寺" class="headerlink" title="塔尔寺"></a>塔尔寺</h3><p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_40.jpg" alt="UNADJUSTEDNONRAW_thumb_40"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_43.jpg" alt="UNADJUSTEDNONRAW_thumb_43"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_46.jpg" alt="UNADJUSTEDNONRAW_thumb_46"></p>
+<h3 id="青海湖"><a href="#青海湖" class="headerlink" title="青海湖"></a>青海湖</h3><p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_5a.jpg" alt="UNADJUSTEDNONRAW_thumb_5a"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_5f.jpg" alt="UNADJUSTEDNONRAW_thumb_5f"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_6a.jpg" alt="UNADJUSTEDNONRAW_thumb_6a"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_57.jpg" alt="UNADJUSTEDNONRAW_thumb_57"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_63.jpg" alt="UNADJUSTEDNONRAW_thumb_63"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_65.jpg" alt="UNADJUSTEDNONRAW_thumb_65"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_68.jpg" alt="UNADJUSTEDNONRAW_thumb_68"></p>
+<h2 id="第四日：茶卡盐湖-翡翠湖-柴达木盆地"><a href="#第四日：茶卡盐湖-翡翠湖-柴达木盆地" class="headerlink" title="第四日：茶卡盐湖-翡翠湖-柴达木盆地"></a>第四日：茶卡盐湖-翡翠湖-柴达木盆地</h2><h3 id="清晨的茶卡镇"><a href="#清晨的茶卡镇" class="headerlink" title="清晨的茶卡镇"></a>清晨的茶卡镇</h3><p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_6c.jpg" alt="UNADJUSTEDNONRAW_thumb_6c"></p>
+<h3 id="茶卡盐湖"><a href="#茶卡盐湖" class="headerlink" title="茶卡盐湖"></a>茶卡盐湖</h3><p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_7e.jpg" alt="UNADJUSTEDNONRAW_thumb_7e"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_75.jpg" alt="UNADJUSTEDNONRAW_thumb_75"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_79.jpg" alt="UNADJUSTEDNONRAW_thumb_79"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_86.jpg" alt="UNADJUSTEDNONRAW_thumb_86"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_7f.jpg" alt="UNADJUSTEDNONRAW_thumb_7f"></p>
+<h3 id="翡翠湖"><a href="#翡翠湖" class="headerlink" title="翡翠湖"></a>翡翠湖</h3><p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_93.jpg" alt="UNADJUSTEDNONRAW_thumb_93"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_96.jpg" alt="UNADJUSTEDNONRAW_thumb_96"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_a0.jpg" alt="UNADJUSTEDNONRAW_thumb_a0"></p>
+<h2 id="第五日：雅丹魔鬼城-敦煌"><a href="#第五日：雅丹魔鬼城-敦煌" class="headerlink" title="第五日：雅丹魔鬼城-敦煌"></a>第五日：雅丹魔鬼城-敦煌</h2><h3 id="雅丹魔鬼城"><a href="#雅丹魔鬼城" class="headerlink" title="雅丹魔鬼城"></a>雅丹魔鬼城</h3><p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_ac.jpg" alt="UNADJUSTEDNONRAW_thumb_ac"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_ae.jpg" alt="UNADJUSTEDNONRAW_thumb_ae"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_b1.jpg" alt="UNADJUSTEDNONRAW_thumb_b1"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_b2.jpg" alt="UNADJUSTEDNONRAW_thumb_b2"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_b4.jpg" alt="UNADJUSTEDNONRAW_thumb_b4"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_b5.jpg" alt="UNADJUSTEDNONRAW_thumb_b5"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_b6.jpg" alt="UNADJUSTEDNONRAW_thumb_b6"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_bb.jpg" alt="UNADJUSTEDNONRAW_thumb_bb"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_be.jpg" alt="UNADJUSTEDNONRAW_thumb_be"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_c1.jpg" alt="UNADJUSTEDNONRAW_thumb_c1"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_cc.jpg" alt="UNADJUSTEDNONRAW_thumb_cc"></p>
+<h2 id="第六日：敦煌-莫高窟-鸣沙山月牙泉"><a href="#第六日：敦煌-莫高窟-鸣沙山月牙泉" class="headerlink" title="第六日：敦煌-莫高窟-鸣沙山月牙泉"></a>第六日：敦煌-莫高窟-鸣沙山月牙泉</h2><h3 id="莫高窟"><a href="#莫高窟" class="headerlink" title="莫高窟"></a>莫高窟</h3><p>由于景区规定了洞窟内不能摄影，所以就拍了一张外景图。</p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_e2.jpg" alt="UNADJUSTEDNONRAW_thumb_e2"></p>
+<h3 id="鸣沙山月牙泉"><a href="#鸣沙山月牙泉" class="headerlink" title="鸣沙山月牙泉"></a>鸣沙山月牙泉</h3><p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_e9.jpg" alt="UNADJUSTEDNONRAW_thumb_e9"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_ec.jpg" alt="UNADJUSTEDNONRAW_thumb_ec"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_ef.jpg" alt="UNADJUSTEDNONRAW_thumb_ef"></p>
+<h2 id="第七日：敦煌-七彩丹霞-张掖"><a href="#第七日：敦煌-七彩丹霞-张掖" class="headerlink" title="第七日：敦煌-七彩丹霞-张掖"></a>第七日：敦煌-七彩丹霞-张掖</h2><h3 id="七彩丹霞"><a href="#七彩丹霞" class="headerlink" title="七彩丹霞"></a>七彩丹霞</h3><p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_fa.jpg" alt="UNADJUSTEDNONRAW_thumb_fa"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_fc.jpg" alt="UNADJUSTEDNONRAW_thumb_fc"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_105.jpg" alt="UNADJUSTEDNONRAW_thumb_105"></p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_110.jpg" alt="UNADJUSTEDNONRAW_thumb_110"></p>
+<h3 id="张掖"><a href="#张掖" class="headerlink" title="张掖"></a>张掖</h3><p>在张掖这块地方，不得不提的就是羊肉了，真的可以说得上又便宜又好吃，60块一斤的羊肉肥而不腻，分量十足，加上大蒜以及泡菜，简单美味。</p>
+<h2 id="第八日：张掖-兰州-成都"><a href="#第八日：张掖-兰州-成都" class="headerlink" title="第八日：张掖-兰州-成都"></a>第八日：张掖-兰州-成都</h2><p>为什么第八日的行程看上去那么复杂？主要考虑到从张掖开车返回西宁的话，由于冬天的缘故，预计行程中的油菜花田是没有的，外加雪山封路会导致时间加长，所以我们就打算以高铁的行程直接返回兰州，再从兰州乘飞机返回成都，这样下来所花费的金钱只和西宁到达成都相差无几，但节省了不少时间。</p>
+<p><img src="/2018/12/06/八日漫游大西环线/IMG_8637.JPG" alt="IMG_8637"></p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>最后就附上我们这次两人这八天下来所预估的花费清单，淡季出行+学生半价（甚至免票）是一个很棒的结合！</p>
+<p><img src="/2018/12/06/八日漫游大西环线/UNADJUSTEDNONRAW_thumb_111.jpg" alt="UNADJUSTEDNONRAW_thumb_111"></p>
 
-这篇记录主要以风景照为主，美食的话没有拍，味道全留在肚子里了。
-
-第一日：成都-兰州出发前一天，看到凌晨的机票十分便宜便立马下手，本以为捡
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/06/八日漫游大西环线/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -487,6 +850,10 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -499,7 +866,11 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
   
   
 
-  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2018/11/19/交友？/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -560,6 +931,9 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -568,35 +942,25 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       
         
           
-          
-这篇文章纯属自己的有感而发写的。
+            <blockquote>
+<p>这篇文章纯属自己的有感而发写的。</p>
+</blockquote>
+<p>这段时间也不知怎么回事，做起事来都充满了无力感</p>
+<p>朋友的冷漠 敏感 怀疑自己</p>
 
-这段时间也不知怎么回事，做起事来都充满了无力感
-朋友的冷漠 敏感 怀疑自己
-
           
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/19/交友？/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -610,6 +974,10 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -622,7 +990,11 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
   
   
 
-  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2018/11/12/出门走走-贵州岑巩县/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -683,6 +1055,9 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -691,33 +1066,36 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       
         
           
-          
-上周参加了学校组织的扶贫活动，地点位于贵州岑巩县。并不是因为偷懒没写技术博客才去的呀：）
+            <blockquote>
+<p>上周参加了学校组织的扶贫活动，地点位于贵州岑巩县。并不是因为偷懒没写技术博客才去的呀：）</p>
+</blockquote>
+<h2 id="做了什么"><a href="#做了什么" class="headerlink" title="做了什么"></a>做了什么</h2><p>这次扶贫活动的主要是帮助各乡镇进行贫困户的信息录入工作，减少一些他们的工作量，以我前去的平庄镇而言，乡镇的人口基数相较于其他乡镇而言还算比较大的，外加上镇上的干部数量比较少，所以信息录入工作基本就是由一人负责，工作量大而繁琐。</p>
+<p>额外说下的是，因为需要在2021年要达到“两个一百年”中第一个一百年的目标，不知从几年前开始，我所在的镇上所有干部就基本上过着加班的日子，隔三差五就有一个会议要开。值班的日子是以两周为间隔，也就是说至少需要值班两周才能够回家休息这样的一个状态。在平常的时候还需要经常下乡对每家每户进行调研统计，方便后期对各贫困户实施不同的扶贫措施。</p>
+<p><strong>真的感谢你们的辛苦工作！</strong></p>
+<h2 id="一些感想"><a href="#一些感想" class="headerlink" title="一些感想"></a>一些感想</h2><p>跟同学一起进行贫困户信息录入的这段时间中，我接触了不少致贫原因各不相同的家庭，总结下自己的一些感触吧。</p>
+<h3 id="补助"><a href="#补助" class="headerlink" title="补助"></a>补助</h3><p>在个人收入中，可分为工资性收入、生产性经营收入和各项补助。若家庭中有患有重病或者残疾的人的话，前两项收入往往是较少的，更主要是通过补助的方式维持生活，而各项补助总和的金额却是较少的（1k-10k 浮动）。</p>
+<p>虽然较偏远地区的生活水平较低，但我真的不清楚这些补助金额是否能够维持这些特殊人群的正常生活。</p>
+<h3 id="教育"><a href="#教育" class="headerlink" title="教育"></a>教育</h3><p>不知是否受限于九年义务教育的原因，有不少的人选择了初中毕业后就直接去外地工作，或独闯天下，或与父母一起，家庭总体收入较低且不具有稳定性（即数据相较于去年而言变化较大）。至于为什么选择直接工作也有各种各样的理由，有的人是因为家庭原因，有的人却是因为不想读了（原话）。与上述情况不同的，有些家庭的家长虽然身处外地打工，却依然支持自己的子女上高中上大学。在一些已有大学生的家庭中，我能够感受他们家庭自身的收入在一个中等偏上（相较于全村而言）的水平。</p>
+<p>由于自己只能够通过纸张上的对比表，从家庭各成员学历、工作地、收入来分析他们的情况，所以我没法真真正正了解到他们每一个人的想法与感受。但是有一点我能感受到的是，接受了高等教育的人，能够为自己的家庭贡献出更多的力量。</p>
+<h2 id="美丽岑巩"><a href="#美丽岑巩" class="headerlink" title="美丽岑巩"></a>美丽岑巩</h2><p>身处于城市过久，来乡村的一周时间中，觉得乡村真是一个很不错的地方，虽然在生活设施方面远不及城市，但无论是自然风景，还是饮食，乡村还是有其独特之处。（再次特别感谢每日饭堂的好饭菜！）</p>
+<p><img src="/2018/11/12/出门走走-贵州岑巩县/IMG_7851.JPG" alt=""></p>
+<p><img src="/2018/11/12/出门走走-贵州岑巩县/IMG_7852.JPG" alt=""></p>
+<p><img src="/2018/11/12/出门走走-贵州岑巩县/IMG_7854.JPG" alt=""></p>
+<p><img src="/2018/11/12/出门走走-贵州岑巩县/IMG_7864.JPG" alt=""></p>
 
-做了什么这次扶贫活动的主要是帮助各乡镇进行贫困户的信息录入工作，减少一些他们的工作量，以我前去的平庄镇而言，乡镇的人口基数相较于其他乡镇而言还算比较大的，外加上镇上的干部数量比较少，所以信息录入工作基本就是
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/12/出门走走-贵州岑巩县/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -731,6 +1109,10 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -743,7 +1125,11 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
   
   
 
-  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2018/07/20/在小米实习的180天/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -804,6 +1190,9 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -812,32 +1201,22 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       
         
           
-          感恩在小米的这段实习经历，感谢小米身边的每个人。
-
+            <p>感恩在小米的这段实习经历，感谢小米身边的每个人。</p>
+<p><img src="http://on83riher.bkt.clouddn.com/WechatIMG17218.png" alt=""></p>
 
           
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/07/20/在小米实习的180天/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -851,6 +1230,10 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -863,7 +1246,11 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
   
   
 
-  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2018/05/27/TCP 协议中 Keep-Alive 特性/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -924,6 +1311,9 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -932,34 +1322,47 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       
         
           
-          
-在腾讯面试的时候问过我基于这个特性的问题，可惜我没答出来:(,以下为原题部分。
-在 TCP 连接中，我们都知道客户端要与服务器端断开连接时需要经过”四次分手”。但如果客户端在未知因素的情况下宕机了，那服务器端会在什么时候认为客户端已掉线，从而服务器端”主动”断开连接呢？
+            <blockquote>
+<p>在腾讯面试的时候问过我基于这个特性的问题，可惜我没答出来:(,以下为原题部分。</p>
+<p>在 TCP 连接中，我们都知道客户端要与服务器端断开连接时需要经过”四次分手”。但如果客户端在未知因素的情况下宕机了，那服务器端会在什么时候认为客户端已掉线，从而服务器端”主动”断开连接呢？</p>
+</blockquote>
+<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>抛弃上面的描述，我们知道在 TCP 协议中，如果客户端不主动断开与服务器端的连接时，服务器端便会一直持有对这个客户端的连接。如果不引入某些有效机制的话，这将会大大地消耗服务器端的资源。</p>
+<p>keep-alive 机制确保了服务器端能够在客户端无消息发送的一段时间后，自主地断开与客户端的连接。</p>
+<h4 id="RFC-中-Keep-Alive-机制"><a href="#RFC-中-Keep-Alive-机制" class="headerlink" title="RFC 中 Keep-Alive 机制"></a>RFC 中 Keep-Alive 机制</h4><p>keep-alive 是 TCP 协议的可选特性（optional feature）。如果操作系统实现了这一特性，就必须保证应用程序能够为每个 TCP 连接打开或关闭该特性，且这一特性必须是默认关闭的。</p>
+<p>keep-alive 的心跳包只能够在从最后一次接收到 ACK 包的时间起，经过一个固定的时间间隔后才能发送。这个时间间隔必须能够被配置，且默认值不能够低于2小时。</p>
+<p>keep-alive 应当在服务器端启用，而客户端不做任何修改。倘若客户端开启了这一特性，当客户端异常崩溃或者出现连接故障的话，将会导致该连接无限期挂起和消耗不必要的资源。</p>
+<p>在 TCP 规范中并不包含 keep-alive 机制的主要原因有三：（1）在短暂的网络故障期间，可能会导致一个良好正常的连接(perfectly good connections)断开。(2)消耗不必要的带宽资源（”if no one is using the                 connection, who cares if it is still good?”）。（3）在以数据包计费的互联网网络中（额外）花费金钱。</p>
+<h4 id="Linux-内核下-Keep-Alive-的重要参数"><a href="#Linux-内核下-Keep-Alive-的重要参数" class="headerlink" title="Linux 内核下 Keep-Alive 的重要参数"></a>Linux 内核下 Keep-Alive 的重要参数</h4><p>在 Linux 内核中，keep-alive 机制涉及到三个重要的参数：</p>
+<ol>
+<li>tcp_keepalive_time。该参数是指最后一次数据包（不包含数据的 ACK 包）发送的时间到第一次发送的心跳包之间的时间间隔。默认值为7200s（2小时）。</li>
+<li>tcp_keepalive_intvl。该参数是指连续两个心跳包之间的时间间隔。默认值为75s。</li>
+<li>tcp_keepalive_probes。该参数是指在服务器端认为该连接失效(dead)并通知用户前，未确认的探测器(unacknowledged probes)发送的数量。默认值为9（次）。</li>
+</ol>
+<p>Linux 的文档还特别声明了即使 keep-alive 这一机制在内核中被配置了，这一行为也不是 Linux 的默认行为。</p>
+<h4 id="面试题的一种合适的解释"><a href="#面试题的一种合适的解释" class="headerlink" title="面试题的一种合适的解释"></a>面试题的一种合适的解释</h4><p>了解了这一特性背后的含义时，我们可以对面试官说到。在 Linux 环境下，如果该连接中 keep-alive 机制已开启时，服务器端会在 7200s + 75s * 9time 后断开与客户端的连接（即在底层清除失效的文件描述符）。</p>
+<h4 id="与-HTTP-中-Keep-Alive-的对比"><a href="#与-HTTP-中-Keep-Alive-的对比" class="headerlink" title="与 HTTP 中 Keep-Alive 的对比"></a>与 HTTP 中 Keep-Alive 的对比</h4><p>HTTP 协议中的 keep-alive 机制是为了通信双方的连接复用，避免消耗太多资源。而  TCP 协议中 keep-alive 机制是为了检验通信双方的是否活着(alive)，保证通信能够正常进行。</p>
+<hr>
+<p>参考资料：</p>
+<ol>
+<li><a href="https://tools.ietf.org/html/rfc1122#page-101" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc1122#page-101</a></li>
+<li><a href="http://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html" target="_blank" rel="noopener">http://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html</a></li>
+<li><a href="http://www.importnew.com/27624.html" target="_blank" rel="noopener">http://www.importnew.com/27624.html</a></li>
+<li><a href="http://www.cnblogs.com/liuyong/archive/2011/07/01/2095487.html" target="_blank" rel="noopener">http://www.cnblogs.com/liuyong/archive/2011/07/01/2095487.html</a></li>
+</ol>
 
-前言抛弃上面的描述，我们
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/27/TCP 协议中 Keep-Alive 特性/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -973,6 +1376,10 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -985,7 +1392,11 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
   
   
 
-  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2018/05/22/Scala - NonLocalReturnControl/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1046,6 +1457,9 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1054,31 +1468,36 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       
         
           
-          状态说明今天跑 Spark 作业的时候，刚进入 RUNNING 状态没多久就直接抛出了下面这种异常。
-123456789101112131415User class threw exception: org.apache.spark.SparkException: Task not serializ
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/22/Scala - NonLocalReturnControl/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h4 id="状态说明"><a href="#状态说明" class="headerlink" title="状态说明"></a>状态说明</h4><p>今天跑 Spark 作业的时候，刚进入 RUNNING 状态没多久就直接抛出了下面这种异常。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">User class threw exception: org.apache.spark.SparkException: Task not serializable</span><br><span class="line">  at org.apache.spark.util.ClosureCleaner$.ensureSerializable(ClosureCleaner.scala:298)</span><br><span class="line">  at org.apache.spark.util.ClosureCleaner$.org$apache$spark$util$ClosureCleaner$$clean(ClosureCleaner.scala:288)</span><br><span class="line">  at org.apache.spark.util.ClosureCleaner$.clean(ClosureCleaner.scala:108)</span><br><span class="line">  at org.apache.spark.SparkContext.clean(SparkContext.scala:2100)</span><br><span class="line">.....</span><br><span class="line">Caused by: java.io.NotSerializableException: java.lang.Object</span><br><span class="line">Serialization stack:</span><br><span class="line">  - object not serializable (class: java.lang.Object, value: java.lang.Object@65c9e3ee)</span><br><span class="line">  - field (class: com.xiaomi.search.websearch.hbase.SegTitlePick$$anonfun$1, name: nonLocalReturnKey1$1, type: class java.lang.Object)</span><br><span class="line">  - object (class com.xiaomi.search.websearch.hbase.SegTitlePick$$anonfun$1, &lt;function1&gt;)</span><br><span class="line">  at org.apache.spark.serializer.SerializationDebugger$.improveException(SerializationDebugger.scala:40)</span><br><span class="line">  at org.apache.spark.serializer.JavaSerializationStream.writeObject(JavaSerializer.scala:46)</span><br><span class="line">  at org.apache.spark.serializer.JavaSerializerInstance.serialize(JavaSerializer.scala:100)</span><br><span class="line">  at org.apache.spark.util.ClosureCleaner$.ensureSerializable(ClosureCleaner.scala:295)</span><br></pre></td></tr></table></figure>
+<p>上网一查发现时某个匿名函数里面使用了 return 导致的。</p>
+<h4 id="报错理由是什么呢"><a href="#报错理由是什么呢" class="headerlink" title="报错理由是什么呢"></a>报错理由是什么呢</h4><p>源代码就不贴出来了，我们以一个简单的例子来说明这个问题吧。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> datas = <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">    datas.foreach(t =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (t % <span class="number">2</span> == <span class="number">0</span>) <span class="keyword">return</span> <span class="comment">// 运行符合条件时便立刻返回</span></span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 本例的目标想在遍历完 datas 后便输出该语句，但在实际情况下，return 语句会直接返回并退出当前函数(即 main 函数)，所以以下语句并不会输出结果</span></span><br><span class="line">    println(<span class="string">"finished!"</span>) </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>让我们查看编译后这段遍历的代码有什么不一样的地方吧？</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// scalac -Xprint:explicitouter Test.scala</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">  &lt;synthetic&gt; <span class="keyword">val</span> nonLocalReturnKey1: <span class="type">Object</span> = <span class="keyword">new</span> <span class="type">Object</span>();</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> datas: <span class="type">List</span>[<span class="type">Int</span>] =            scala.collection.immutable.<span class="type">List</span>.apply[<span class="type">Int</span>]  (scala.<span class="type">Predef</span>.wrapIntArray(<span class="type">Array</span>[<span class="type">Int</span>]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;));</span><br><span class="line">    datas.foreach[<span class="type">Unit</span>](&#123;</span><br><span class="line">      <span class="keyword">final</span> &lt;artifact&gt; <span class="function"><span class="keyword">def</span> <span class="title">$anonfun$main</span></span>(t: <span class="type">Int</span>): <span class="type">Unit</span> = <span class="keyword">if</span> (t.%(<span class="number">2</span>).==(<span class="number">0</span>))</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> scala.runtime.<span class="type">NonLocalReturnControl</span>$mcV$sp(nonLocalReturnKey1, ())</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        ();</span><br><span class="line">      ((t: <span class="type">Int</span>) =&gt; $anonfun$main(t))</span><br><span class="line">    &#125;);</span><br><span class="line">    scala.<span class="type">Predef</span>.println(<span class="string">"finished!"</span>)</span><br><span class="line">  &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> (ex @ (_: scala.runtime.<span class="type">NonLocalReturnControl</span>[<span class="type">Unit</span> <span class="meta">@unchecked</span>])) =&gt; <span class="keyword">if</span> (ex.key().eq(nonLocalReturnKey1))</span><br><span class="line">      ex.value$mcV$sp()</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      <span class="keyword">throw</span> ex</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>编译后我们可以看到原先匿名函数中的 return 语句被替换成抛出一个<code>NonLocalReturnControl</code>运行时异常，而<code>try-catch</code>环绕着整个 main 函数内部的代码块来尝试捕获这个异常。</p>
+<p>而观察<code>NonLocalReturnControl</code>异常，我们发现这个异常是无法被序列化的，这就解释了之前的作业抛出异常的意思了。</p>
+<h4 id="为什么-return-语句要这么设计呢"><a href="#为什么-return-语句要这么设计呢" class="headerlink" title="为什么 return 语句要这么设计呢"></a>为什么 return 语句要这么设计呢</h4><p>为什么 Scala 要这么做呢？这里有几篇不错的文章来说明，我就偷懒不去翻译了(建议从上往下看)</p>
+<ol>
+<li>介绍什么是 non-local return - <a href="https://www.zhihu.com/question/22240354/answer/64673094" target="_blank" rel="noopener">https://www.zhihu.com/question/22240354/answer/64673094</a></li>
+<li>前半段介绍 return 语句该什么时候出现，后半段推测出这么做的两个原因 - <a href="https://stackoverflow.com/questions/17754976/scala-return-statements-in-anonymous-functions" target="_blank" rel="noopener">https://stackoverflow.com/questions/17754976/scala-return-statements-in-anonymous-functions</a></li>
+<li>讨论在 Scala 中 function 和 method 两者概念上的区别 - <a href="https://link.jianshu.com/?t=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F2529184%2Fdifference-between-method-and-function-in-scala" target="_blank" rel="noopener">https://link.jianshu.com/?t=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F2529184%2Fdifference-between-method-and-function-in-scala</a></li>
+</ol>
+<p>但其实翻阅了网上的资料，并没有真正地说明为什么这么设计。结合上面的几篇文章，我个人认为在 Scala 这一门函数式编程语言里，其更加讲究的是程序执行的结果，而并非执行过程。return 语句影响程序的顺序执行，从而可能会使代码变得复杂，也可能会发生若干次程序执行的结果不一致的情况，那么这将在很大程度上影响了我们对于代码的理解与认识。这也是 Scala 为什么不倡导我们使用 return。 </p>
+
+          
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -1092,6 +1511,10 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1104,7 +1527,11 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
   
   
 
-  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2018/05/19/Scala - Iterator vs Stream vs View/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1165,6 +1592,9 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1173,34 +1603,44 @@ The Dataflow Model 是 Google Research 于2015年发表的一篇流式处理领�
       
         
           
-          问题来源https://stackoverflow.com/questions/5159000/stream-vs-views-vs-iterators
-优秀回答
-该篇回答被收录到 Scala 文档中的 F&amp;Q 部分。我尝试跟着这篇回答并对照源码部分去翻译，翻译不好多多谅解。
+            <h4 id="问题来源"><a href="#问题来源" class="headerlink" title="问题来源"></a>问题来源</h4><p><a href="https://stackoverflow.com/questions/5159000/stream-vs-views-vs-iterators" target="_blank" rel="noopener">https://stackoverflow.com/questions/5159000/stream-vs-views-vs-iterators</a></p>
+<h4 id="优秀回答"><a href="#优秀回答" class="headerlink" title="优秀回答"></a>优秀回答</h4><blockquote>
+<p>该篇回答被收录到 Scala 文档中的 F&amp;Q 部分。我尝试跟着这篇回答并对照源码部分去翻译，翻译不好多多谅解。</p>
+</blockquote>
+<p>First, they are all <em>non-strict</em>. That has a particular mathematical meaning related to functions, but, basically, means they are computed on-demand instead of in advance.</p>
+<p>首先，它们都是非严格（即惰性的）的。每个函数都有其特定的数学含义，但是基本上，其数学含义通常都意味着它们是按需计算而非提前计算。</p>
+<p><code>Stream</code> is a lazy list indeed. In fact, in Scala, a <code>Stream</code> is a <code>List</code> whose <code>tail</code> is a <code>lazy val</code>. Once computed, a value stays computed and is reused. Or, as you say, the values are cached.</p>
+<p><code>Stream</code>确实是一个惰性列表。事实上，在 Scala 中，<code>Stream</code>是<code>tail</code>变量为惰性值的列表。一旦开始计算，<code>Stream</code>中的值便保持计算后的状态并被能够被重复使用。或者按照你的说法是，<code>Stream</code>中的值能够被缓存下来。</p>
+<blockquote>
+<p>一篇比较不错的、科普<code>Stream</code>的文章：<a href="http://cuipengfei.me/blog/2014/10/23/scala-stream-application-scenario-and-how-its-implemented/" target="_blank" rel="noopener">http://cuipengfei.me/blog/2014/10/23/scala-stream-application-scenario-and-how-its-implemented/</a></p>
+</blockquote>
+<p>An <code>Iterator</code> can only be used once because it is a <em>traversal pointer</em> into a collection, and not a collection in itself. What makes it special in Scala is the fact that you can apply transformation such as <code>map</code> and <code>filter</code> and simply get a new <code>Iterator</code> which will only apply these transformations when you ask for the next element.</p>
+<p><code>Iterator</code>只能够被使用一次，因为其是一个<em>可遍历</em>的指针存在于集合当中，而非集合本身存在于<code>Iterator</code>中。让其在 Scala 如此特殊的原因在于你能够使用 transformation 算子，如<code>map</code>或者<code>filter</code>，并且很容易地获得一个新的<code>Iterator</code>。需要注意的是，新的<code>Iterator</code>只有通过获取元素的时候才会应用那些 transformation 算子。</p>
+<p>Scala used to provide iterators which could be reset, but that is very hard to support in a general manner, and they didn’t make version 2.8.0.</p>
+<p>Scala 曾尝试过给那些 iterator 一个可复位的功能，但这很难以一个通用的方式去支持。</p>
+<p>Views are meant to be viewed much like a database view. It is a series of transformation which one applies to a collection to produce a “virtual” collection. As you said, all transformations are re-applied each time you need to fetch elements from it.</p>
+<p>Views 通常意味着元素需要被观察，类似于数据库中的 view。它是原集合通过一系列的 transformation 算子生成的一个”虚构”的集合。如你所说，每当你需要从原集合中获取数据时，都能够重复应用这些 transformation 算子。</p>
+<p>Both <code>Iterator</code> and views have excellent memory characteristics. <code>Stream</code> is nice, but, in Scala, its main benefit is writing infinite sequences (particularly sequences recursively defined). One <em>can</em> avoid keeping all of the <code>Stream</code> in memory, though, by making sure you don’t keep a reference to its <code>head</code> (for example, by using <code>def</code> instead of <code>val</code> to define the <code>Stream</code>).</p>
+<p><code>Iterator</code>和 views 两者都有不错内存（记忆？）特性。<code>Stream</code>也可以，但是在 Scala 中，其主要的好处在于能够保留无限长的序列（特别是那些序列是通过递归定义的[这一点需要通过 Stream 本身特性才能够理解]）当中。不过，你可以避免将所有Stream保留在内存中，其方法是确保不保留那些对 <code>Stream</code>中<code>head</code>的引用。</p>
+<blockquote>
+<p>针对最后提到的例子，<a href="https://stackoverflow.com/questions/13217222/should-i-use-val-or-def-when-defining-a-stream这篇回答有比较好的解释" target="_blank" rel="noopener">https://stackoverflow.com/questions/13217222/should-i-use-val-or-def-when-defining-a-stream这篇回答有比较好的解释</a></p>
+</blockquote>
+<p>Because of the penalties incurred by views, one should usually <code>force</code> it after applying the transformations, or keep it as a view if only few elements are expected to ever be fetched, compared to the total size of the view.</p>
+<p>由于 views 所带来不良影响（个人认为是这么翻译的），我们通常需要在应用 transformations 后调用<code>force</code>进行计算，或者说如果相比于原 view 中大量元素，新 view 只有少量的元素需要去获取时，可以将其当做新的 view 对待。</p>
 
-First,
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/19/Scala - Iterator vs Stream vs View/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -1214,6 +1654,10 @@ First,
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1226,7 +1670,11 @@ First,
   
   
 
-  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2018/05/18/Scala - 有关变量赋值的问题/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1287,6 +1735,9 @@ First,
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1295,31 +1746,47 @@ First,
       
         
           
-          先看个小问题先贴下一段Scala代码，看下这段代码是否存在问题？
-12345val persons = List[Person](Person("tom"), Person("marry"), null).iteratorvar person: Person = nullwhile ((person
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/18/Scala - 有关变量赋值的问题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h4 id="先看个小问题"><a href="#先看个小问题" class="headerlink" title="先看个小问题"></a>先看个小问题</h4><p>先贴下一段<code>Scala</code>代码，看下这段代码是否存在问题？</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> persons = <span class="type">List</span>[<span class="type">Person</span>](<span class="type">Person</span>(<span class="string">"tom"</span>), <span class="type">Person</span>(<span class="string">"marry"</span>), <span class="literal">null</span>).iterator</span><br><span class="line"><span class="keyword">var</span> person: <span class="type">Person</span> = <span class="literal">null</span></span><br><span class="line"><span class="keyword">while</span> ((person = persons.next()) != <span class="literal">null</span>) &#123;</span><br><span class="line">  println(<span class="string">"obj name: "</span> + person.name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你的答案是<code>这段代码运行不会出任何问题</code>的话，那么你对于 Scala 的变量赋值还是了解太少。</p>
+<hr>
+<h4 id="为什么呢"><a href="#为什么呢" class="headerlink" title="为什么呢"></a>为什么呢</h4><p>在我们一般的认知中，在 Java 和 C++ 中对变量赋值后，其会返回相对应该变量的值，而在 Scala 中，如果对变量赋值后，获取到的返回值却统一是 Unit。</p>
+<blockquote>
+<p>Unit 是表示为无值，其作用与其他语言中的 void 作用相同，用作不返回任何结果的方法的结果类型。</p>
+</blockquote>
+<p>回到刚才那段代码，根据以上说明，如果我们在赋值对<code>person</code>变量的话，那就会导致在每一次循环当中，其实我们一直都是拿 Unit 这个值去与 null 比较，那么就可以换做一个恒等式为<code>Unit != null</code>，这样做的结果就是这个循环不会中断。</p>
+<blockquote>
+<p>在 IDEA 中，如果我们仔细查看代码，发现 IDE 已经提醒我们这个问题的存在了，这这也仅仅只是 Warning 而已。</p>
+<p>若通过编译的方法查看源代码的话，会在编译的过程中，获得这样一句警告（并非错误！）：</p>
+<p><img src="http://on83riher.bkt.clouddn.com/QQ20180518-225838@2x.png" alt=""></p>
+</blockquote>
+<p>有个简单的例子可以检验自己是否明白懂了这个”bug”：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a: <span class="type">Int</span> = <span class="number">0</span></span><br><span class="line"><span class="keyword">var</span> b: <span class="type">Int</span> = <span class="number">0</span></span><br><span class="line">a = b = <span class="number">1</span> <span class="comment">// 这行代码能够跑通，在其他语言呢？</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>在给出常见的解决方案前，先给出为什么 Scala 要这样设计的理由（Scala 之父亲自解释）：</p>
+<p><a href="https://stackoverflow.com/questions/1998724/what-is-the-motivation-for-scala-assignment-evaluating-to-unit-rather-than-the-v" target="_blank" rel="noopener">https://stackoverflow.com/questions/1998724/what-is-the-motivation-for-scala-assignment-evaluating-to-unit-rather-than-the-v</a></p>
+<p>常见的解决方案会有以下几种：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// solution 1 - 封装成代码块返回最终值，直观但麻烦</span></span><br><span class="line"><span class="keyword">var</span> person = <span class="literal">null</span></span><br><span class="line"><span class="keyword">while</span> (&#123;person = persons.next; person != <span class="literal">null</span>&#125;) &#123;</span><br><span class="line">  println(<span class="string">"obj name: "</span> + person.name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// solution 2 （推荐）- 通过 Scala 的语法特性，使用它的奇淫技巧</span></span><br><span class="line"><span class="type">Iterator</span>.continually(persons.next())</span><br><span class="line">  .takeWhile(_ != <span class="literal">null</span>)</span><br><span class="line">  .foreach(t =&gt; &#123;println(<span class="string">"obj name: "</span> + t.name)&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// solution 3 - 这个与 Solution2 的区别仅仅在于使用的类不同，但使用的类不同便意味着这两者之间存在着不同的遍历方式。两者的区别会在博客中更新。</span></span><br><span class="line"><span class="type">Stream</span>.continually(persons.next())</span><br><span class="line">  .takeWhile(_ != <span class="literal">null</span>)</span><br><span class="line">  .foreach(t =&gt; &#123;println(<span class="string">"obj name: "</span> + t.name)&#125;)</span><br></pre></td></tr></table></figure>
+<p>参考资料：</p>
+<ol>
+<li><a href="https://stackoverflow.com/questions/6881384/why-do-i-get-a-will-always-yield-true-warning-when-translating-the-following-f" target="_blank" rel="noopener">https://stackoverflow.com/questions/6881384/why-do-i-get-a-will-always-yield-true-warning-when-translating-the-following-f</a></li>
+<li><a href="https://stackoverflow.com/questions/3062804/scala-unit-type" target="_blank" rel="noopener">https://stackoverflow.com/questions/3062804/scala-unit-type</a></li>
+<li><a href="https://stackoverflow.com/questions/2442318/how-would-i-express-a-chained-assignment-in-scala" target="_blank" rel="noopener">https://stackoverflow.com/questions/2442318/how-would-i-express-a-chained-assignment-in-scala</a></li>
+</ol>
+
+          
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -1333,6 +1800,10 @@ First,
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1345,7 +1816,11 @@ First,
   
   
 
-  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://apparition957.github.io/2018/05/14/Scala - 类构造器/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1406,6 +1881,9 @@ First,
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1414,31 +1892,27 @@ First,
       
         
           
-          Scala 构造器可分为两种，主构造器和辅助构造器。
-主构造器123456789// 无参主构造器class Demo &#123;    // 主构造器的构成部分&#125;// 有参主构造器class Demo2(name: String, age: Int) &#123;    // 主构造器
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/14/Scala - 类构造器/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <p>Scala 构造器可分为两种，主构造器和辅助构造器。</p>
+<h4 id="主构造器"><a href="#主构造器" class="headerlink" title="主构造器"></a>主构造器</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无参主构造器</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 主构造器的构成部分</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 有参主构造器</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo2</span>(<span class="params">name: <span class="type">String</span>, age: <span class="type">Int</span></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 主构造器的构成部分</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从类的定义开始，花括号的部分为主构造器的构成部分。主构造器在执行时，会执行类中所有的语句。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// example</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">val</span> name = <span class="string">"tom"</span></span><br><span class="line">    <span class="keyword">val</span> age = <span class="number">18</span></span><br><span class="line">    </span><br><span class="line">    doSomething() <span class="comment">// 初始化对象时，会打印 name: tome, age: 18</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">doSomething</span></span>() = &#123;</span><br><span class="line">        println(<span class="string">"name: "</span> + name + <span class="string">", age: "</span> + age)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="辅助构造器"><a href="#辅助构造器" class="headerlink" title="辅助构造器"></a>辅助构造器</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name = <span class="string">""</span></span><br><span class="line">    <span class="keyword">var</span> age = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 错误定义!!</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>(name: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>()</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span></span>(name: <span class="type">String</span>, age: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>(name)</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>辅助构造器的名称为<code>this</code>，与 Java 的构造器名称不同（Java 构造器名称是以类名定义的），其代码大致结构为<code>def this(...) {}</code>。若一个类如果没有显式定义主构造器，则编译器会自动生成一个无参的主构造器。</p>
+<p>必须注意的是，每个辅助构造器都必须以一个对先前已定义的其他辅助构造器或者主构造器的调用开始。</p>
+
+          
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -1452,6 +1926,10 @@ First,
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1491,71 +1969,73 @@ First,
 
       
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
-        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="jianpeng957">
-          <p class="site-author-name" itemprop="name">jianpeng957</p>
-           
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="jianpeng957">
+            
+              <p class="site-author-name" itemprop="name">jianpeng957</p>
               <p class="site-description motion-element" itemprop="description">沉迷学习无法自拔</p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives/">
-                <span class="site-state-item-count">93</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">7</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">标签</span>
-              
-            </div>
-          
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
           </div>
-        
 
-        <div class="links-of-author motion-element">
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">93</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
           
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
         </div>
-
-        
-        
-
-        
-        
-
-        
-
-
       </section>
 
       
@@ -1572,30 +2052,36 @@ First,
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">jianpeng957</span>
+
+  
 </div>
 
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
-  </a>
-</div>
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
 
 
         
+
+
+
+
+
+
 
         
       </div>
@@ -1606,6 +2092,8 @@ First,
         <i class="fa fa-arrow-up"></i>
         
       </div>
+    
+
     
 
   </div>
@@ -1640,46 +2128,54 @@ First,
 
 
   
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
   
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
-
-
-
-  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
 
   
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
 
 
 
@@ -1710,16 +2206,25 @@ First,
 
 
 
-  
 
 
 
 
 
-  
 
   
 
+
+
+
+
+  
+
+  
+
+  
+
+  
   
 
   
