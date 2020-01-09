@@ -146,6 +146,12 @@
 <p>在 Scala 文档中，<a href="http://www.scala-lang.org/api/current/scala/Predef$.html#identityA:A" target="_blank" rel="noopener">identity 函数</a>的作用就是将传入的参数“直接”当做返回值回传给调用者，这在正常使用中，可以说是毫无作用，但他在<code>groupBy</code>和<code>sortBy</code>等函数中的作用，在于避免程序员书写相同且容易出错的逻辑，原因如下：</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 前提条件：</span></span><br><span class="line"><span class="keyword">val</span> array = <span class="type">Array</span>(<span class="number">9</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 统计 array 中每个元素出现的次数</span></span><br><span class="line"><span class="comment">// 正常逻辑：</span></span><br><span class="line">array.groupBy(n =&gt; n)</span><br><span class="line"><span class="comment">// scala.collection.immutable.Map[Int,Array[Int]] = Map(5 -&gt; Array(5), 1 -&gt; Array(1, 1), 6 -&gt; Array(6), 9 -&gt; Array(9, 9), 2 -&gt; Array(2, 2), 7 -&gt; Array(7), 3 -&gt; Array(3), 4 -&gt; Array(4))</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 identity</span></span><br><span class="line">array.groupBy(identity)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 array 进行排序(升序)</span></span><br><span class="line"><span class="comment">// 正常逻辑：</span></span><br><span class="line">array.sortBy(n =&gt; n)</span><br><span class="line"><span class="comment">// Array[Int] = Array(1, 1, 2, 2, 3, 4, 5, 6, 7, 9, 9)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 identity 或者简化版本</span></span><br><span class="line">array.sortBy(identity)</span><br><span class="line">array.sorted</span><br></pre></td></tr></table></figure>
   </div>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-6t+ed+2i-1n-4w"
+    data-ad-client="ca-pub-3965601171223651" data-ad-slot="4750628958"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
 </article>
 
 
@@ -219,13 +225,6 @@
       </ul>
     </nav>
   </div>
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-6t+ed+2i-1n-4w"
-    data-ad-client="ca-pub-3965601171223651" data-ad-slot="4750628958"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
 </footer>
 
     </div>
